@@ -24,7 +24,7 @@ public class AdventureGame implements Serializable {
     public AdventureGame(String name){
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
-        this.directoryName = "C://Users/sherl/Documents/Programming/Java/CSC207/Assignment/assignment2/Games/" + name; //all games files are in the Games directory!
+        this.directoryName = "Games/" + name; //all games files are in the Games directory!
         try {
             setUpGame();
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class AdventureGame implements Serializable {
      * __________________________
      *
      * @param input string from the command line
-     * @return a string array of tokens that represents the command.
+     * @return a string array of tokens that represents the command
      */
     public String[] tokenize(String input){
 

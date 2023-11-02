@@ -11,7 +11,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -91,7 +93,23 @@ public class SaveView {
      * Otherwise, load the file and set the saveFileErrorLabel to the text in saveFileSuccess
      */
     private void saveGame() {
-        throw new UnsupportedOperationException("saveGame is not implemented!");
+        String name = saveFileNameTextField.getText();
+        String ext = name.substring(name.length() - 4, name.length());
+        File dir = new File("Games/Saved/" + name);
+        File temp = new File("Games/Saved");
+        // Check if the file is existed or not
+        if (temp.list().length > 0) {
+            if (Arrays.asList(temp.listFiles()).contains(dir)) {
+                saveFileErrorLabel.setText(saveFileExistsError);
+            }
+        }
+        // Check for extension
+        if (!name.endsWith(".ser")) {
+            saveFileErrorLabel.setText(saveFileNotSerError);
+        } else {
+            adventureGameView.model.saveModel(dir);
+            saveFileErrorLabel.setText(saveFileSuccess);
+        }
     }
 
 

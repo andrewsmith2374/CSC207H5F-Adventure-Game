@@ -1,6 +1,14 @@
+/**
+ * Since I don't want to pay zoom for just cloud recording one video,
+ * thus I just record it and push to the repo as a mp4 file, which 
+ * is named as leesze17.mp4
+ */
+
 package views;
 
 import AdventureModel.AdventureGame;
+import AdventureModel.AdventureObject;
+import AdventureModel.Passage;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -14,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +30,7 @@ import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
+import java.io.BufferedReader;
 import java.io.File;
 
 /**
@@ -67,7 +77,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("<YOUR UTORID>'s Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("leesze17's Adventure Game"); //Replace <YOUR UTORID> with your UtorID
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
@@ -167,7 +177,7 @@ public class AdventureGameView {
         gridPane.add( textEntry, 0, 2, 3, 1 );
 
         // Render everything
-        var scene = new Scene( gridPane ,  1000, 800);
+        var scene = new Scene(gridPane,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
@@ -212,12 +222,12 @@ public class AdventureGameView {
     /**
      * addTextHandlingEvent
      * __________________________
-     * Add an event handler to the myTextField attribute 
+     * Add an event handler to the inputTextField attribute 
      *
      * Your event handler should respond when users 
      * hits the ENTER or TAB KEY. If the user hits 
      * the ENTER Key, strip white space from the
-     * input to myTextField and pass the stripped 
+     * input to inputTextField and pass the stripped 
      * string to submitEvent for processing.
      *
      * If the user hits the TAB key, move the focus 
@@ -225,7 +235,19 @@ public class AdventureGameView {
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
-        //add your code here!
+        inputTextField.setOnKeyPressed(event -> keyPressed(event.getCode(), inputTextField.getText()));
+    }
+
+    // Helper for addTextHandlingEvent, which when enter is pressed
+    private void keyPressed(KeyCode code, String text) {
+        if (code == KeyCode.ENTER) {
+            inputTextField.setText(null);
+            text.strip();
+            submitEvent(text);
+        }
+        else if (code == KeyCode.TAB) {
+            gridPane.requestFocus();
+        }
     }
 
 
@@ -269,10 +291,21 @@ public class AdventureGameView {
             });
             pause.play();
         } else if (output.equals("FORCED")) {
-            //write code here to handle "FORCED" events!
-            //Your code will need to display the image in the
-            //current room and pause, then transition to
-            //the forced room.
+            // Call update the scene once this section is hit
+            updateItems();
+            updateScene("");
+
+            // Create a time gap
+            PauseTransition gap = new PauseTransition(Duration.seconds(5));
+            gap.setOnFinished(event -> {
+                // Call recursion
+                submitEvent("FORCED");
+            });
+
+            // Once updated, call a 5 second gap and submit a recursion in case
+            // the desintaion room also have force
+            gap.play();
+            
         }
     }
 
@@ -286,7 +319,14 @@ public class AdventureGameView {
      * current room.
      */
     private void showCommands() {
-        throw new UnsupportedOperationException("showCommands is not implemented!");
+        String target = "";
+        // Iterate through the passage table in the current room
+        for (Passage ele : this.model.getPlayer().getCurrentRoom().getMotionTable().getDirection()) {
+            // Add all the move into a targeted string
+            target += ele.getDirection() + ": " + this.model.getRooms().get(ele.getDestinationRoom()).getRoomName() + "\n";
+        }
+        // Set the description text become the move
+        roomDescLabel.setText(target);
     }
 
 
@@ -352,7 +392,7 @@ public class AdventureGameView {
     private void getRoomImage() {
 
         int roomNumber = this.model.getPlayer().getCurrentRoom().getRoomNumber();
-        String roomImage = "file:///" + this.model.getDirectoryName() + "/room-images/" + roomNumber + ".png";
+        String roomImage = this.model.getDirectoryName() + "/room-images/" + roomNumber + ".png";
 
         Image roomImageFile = new Image(roomImage);
         roomImageView = new ImageView(roomImageFile);
@@ -381,24 +421,106 @@ public class AdventureGameView {
      */
     public void updateItems() {
 
-        //write some code here to add images of objects in a given room to the objectsInRoom Vbox
-        //write some code here to add images of objects in a player's inventory room to the objectsInInventory Vbox
-        //please use setAccessibleText to add "alt" descriptions to your images!
-        //the path to the image of any is as follows:
-        //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
-
+        // Scroll pane for object in the current room
         ScrollPane scO = new ScrollPane(objectsInRoom);
         scO.setPadding(new Insets(10));
         scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         scO.setFitToWidth(true);
         gridPane.add(scO,0,1);
 
+        // Scroll Pane for object in inventory
         ScrollPane scI = new ScrollPane(objectsInInventory);
         scI.setFitToWidth(true);
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         gridPane.add(scI,2,1);
 
+        // Vbox for collecting button
+        VBox objInInv = new VBox();
+        VBox objInRm = new VBox();
 
+        // Set button for obj in inventory
+        objectInInventory(null, objInInv, objInRm);
+        // Put the vbox into the scroll panel
+        scI.setContent(objInInv);
+
+        // Set button for obj in room
+        objectInRoom(null, objInInv, objInRm);
+        // Put the vbox into the scroll panel
+        scO.setContent(objInRm);
+    }
+
+    // Helper for updateItems to make button of object in inventory
+    private void objectInInventory(String pic, VBox objInInv, VBox objInRm) {
+        // Item in inventory
+        // Let the loop below loop for once iff it is call by action and there is no object in the inventory
+        AdventureObject additional = new AdventureObject(null, null, null);
+        boolean check = (pic != null && this.model.getPlayer().inventory.size() == 0);
+        if (check) { this.model.getPlayer().inventory.add(additional); }
+        // Iterate through players inventory
+        for (AdventureObject ele : this.model.getPlayer().inventory) {
+            // Object name
+            String name = ele.getName();
+            // Object image
+            String picName = (pic == null) ? this.model.getDirectoryName() + "/objectImages/" + name + ".jpg" : pic;
+            // Basic for the picture
+            ImageView objPic = new ImageView(new Image(picName));
+            objPic.setFitHeight(100);
+            objPic.setFitWidth(100);
+            objPic.setAccessibleText(name + ", " + ele.getDescription());
+            // Set picture to the button
+            Button temp = new Button(name + "\n", objPic);
+            temp.setContentDisplay(ContentDisplay.TOP);
+            // Basic for the button
+            makeButtonAccessible(temp, "Object Button", "This button shows a object in player's inventory", "When you click the button, it will disappear from the inventory and drop to the room object");
+            temp.setOnAction(e -> {
+                objInInv.getChildren().remove(temp);
+                this.model.getPlayer().inventory.remove(ele);
+                this.model.getPlayer().getCurrentRoom().objectsInRoom.add(ele);
+                objectInRoom(picName, objInInv, objInRm);
+            });
+            objInInv.getChildren().add(temp);
+            // Loop only once if it is called by button action
+            if (pic != null) { break; }
+        }
+        // Remove the append item after it is finished
+        if (check) { this.model.getPlayer().inventory.remove(additional); }
+    }
+
+    // Helper for updateItems to make button of object in room
+    private void objectInRoom(String pic, VBox objInInv, VBox objInRm) {
+        // Object in Room
+        // Let the loop below loop for once iff it is call by action and there is no object in room
+        AdventureObject additional = new AdventureObject(null, null, null);
+        boolean check = (pic != null && this.model.getPlayer().getCurrentRoom().objectsInRoom.size() == 0);
+        if (check) { this.model.getPlayer().getCurrentRoom().objectsInRoom.add(additional); }
+        // Iterate through current room obj
+        for (AdventureObject ele : this.model.getPlayer().getCurrentRoom().objectsInRoom) {
+            // Object name
+            String name = ele.getName();
+            // Object image
+            String picName = (pic == null) ? this.model.getDirectoryName() + "/objectImages/" + name + ".jpg" : pic;
+            // Basic for the picture
+            ImageView objPic = new ImageView(new Image(picName));
+            objPic.setFitHeight(100);
+            objPic.setFitWidth(100);
+            objPic.setAccessibleText(name + ", " + ele.getDescription());
+            // Set picture to the button
+            Button temp2 = new Button(name, objPic);
+            temp2.setContentDisplay(ContentDisplay.TOP);
+            // Basic for the button
+            makeButtonAccessible(temp2, "Object Button", "This button shows a object in the current room", "When you click the button, it will disappear from the room and add to player's inventory");
+            temp2.setOnAction(e -> {
+                objInRm.getChildren().remove(temp2);
+                this.model.getPlayer().getCurrentRoom().objectsInRoom.remove(ele);
+                this.model.getPlayer().inventory.add(ele);
+                objectInInventory(picName, objInInv, objInRm);
+            });
+            objInRm.getChildren().add(temp2);
+            // Loop only once if it is called by button action
+            if (pic != null) { break; }
+        }
+        // Remove the append item after it is finished
+        if (check) { this.model.getPlayer().getCurrentRoom().objectsInRoom.remove(additional); }
     }
 
     /*
@@ -416,7 +538,29 @@ public class AdventureGameView {
      * -- Again, REMOVE whatever nodes are within the cell beforehand!
      */
     public void showInstructions() {
-        throw new UnsupportedOperationException("showInstructions is not implemented!");
+        if (!helpToggle) {
+            // Get the help text, aka the instruction
+            String helpText = this.model.getInstructions().strip();
+            Label instruction = new Label();
+            instruction.setText(helpText);
+            instruction.setWrapText(true);
+            // Set the detail of the label
+            instruction.setStyle("-fx-text-fill: white;");
+            instruction.setFont(new Font("Arial", 14));
+            instruction.setAlignment(Pos.CENTER);
+            gridPane.add(instruction, 1, 1);
+            // Set the helpToggle to true
+            helpToggle = true;
+            // Remove room image and room description
+            roomImageView.setImage(null);
+            roomDescLabel.setText("");
+        }
+        else {
+            // Redraw the room image and set the description by updating the whole scene
+            updateScene("");
+            // Set the toggle to false
+            helpToggle = false;
+        }
     }
 
     /**

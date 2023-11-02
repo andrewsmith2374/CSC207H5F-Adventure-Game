@@ -64,7 +64,14 @@ public class Room implements Serializable {
      * @return delimited string of object descriptions
      */
     public String getObjectString() {
-        return null; //replace this!
+        String output = "";
+        // Iterate through objectInRooms to get description of each object
+        for (AdventureObject ele : objectsInRoom) {
+            String des = ele.getDescription();
+            // If it is the first element, add without comma
+            output += (output.isEmpty()) ? des : ", " + des;
+        }
+        return output;
     }
 
     /**
@@ -75,7 +82,16 @@ public class Room implements Serializable {
      * @return delimited string of possible moves
      */
     public String getCommands() {
-        return null; //replace this!
+        String output = "";
+        // Take the list of all direction in a room
+        ArrayList<Passage> direction = new ArrayList<Passage>(motionTable.getDirection());
+        // Iterate through direction to get direction of each passage
+        for (Passage ele : direction) {
+            String dir = ele.getDirection();
+            // If it is the first element, add without comma
+            output += (output.isEmpty()) ? dir : ", " + dir;
+        }
+        return output;
     }
 
     /**

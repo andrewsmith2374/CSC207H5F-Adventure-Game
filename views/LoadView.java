@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-
 /**
  * Class LoadView.
  *
@@ -95,7 +94,20 @@ public class LoadView {
      * @param listView the ListView containing all the .ser files in the Games/Saved directory.
      */
     private void getFiles(ListView<String> listView) {
-        throw new UnsupportedOperationException("getFiles is not implemented");
+        // Set up the directory
+        File dir = new File("Games/Saved");
+        // Loop through all the files in the games/saved
+        if (dir.list().length > 0) {
+            for (File ele : dir.listFiles()) {
+                // See if the files end with .ser iff that is a file
+                if (ele.isFile()) {
+                    // Add to listView if it's end with .ser
+                    if (ele.getName().endsWith(".ser")){
+                        listView.getItems().add(ele.getName());
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -110,7 +122,25 @@ public class LoadView {
      */
     private void selectGame(Label selectGameLabel, ListView<String> GameList) throws IOException {
         //saved games will be in the Games/Saved folder!
-        throw new UnsupportedOperationException("selectGame is not implemented");
+        // Try to get the selected files from GameList (ListView)
+        AdventureGame loadVersion = null;
+        try {
+            String name = GameList.getSelectionModel().getSelectedItem();
+            String dir = "Games/Saved/" + name;
+            loadVersion = loadGame(dir);
+            selectGameLabel.setText(name);
+        }
+        catch (Exception e) { // Start an entire new game if error is caught
+            String name = adventureGameView.model.getDirectoryName().substring(6);
+            loadVersion = new AdventureGame(name);
+            selectGameLabel.setText("A new game has been loaded");
+        }
+        finally {
+            adventureGameView.stopArticulation();
+            adventureGameView.model = loadVersion;
+            adventureGameView.updateScene("");
+            adventureGameView.updateItems();
+        }
     }
 
     /**
