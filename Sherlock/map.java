@@ -5,6 +5,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -20,11 +21,14 @@ import javafx.stage.Stage;
 public class map extends Application {
     private Circle c1;
     private Image backgroundImage;
+    private ImageView map;
     private Button killButton;
     private Button cherryTree;
 
     @Override public void init() {
+        // image
         backgroundImage = new Image("https://www.narniaweb.com/wp-content/uploads/2009/08/NarniaMap.jpg");
+        map = new ImageView(backgroundImage);
         // Set only the cirlce
         c1 = new Circle(5);
         c1.setFill(Color.RED);
@@ -42,7 +46,7 @@ public class map extends Application {
         // construct the scene contents over a stacked background.
         StackPane layout = new StackPane();
         layout.getChildren().setAll(
-            new ImageView(backgroundImage),
+            map,
             createKillButton(), createCherryTree(),
             c1
         );
