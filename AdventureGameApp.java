@@ -27,5 +27,4 @@ public class AdventureGameApp extends Application {
         this.model = new AdventureGame("TinyGame"); //change the name of the game if you want to try something bigger!
         this.view = new AdventureGameView(model, primaryStage);
     }
-
 }

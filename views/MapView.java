@@ -1,3 +1,5 @@
+package views;
+
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 
@@ -5,7 +7,6 @@ import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -18,7 +19,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /** Constructs a scene with a pannable Map background. */
-public class map extends Application {
+public class MapView extends Application {
     private Circle c1;
     private Image backgroundImage;
     private ImageView map;
