@@ -1,9 +1,3 @@
-/**
- * Since I don't want to pay zoom for just cloud recording one video,
- * thus I just record it and push to the repo as a mp4 file, which 
- * is named as leesze17.mp4
- */
-
 package views;
 
 import AdventureModel.AdventureGame;
@@ -35,13 +29,6 @@ import java.io.File;
 
 /**
  * Class AdventureGameView.
- *
- * This is the Class that will visualize your model.
- * You are asked to demo your visualization via a Zoom
- * recording. Place a link to your recording below.
- *
- * ZOOM LINK: <URL HERE>
- * PASSWORD: <PASSWORD HERE>
  */
 public class AdventureGameView {
 
@@ -77,7 +64,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("leesze17's Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("group83's Adventure Game");
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
@@ -192,7 +179,7 @@ public class AdventureGameView {
      * For information about ARIA standards, see
      * https://www.w3.org/WAI/standards-guidelines/aria/
      *
-     * @param inputButton the button to add screenreader hooks to
+     * @param inputButton the button to add screen reader hooks to
      * @param name ARIA name
      * @param shortString ARIA accessible text
      * @param longString ARIA accessible help text
@@ -223,13 +210,13 @@ public class AdventureGameView {
      * addTextHandlingEvent
      * __________________________
      * Add an event handler to the inputTextField attribute 
-     *
+     * <p>
      * Your event handler should respond when users 
      * hits the ENTER or TAB KEY. If the user hits 
      * the ENTER Key, strip white space from the
      * input to inputTextField and pass the stripped 
      * string to submitEvent for processing.
-     *
+     * <p>
      * If the user hits the TAB key, move the focus 
      * of the scene onto any other node in the scene 
      * graph by invoking requestFocus method.
@@ -242,8 +229,7 @@ public class AdventureGameView {
     private void keyPressed(KeyCode code, String text) {
         if (code == KeyCode.ENTER) {
             inputTextField.setText(null);
-            text.strip();
-            submitEvent(text);
+            submitEvent(text.strip());
         }
         else if (code == KeyCode.TAB) {
             gridPane.requestFocus();
@@ -302,8 +288,8 @@ public class AdventureGameView {
                 submitEvent("FORCED");
             });
 
-            // Once updated, call a 5 second gap and submit a recursion in case
-            // the desintaion room also have force
+            // Once updated, call a 5-second gap and submit a recursion in case
+            // the destination room also have force
             gap.play();
             
         }
@@ -313,31 +299,31 @@ public class AdventureGameView {
     /**
      * showCommands
      * __________________________
-     *
+     * <p>
      * update the text in the GUI (within roomDescLabel)
      * to show all the moves that are possible from the 
      * current room.
      */
     private void showCommands() {
-        String target = "";
+        StringBuilder target = new StringBuilder();
         // Iterate through the passage table in the current room
         for (Passage ele : this.model.getPlayer().getCurrentRoom().getMotionTable().getDirection()) {
             // Add all the move into a targeted string
-            target += ele.getDirection() + ": " + this.model.getRooms().get(ele.getDestinationRoom()).getRoomName() + "\n";
+            target.append(ele.getDirection()).append(": ").append(this.model.getRooms().get(ele.getDestinationRoom()).getRoomName()).append("\n");
         }
         // Set the description text become the move
-        roomDescLabel.setText(target);
+        roomDescLabel.setText(target.toString());
     }
 
 
     /**
      * updateScene
      * __________________________
-     *
+     * <p>
      * Show the current room, and print some text below it.
      * If the input parameter is not null, it will be displayed
      * below the image.
-     * Otherwise, the current room description will be dispplayed
+     * Otherwise, the current room description will be displayed
      * below the image.
      * 
      * @param textToDisplay the text to display below the image.
@@ -365,7 +351,7 @@ public class AdventureGameView {
     /**
      * formatText
      * __________________________
-     *
+     * <p>
      * Format text for display.
      * 
      * @param textToDisplay the text to be formatted for display.
@@ -385,7 +371,7 @@ public class AdventureGameView {
     /**
      * getRoomImage
      * __________________________
-     *
+     * <p>
      * Get the image for the current room and place 
      * it in the roomImageView 
      */
@@ -409,13 +395,13 @@ public class AdventureGameView {
     /**
      * updateItems
      * __________________________
-     *
+     * <p>
      * This method is partially completed, but you are asked to finish it off.
-     *
+     * <p>
      * The method should populate the objectsInRoom and objectsInInventory Vboxes.
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
-     * 
+     * <p>
      * Images of each object are in the assets 
      * folders of the given adventure game.
      */
@@ -454,7 +440,7 @@ public class AdventureGameView {
         // Item in inventory
         // Let the loop below loop for once iff it is call by action and there is no object in the inventory
         AdventureObject additional = new AdventureObject(null, null, null);
-        boolean check = (pic != null && this.model.getPlayer().inventory.size() == 0);
+        boolean check = (pic != null && this.model.getPlayer().inventory.isEmpty());
         if (check) { this.model.getPlayer().inventory.add(additional); }
         // Iterate through players inventory
         for (AdventureObject ele : this.model.getPlayer().inventory) {
@@ -491,7 +477,7 @@ public class AdventureGameView {
         // Object in Room
         // Let the loop below loop for once iff it is call by action and there is no object in room
         AdventureObject additional = new AdventureObject(null, null, null);
-        boolean check = (pic != null && this.model.getPlayer().getCurrentRoom().objectsInRoom.size() == 0);
+        boolean check = (pic != null && this.model.getPlayer().getCurrentRoom().objectsInRoom.isEmpty());
         if (check) { this.model.getPlayer().getCurrentRoom().objectsInRoom.add(additional); }
         // Iterate through current room obj
         for (AdventureObject ele : this.model.getPlayer().getCurrentRoom().objectsInRoom) {
