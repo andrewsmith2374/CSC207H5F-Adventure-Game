@@ -12,12 +12,12 @@ public class AdventureObject implements Serializable {
     /**
      * The name of the object.
      */
-    private String objectName;
+    private final String objectName;
 
     /**
      * The description of the object.
      */
-    private String description;
+    private final String description;
 
     /**
      * The location of the object.

@@ -9,8 +9,8 @@ import java.io.IOException;
  */
 public class AdventureLoader {
 
-    private AdventureGame game; //the game to return
-    private String adventureName; //the name of the adventure
+    private final AdventureGame game; //the game to return
+    private final String adventureName; //the name of the adventure
 
     /**
      * Adventure Loader Constructor
@@ -68,7 +68,7 @@ public class AdventureLoader {
             // now we make the motion table
             line = buff.readLine(); // reads the line after "-----"
             while (line != null && !line.equals("")) {
-                String[] part = line.split(" \s+"); // have to use regex \\s+ as we don't know how many spaces are between the direction and the room number
+                String[] part = line.split("  +"); // have to use regex \\s+ as we don't know how many spaces are between the direction and the room number
                 String direction = part[0];
                 String dest = part[1];
                 if (dest.contains("/")) {

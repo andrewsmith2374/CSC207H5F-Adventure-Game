@@ -14,17 +14,17 @@ public class Passage implements Serializable {
     /**
      * The direction of movement in the game.
      */
-    private String direction;
+    private final String direction;
 
     /**
      * The number of the room that this exit leads to.
      */
-    private int destinationRoom;
+    private final int destinationRoom;
 
     /**
      * The name of the object required to move along this passage.
      */
-    private String keyName;
+    private final String keyName;
 
     /**
      * This stores boolean to represent if the passage is blocked.

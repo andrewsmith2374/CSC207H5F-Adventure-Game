@@ -12,8 +12,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -93,25 +96,36 @@ public class SaveView {
      * Otherwise, load the file and set the saveFileErrorLabel to the text in saveFileSuccess
      */
     private void saveGame() {
-        String name = saveFileNameTextField.getText();
-        String ext = name.substring(name.length() - 4, name.length());
-        File dir = new File("Games/Saved/" + name);
-        File temp = new File("Games/Saved");
-        // Check if the file is existed or not
-        if (temp.list().length > 0) {
-            if (Arrays.asList(temp.listFiles()).contains(dir)) {
-                saveFileErrorLabel.setText(saveFileExistsError);
-            }
-        }
-        // Check for extension
-        if (!name.endsWith(".ser")) {
-            saveFileErrorLabel.setText(saveFileNotSerError);
-        } else {
-            adventureGameView.model.saveModel(dir);
+        checkForDirectory();
+        try {
+            File file = createSaveFile();
+            this.adventureGameView.model.saveModel(file);
             saveFileErrorLabel.setText(saveFileSuccess);
+        } catch(IOException ignored) {}
+    }
+
+    private void checkForDirectory() {
+        Path path = Paths.get("Games" + File.separator + "Saved");
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         }
     }
 
-
+    private File createSaveFile() throws IOException {
+        String fileName = saveFileNameTextField.getText();
+        File file = new File("Games" + File.separator + "Saved" + File.separator + fileName);
+        if (file.exists()) {
+            saveFileErrorLabel.setText(saveFileExistsError);
+            throw new IOException("File Exists");
+        }
+        if (!fileName.endsWith(".ser")) {
+            saveFileErrorLabel.setText(saveFileNotSerError);
+            throw new IOException("Name Does Not End With .ser");
+        }
+        return file;
+    }
 }
-

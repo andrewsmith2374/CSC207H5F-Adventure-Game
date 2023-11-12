@@ -13,22 +13,22 @@ public class Room implements Serializable {
     /**
      * The number of the room.
      */
-    private int roomNumber;
+    private final int roomNumber;
 
     /**
      * The name of the room.
      */
-    private String roomName;
+    private final String roomName;
 
     /**
      * The description of the room.
      */
-    private String roomDescription;
+    private final String roomDescription;
 
     /**
      * The passage table for the room.
      */
-    private PassageTable motionTable = new PassageTable();
+    private final PassageTable motionTable = new PassageTable();
 
     /**
      * The list of objects in the room.
