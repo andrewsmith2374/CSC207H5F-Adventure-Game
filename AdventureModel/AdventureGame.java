@@ -13,6 +13,7 @@ public class AdventureGame implements Serializable {
     private HashMap<String,String> synonyms = new HashMap<>(); //A HashMap to store synonyms of commands.
     private final String[] actionVerbs = {"QUIT","INVENTORY","TAKE","DROP"}; //List of action verbs (other than motions) that exist in all games. Motion vary depending on the room and game.
     public Player player; //The Player of the game.
+    private final TrollFactory trollFactory;
 
     /**
      * Adventure Game Constructor
@@ -25,6 +26,7 @@ public class AdventureGame implements Serializable {
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
         this.directoryName = "Games/" + name; //all games files are in the Games directory!
+        this.trollFactory = new TrollFactory();
         try {
             setUpGame();
         } catch (IOException e) {
@@ -96,39 +98,62 @@ public class AdventureGame implements Serializable {
      * @return false, if move results in death or a win (and game is over).  Else, true.
      */
     public boolean movePlayer(String direction) {
-
         direction = direction.toUpperCase();
         PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
-        if (!motionTable.optionExists(direction)) return true; //no move
+        if (!motionTable.optionExists(direction)) { return true; } //no move
+        ArrayList<Passage> possibilities = getPossibilities(direction, motionTable);
 
+        Passage chosen = checkPassages(possibilities);
+        if (chosen == null) return true; //doh, we just can't move.
+        changeRoom(chosen);
+
+        return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+    }
+
+    private static ArrayList<Passage> getPossibilities(String direction, PassageTable motionTable) {
         ArrayList<Passage> possibilities = new ArrayList<>();
         for (Passage entry : motionTable.getDirection()) {
             if (entry.getDirection().equals(direction)) { //this is the right direction
                 possibilities.add(entry); // are there possibilities?
             }
         }
+        return possibilities;
+    }
 
-        //try the blocked passages first
-        Passage chosen = null;
+    private Passage checkPassages(ArrayList<Passage> possibilities) {
+        // try the blocked passages first
         for (Passage entry : possibilities) {
             System.out.println(entry.getIsBlocked());
             System.out.println(entry.getKeyName());
 
-            if (chosen == null && entry.getIsBlocked()) {
-                if (this.player.getInventory().contains(entry.getKeyName())) {
-                    chosen = entry; //we can make it through, given our stuff
-                    break;
-                }
-            } else { chosen = entry; } //the passage is unlocked
+            if (entry.getIsBlocked()) {
+                try {
+                    boolean result = checkForTroll(entry);
+                    if(result) { return entry; } else { return null; }
+                } catch(ClassNotFoundException ignored) {}
+                boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());
+                if (hasRequiredItems) { return entry; }
+            } else { return entry; } //the passage is unlocked
         }
+        return null;
+    }
 
-        if (chosen == null) return true; //doh, we just can't move.
-
+    private void changeRoom(Passage chosen) {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
         this.player.setCurrentRoom(room);
+    }
 
-        return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+    private boolean checkForTroll(Passage entry) throws ClassNotFoundException {
+        String name = entry.getKeyName();
+        Troll troll = trollFactory.createTroll(name);
+        List<String> requiredItems = troll.getRequiredItems();
+        for(String item : requiredItems) {
+            if(!this.player.getInventory().contains(item)) {
+                return false;
+            }
+        }
+        return troll.playGame();
     }
 
     /**
@@ -152,8 +177,8 @@ public class AdventureGame implements Serializable {
             return null;
         } else if(Arrays.asList(this.actionVerbs).contains(inputArray[0])) {
             if(inputArray[0].equals("QUIT")) { return "GAME OVER"; } //time to stop!
-            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().size() == 0) return "INVENTORY IS EMPTY";
-            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().size() > 0) return "THESE OBJECTS ARE IN YOUR INVENTORY:\n" + this.player.getInventory().toString();
+            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().isEmpty()) return "INVENTORY IS EMPTY";
+            else if(inputArray[0].equals("INVENTORY") && !this.player.getInventory().isEmpty()) return "THESE OBJECTS ARE IN YOUR INVENTORY:\n" + this.player.getInventory().toString();
             else if(inputArray[0].equals("TAKE") && inputArray.length < 2) return "THE TAKE COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("DROP") && inputArray.length < 2) return "THE DROP COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("TAKE") && inputArray.length == 2) {

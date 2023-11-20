@@ -222,18 +222,27 @@ public class AdventureGameView {
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
-        inputTextField.setOnKeyPressed(event -> keyPressed(event.getCode(), inputTextField.getText()));
+        EventHandler<KeyEvent> textEventHandler = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    handleEnter();
+                } else if(keyEvent.getCode().equals(KeyCode.TAB)) {
+                    handleTab();
+                }
+            }
+        };
+        this.inputTextField.addEventHandler(KeyEvent.KEY_RELEASED, textEventHandler);
     }
 
-    // Helper for addTextHandlingEvent, which when enter is pressed
-    private void keyPressed(KeyCode code, String text) {
-        if (code == KeyCode.ENTER) {
-            inputTextField.setText(null);
-            submitEvent(text.strip());
-        }
-        else if (code == KeyCode.TAB) {
-            gridPane.requestFocus();
-        }
+    private void handleEnter() {
+        String input = this.inputTextField.getText().strip();
+        this.submitEvent(input);
+        inputTextField.clear();
+    }
+
+    private void handleTab() {
+        this.saveButton.requestFocus();
     }
 
 
