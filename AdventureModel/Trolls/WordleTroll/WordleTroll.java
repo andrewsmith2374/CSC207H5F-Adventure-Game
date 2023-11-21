@@ -15,6 +15,7 @@ public class WordleTroll implements Troll {
     private HashSet<String> acceptedGuesses;
     private String instructions;
     private List<String> requiredItems;
+    private int currentGuess;
     private int gameStatus;
 
     public WordleTroll() {
@@ -23,6 +24,7 @@ public class WordleTroll implements Troll {
         acceptedGuesses = generateAcceptedGuesses("accepted_guesses.txt");
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
+        currentGuess = 0;
 
         gameStatus = 0;
     }
@@ -46,7 +48,11 @@ public class WordleTroll implements Troll {
      * If the string is not accepted, throw an InputMismatchException
      */
     public void submitGuess(String guess) throws InputMismatchException {
-        throw new UnsupportedOperationException("Implement submitGuess");
+        if(acceptedGuesses.contains(guess)) {
+            guesses[currentGuess] = guess;
+            currentGuess++;
+        }
+        throw new InputMismatchException("Not a word!");
     }
 
     /*
