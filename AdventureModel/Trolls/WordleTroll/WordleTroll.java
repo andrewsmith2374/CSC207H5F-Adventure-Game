@@ -13,18 +13,24 @@ public class WordleTroll implements Troll {
     private String secretWord;
     private HashSet<String> acceptedGuesses;
     private String instructions;
+    private int gameStatus;
 
     public WordleTroll() {
         guesses = new String[5];
-        view = new WordleTrollView(this);
         secretWord = generateSecretWord("possible_answers.txt");
         acceptedGuesses = generateAcceptedGuesses("accepted_guesses.txt");
         instructions = ""; // TODO: Add instructions
+
+        gameStatus = 0;
     }
 
     @Override
     public boolean playGame() {
-        throw new UnsupportedOperationException("Implemented playGame");
+        view = new WordleTrollView(this);
+        while(gameStatus == 0) {
+            // Do nothing
+        }
+        return gameStatus == 1;
     }
 
     @Override
