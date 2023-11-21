@@ -44,7 +44,7 @@ public class WordleTroll implements Troll {
     }
 
     /*
-     * Take a given string and store in guesses if the string is an accepted guess
+     * Take a given string of length 5 and store in guesses if the string is an accepted guess
      * If the string is not accepted, throw an InputMismatchException
      */
     public void submitGuess(String guess) throws InputMismatchException {
@@ -62,7 +62,20 @@ public class WordleTroll implements Troll {
      * 1 means the character is in the secret word at an unknown location
      * 2 means the character is in the secret word at the given location
      */
-    public String checkGuess(int index) { throw new UnsupportedOperationException("Implement checkGuess"); }
+    public String checkGuess(int index) {
+        StringBuilder output = new StringBuilder();
+        String guess = guesses[index];
+        for(int i = 0; i < guess.length(); i++) {
+            String letter = guess.substring(i);
+            if(!secretWord.contains(letter)) {
+                output.append(0);
+            } else if(letter.equals(secretWord.substring(i))) {
+                output.append("2");
+            } else {
+                output.append("1");
+            }
+        }
+    }
 
     public String getInstructions() { return instructions; }
 
