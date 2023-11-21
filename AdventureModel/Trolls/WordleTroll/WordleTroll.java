@@ -2,6 +2,7 @@ package AdventureModel.Trolls.WordleTroll;
 
 import AdventureModel.Troll;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,6 +14,7 @@ public class WordleTroll implements Troll {
     private String secretWord;
     private HashSet<String> acceptedGuesses;
     private String instructions;
+    private List<String> requiredItems;
     private int gameStatus;
 
     public WordleTroll() {
@@ -20,6 +22,7 @@ public class WordleTroll implements Troll {
         secretWord = generateSecretWord("possible_answers.txt");
         acceptedGuesses = generateAcceptedGuesses("accepted_guesses.txt");
         instructions = ""; // TODO: Add instructions
+        requiredItems = new ArrayList<String>(); // TODO: update to required item
 
         gameStatus = 0;
     }
@@ -35,7 +38,7 @@ public class WordleTroll implements Troll {
 
     @Override
     public List<String> getRequiredItems() {
-        throw new UnsupportedOperationException("Implemented getRequiredItems");
+        return requiredItems;
     }
 
     /*

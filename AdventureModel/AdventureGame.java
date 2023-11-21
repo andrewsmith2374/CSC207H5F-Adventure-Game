@@ -259,6 +259,4 @@ public class AdventureGame implements Serializable {
     public void setHelpText(String help) {
         this.helpText = help;
     }
-
-
 }
