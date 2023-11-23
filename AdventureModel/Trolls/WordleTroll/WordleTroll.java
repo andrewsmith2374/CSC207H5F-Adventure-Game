@@ -1,6 +1,8 @@
 package AdventureModel.Trolls.WordleTroll;
 
 import AdventureModel.Troll;
+import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
+import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +12,7 @@ import java.util.List;
 // List of words from https://github.com/Kinkelin/WordleCompetition
 public class WordleTroll implements Troll {
     public String[] guesses;
+    private SecretWordGenerator wordGenerator;
     private WordleTrollView view;
     private String secretWord;
     private HashSet<String> acceptedGuesses;
@@ -19,8 +22,13 @@ public class WordleTroll implements Troll {
     private int gameStatus;
 
     public WordleTroll() {
+        this(new WordleGenerator("possible_answers.txt"));
+    }
+
+    public WordleTroll(SecretWordGenerator generator) {
         guesses = new String[5];
-        secretWord = generateSecretWord("possible_answers.txt");
+        wordGenerator = generator;
+        secretWord = wordGenerator.generate();
         acceptedGuesses = generateAcceptedGuesses("accepted_guesses.txt");
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
@@ -79,13 +87,6 @@ public class WordleTroll implements Troll {
     }
 
     public String getInstructions() { return instructions; }
-
-    /*
-     * Generates a random secret word for the WordleTroll from a given file
-     */
-    private String generateSecretWord(String fileName) {
-        throw new UnsupportedOperationException("Implement generateSecretWord");
-    }
 
     /*
      * Generates a set of all accepted words from a given file
