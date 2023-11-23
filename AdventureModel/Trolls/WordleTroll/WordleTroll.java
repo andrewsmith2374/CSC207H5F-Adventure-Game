@@ -75,6 +75,7 @@ public class WordleTroll implements Troll {
                 output.append("1");
             }
         }
+        return String.valueOf(output);
     }
 
     public String getInstructions() { return instructions; }
