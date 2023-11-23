@@ -1,8 +1,10 @@
 package AdventureModel.Trolls.WordleTroll;
 
 import AdventureModel.Troll;
+import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
+import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
-import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleGenerator;
+import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +15,7 @@ import java.util.List;
 public class WordleTroll implements Troll {
     public String[] guesses;
     private SecretWordGenerator wordGenerator;
+    private AcceptedGuessGenerator guessGenerator;
     private WordleTrollView view;
     private String secretWord;
     private HashSet<String> acceptedGuesses;
@@ -22,14 +25,24 @@ public class WordleTroll implements Troll {
     private int gameStatus;
 
     public WordleTroll() {
-        this(new WordleGenerator("possible_answers.txt"));
+        this(new WordleSecretWordGenerator("possible_answers.txt"),
+                new WordleGuessGenerator("accepted_guesses.txt"));
     }
 
-    public WordleTroll(SecretWordGenerator generator) {
+    public WordleTroll(SecretWordGenerator secretWordGenerator) {
+        this(secretWordGenerator, new WordleGuessGenerator("accepted_guesses.txt"));
+    }
+
+    public WordleTroll(AcceptedGuessGenerator acceptedGuessGenerator) {
+        this(new WordleSecretWordGenerator("possible_answers.txt"), acceptedGuessGenerator);
+    }
+
+    public WordleTroll(SecretWordGenerator secretWordGenerator, AcceptedGuessGenerator acceptedGuessGenerator) {
         guesses = new String[5];
-        wordGenerator = generator;
+        wordGenerator = secretWordGenerator;
         secretWord = wordGenerator.generate();
-        acceptedGuesses = generateAcceptedGuesses("accepted_guesses.txt");
+        guessGenerator = acceptedGuessGenerator;
+        acceptedGuesses = acceptedGuessGenerator.generate();
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
         currentGuess = 0;
@@ -87,11 +100,4 @@ public class WordleTroll implements Troll {
     }
 
     public String getInstructions() { return instructions; }
-
-    /*
-     * Generates a set of all accepted words from a given file
-     */
-    private HashSet<String> generateAcceptedGuesses(String fileName) {
-        throw new UnsupportedOperationException("Implement generateAcceptedGuesses");
-    }
 }
