@@ -2,10 +2,13 @@ package AdventureModel.Trolls.WordleTroll;
 
 import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
-import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleGuessGenerator;
+import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.InputMismatchException;
@@ -24,17 +27,17 @@ public class WordleTroll implements Troll {
     private int currentGuess;
     private int gameStatus;
 
-    public WordleTroll() {
-        this(new WordleSecretWordGenerator("possible_answers.txt"),
-                new WordleGuessGenerator("accepted_guesses.txt"));
+    public WordleTroll() throws FileNotFoundException {
+        this(new WordleSecretWordGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt"))),
+                new WordleAcceptedGuessGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt"))));
     }
 
-    public WordleTroll(SecretWordGenerator secretWordGenerator) {
-        this(secretWordGenerator, new WordleGuessGenerator("accepted_guesses.txt"));
+    public WordleTroll(SecretWordGenerator secretWordGenerator) throws FileNotFoundException {
+        this(secretWordGenerator, new WordleAcceptedGuessGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt"))));
     }
 
-    public WordleTroll(AcceptedGuessGenerator acceptedGuessGenerator) {
-        this(new WordleSecretWordGenerator("possible_answers.txt"), acceptedGuessGenerator);
+    public WordleTroll(AcceptedGuessGenerator acceptedGuessGenerator) throws FileNotFoundException {
+        this(new WordleSecretWordGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt"))), acceptedGuessGenerator);
     }
 
     public WordleTroll(SecretWordGenerator secretWordGenerator, AcceptedGuessGenerator acceptedGuessGenerator) {
@@ -72,6 +75,7 @@ public class WordleTroll implements Troll {
         if(acceptedGuesses.contains(guess)) {
             guesses[currentGuess] = guess;
             currentGuess++;
+            return;
         }
         throw new InputMismatchException("Not a word!");
     }
@@ -87,10 +91,11 @@ public class WordleTroll implements Troll {
         StringBuilder output = new StringBuilder();
         String guess = guesses[index];
         for(int i = 0; i < guess.length(); i++) {
-            String letter = guess.substring(i);
+            String letter = guess.substring(i, i + 1);
+            String secretWordLetter = secretWord.substring(i, i + 1);
             if(!secretWord.contains(letter)) {
                 output.append(0);
-            } else if(letter.equals(secretWord.substring(i))) {
+            } else if(letter.equals(secretWordLetter)) {
                 output.append("2");
             } else {
                 output.append("1");
