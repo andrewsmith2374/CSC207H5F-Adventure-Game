@@ -110,6 +110,9 @@ public class AdventureGame implements Serializable {
         return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
     }
 
+    /*
+     * Return an ArrayList of Passages that correspond to the given direction from motionTable
+     */
     private static ArrayList<Passage> getPossibilities(String direction, PassageTable motionTable) {
         ArrayList<Passage> possibilities = new ArrayList<>();
         for (Passage entry : motionTable.getDirection()) {
@@ -120,6 +123,10 @@ public class AdventureGame implements Serializable {
         return possibilities;
     }
 
+    /*
+     * Return the first valid passage in possibilities
+     * Return null if the player cannot move
+     */
     private Passage checkPassages(ArrayList<Passage> possibilities) {
         // try the blocked passages first
         for (Passage entry : possibilities) {
@@ -138,12 +145,19 @@ public class AdventureGame implements Serializable {
         return null;
     }
 
+    /*
+     * Set the player's current room to chosen
+     */
     private void changeRoom(Passage chosen) {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
         this.player.setCurrentRoom(room);
     }
 
+    /*
+     * Check for a Troll in the given passage
+     * If there is no Troll or the player does not have the required item, throw a ClassNotFoundException
+     */
     private void checkForTroll(Passage entry) throws ClassNotFoundException {
         String name = entry.getKeyName();
         Troll troll = trollFactory.createTroll(name);
