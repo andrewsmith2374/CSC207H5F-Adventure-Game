@@ -5,6 +5,7 @@ import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGen
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
+import FileIO.FileHandler;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -27,25 +28,17 @@ public class WordleTroll implements Troll {
     private int currentGuess;
     private int gameStatus;
 
-    public WordleTroll() throws FileNotFoundException {
-        this(new WordleSecretWordGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt"))),
-                new WordleAcceptedGuessGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt"))));
-    }
-
-    public WordleTroll(SecretWordGenerator secretWordGenerator) throws FileNotFoundException {
-        this(secretWordGenerator, new WordleAcceptedGuessGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt"))));
-    }
-
-    public WordleTroll(AcceptedGuessGenerator acceptedGuessGenerator) throws FileNotFoundException {
-        this(new WordleSecretWordGenerator(new BufferedReader(new FileReader("AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt"))), acceptedGuessGenerator);
-    }
-
-    public WordleTroll(SecretWordGenerator secretWordGenerator, AcceptedGuessGenerator acceptedGuessGenerator) {
+    public WordleTroll() {
         guesses = new String[5];
-        wordGenerator = secretWordGenerator;
+        FileHandler fileHandler = new FileHandler();
+        String path = "AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt";
+        BufferedReader buff = fileHandler.getBufferedReader(path);
+        wordGenerator = new WordleSecretWordGenerator(buff);
         secretWord = wordGenerator.generate();
-        guessGenerator = acceptedGuessGenerator;
-        acceptedGuesses = acceptedGuessGenerator.generate();
+        path = "AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt";
+        buff = fileHandler.getBufferedReader(path);
+        guessGenerator = new WordleAcceptedGuessGenerator(buff);
+        acceptedGuesses = guessGenerator.generate();
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
         currentGuess = 0;
@@ -105,4 +98,12 @@ public class WordleTroll implements Troll {
     }
 
     public String getInstructions() { return instructions; }
+
+    public void setWordGenerator(SecretWordGenerator generator) {
+        wordGenerator = generator;
+    }
+
+    public void setGuessGenerator(AcceptedGuessGenerator generator) {
+        guessGenerator = generator;
+    }
 }
