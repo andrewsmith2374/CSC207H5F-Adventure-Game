@@ -27,7 +27,7 @@ public class WordleTroll implements Troll {
     private int gameStatus;
 
     public WordleTroll() {
-        guesses = new String[5];
+        guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
         createWordGenerator(fileHandler);
         secretWord = wordGenerator.generate();
@@ -55,9 +55,7 @@ public class WordleTroll implements Troll {
     @Override
     public boolean playGame() {
         view = new WordleTrollView(this);
-        while(gameStatus == 0) {
-            // Do nothing
-        }
+        while(guesses[3] == null) {} // Do nothing
         return gameStatus == 1;
     }
 

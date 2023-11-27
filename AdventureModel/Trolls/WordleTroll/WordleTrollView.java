@@ -1,7 +1,9 @@
 package AdventureModel.Trolls.WordleTroll;
 
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -17,6 +19,12 @@ public class WordleTrollView {
         stage = new Stage();
         gridPane = new GridPane();
         inputTextField = new ArrayList<TextField>();
+
+        var scene = new Scene(gridPane,  1000, 800);
+        scene.setFill(Color.BLACK);
+        this.stage.setScene(scene);
+        this.stage.setResizable(false);
+        this.stage.show();
     }
 
     /*
