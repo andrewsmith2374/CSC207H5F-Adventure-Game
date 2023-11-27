@@ -1,5 +1,6 @@
 package AdventureModel.Trolls.WordleTroll;
 
+import AdventureModel.AdventureGame;
 import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
@@ -16,6 +17,8 @@ import java.util.List;
 // List of words from https://github.com/Kinkelin/WordleCompetition
 public class WordleTroll implements Troll {
     public String[] guesses;
+    private AdventureGame model;
+    private int destinationRoom;
     private SecretWordGenerator wordGenerator;
     private AcceptedGuessGenerator guessGenerator;
     private WordleTrollView view;
@@ -53,15 +56,20 @@ public class WordleTroll implements Troll {
     }
 
     @Override
-    public boolean playGame() {
+    public void playGame(AdventureGame model, int destinationRoom) {
+        this.model = model;
+        this.destinationRoom = destinationRoom;
         view = new WordleTrollView(this);
-        while(guesses[3] == null) {} // Do nothing
-        return gameStatus == 1;
     }
 
     @Override
     public List<String> getRequiredItems() {
         return requiredItems;
+    }
+
+    @Override
+    public boolean defeated() {
+        return false; // TODO: Change this
     }
 
     /*
@@ -111,5 +119,11 @@ public class WordleTroll implements Troll {
     public void setGuessGenerator(AcceptedGuessGenerator generator) {
         guessGenerator = generator;
         acceptedGuesses = guessGenerator.generate();
+    }
+
+    public void endGame(boolean gameWon) {
+        if (gameWon) {
+            model.player.setCurrentRoom(model.getRooms().get(destinationRoom));
+        }
     }
 }
