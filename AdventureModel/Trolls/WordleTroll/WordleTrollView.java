@@ -25,8 +25,6 @@ public class WordleTrollView {
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.show();
-        model.endGame(true);
-        this.stage.close();
     }
 
     /*

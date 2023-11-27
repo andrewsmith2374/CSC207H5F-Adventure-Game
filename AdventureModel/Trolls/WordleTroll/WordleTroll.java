@@ -123,7 +123,7 @@ public class WordleTroll implements Troll {
 
     public void endGame(boolean gameWon) {
         if (gameWon) {
-            model.player.setCurrentRoom(model.getRooms().get(destinationRoom));
+            model.setPlayerLocation(destinationRoom);
         }
     }
 }
