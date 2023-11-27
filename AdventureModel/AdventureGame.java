@@ -136,8 +136,10 @@ public class AdventureGame implements Serializable {
             if (entry.getIsBlocked()) {
                 try {
                     checkForTroll(entry);
-                    return null; // Assume Troll not defeated
-                } catch(ClassNotFoundException ignored) {}
+                } catch(InterruptedException e) {
+                    return entry; // Troll already defeated
+                }
+                catch(ClassNotFoundException ignored) {}
                 boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());
                 if (hasRequiredItems) { return entry; }
             } else { return entry; } //the passage is unlocked
@@ -158,7 +160,7 @@ public class AdventureGame implements Serializable {
      * Check for a Troll in the given passage
      * If there is no Troll or the player does not have the required item, throw a ClassNotFoundException
      */
-    private void checkForTroll(Passage entry) throws ClassNotFoundException {
+    private void checkForTroll(Passage entry) throws ClassNotFoundException, InterruptedException {
         String name = entry.getKeyName();
         Troll troll = trollFactory.createTroll(name);
         List<String> requiredItems = troll.getRequiredItems();
@@ -167,6 +169,7 @@ public class AdventureGame implements Serializable {
                 throw new ClassNotFoundException();
             }
         }
+        if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
         troll.playGame();
     }
 
