@@ -128,8 +128,8 @@ public class AdventureGame implements Serializable {
 
             if (entry.getIsBlocked()) {
                 try {
-                    boolean result = checkForTroll(entry);
-                    if(result) { return entry; } else { return null; }
+                    checkForTroll(entry);
+                    return null; // Assume Troll not defeated
                 } catch(ClassNotFoundException ignored) {}
                 boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());
                 if (hasRequiredItems) { return entry; }
@@ -144,16 +144,16 @@ public class AdventureGame implements Serializable {
         this.player.setCurrentRoom(room);
     }
 
-    private boolean checkForTroll(Passage entry) throws ClassNotFoundException {
+    private void checkForTroll(Passage entry) throws ClassNotFoundException {
         String name = entry.getKeyName();
         Troll troll = trollFactory.createTroll(name);
         List<String> requiredItems = troll.getRequiredItems();
         for(String item : requiredItems) {
             if(!this.player.getInventory().contains(item)) {
-                return false;
+                throw new ClassNotFoundException();
             }
         }
-        return troll.playGame();
+        troll.playGame();
     }
 
     /**
@@ -259,6 +259,4 @@ public class AdventureGame implements Serializable {
     public void setHelpText(String help) {
         this.helpText = help;
     }
-
-
 }
