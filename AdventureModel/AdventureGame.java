@@ -170,7 +170,7 @@ public class AdventureGame implements Serializable {
             }
         }
         if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
-        troll.playGame();
+        troll.playGame(this, entry.getDestinationRoom());
     }
 
     /**

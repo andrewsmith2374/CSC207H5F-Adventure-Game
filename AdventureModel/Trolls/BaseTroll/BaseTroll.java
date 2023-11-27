@@ -1,5 +1,6 @@
 package AdventureModel.Trolls.BaseTroll;
 
+import AdventureModel.AdventureGame;
 import AdventureModel.Troll;
 
 import java.util.ArrayList;
@@ -9,8 +10,9 @@ public class BaseTroll implements Troll {
     public BaseTroll() {}
 
     @Override
-    public void playGame() {
+    public void playGame(AdventureGame model, int destinationRoom) {
         System.out.println("Game Played!");
+        model.player.setCurrentRoom(model.getRooms().get(destinationRoom));
     }
 
     @Override
