@@ -31,19 +31,27 @@ public class WordleTroll implements Troll {
     public WordleTroll() {
         guesses = new String[5];
         FileHandler fileHandler = new FileHandler();
-        String path = "AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt";
-        BufferedReader buff = fileHandler.getBufferedReader(path);
-        wordGenerator = new WordleSecretWordGenerator(buff);
+        createWordGenerator(fileHandler);
         secretWord = wordGenerator.generate();
-        path = "AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt";
-        buff = fileHandler.getBufferedReader(path);
-        guessGenerator = new WordleAcceptedGuessGenerator(buff);
+        createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
         currentGuess = 0;
 
         gameStatus = 0;
+    }
+
+    private void createWordGenerator(FileHandler fileHandler) {
+        String path = "AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt";
+        BufferedReader buff = fileHandler.getBufferedReader(path);
+        wordGenerator = new WordleSecretWordGenerator(buff);
+    }
+
+    private void createGuessGenerator(FileHandler fileHandler) {
+        String path = "AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt";
+        BufferedReader buff = fileHandler.getBufferedReader(path);
+        guessGenerator = new WordleAcceptedGuessGenerator(buff);
     }
 
     @Override
@@ -101,9 +109,11 @@ public class WordleTroll implements Troll {
 
     public void setWordGenerator(SecretWordGenerator generator) {
         wordGenerator = generator;
+        secretWord = wordGenerator.generate();
     }
 
     public void setGuessGenerator(AcceptedGuessGenerator generator) {
         guessGenerator = generator;
+        acceptedGuesses = guessGenerator.generate();
     }
 }
