@@ -13,4 +13,9 @@ public interface Troll {
      * for the player to go against the Troll
      */
     List<String> getRequiredItems();
+
+    /*
+     * Returns whether the player has already defeated this Troll and should be let past
+     */
+    boolean defeated();
 }
