@@ -27,7 +27,7 @@ public class WordleTroll implements Troll {
     private String instructions;
     private List<String> requiredItems;
     private int currentGuess;
-    private int gameStatus;
+    private boolean isDefeated;
 
     public WordleTroll() {
         guesses = new String[4];
@@ -39,8 +39,7 @@ public class WordleTroll implements Troll {
         instructions = ""; // TODO: Add instructions
         requiredItems = new ArrayList<String>(); // TODO: update to required item
         currentGuess = 0;
-
-        gameStatus = 0;
+        isDefeated = false;
     }
 
     private void createWordGenerator(FileHandler fileHandler) {
@@ -69,7 +68,7 @@ public class WordleTroll implements Troll {
 
     @Override
     public boolean defeated() {
-        return false; // TODO: Change this
+        return isDefeated;
     }
 
     /*
