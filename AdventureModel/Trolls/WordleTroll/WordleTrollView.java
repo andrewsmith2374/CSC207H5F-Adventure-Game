@@ -20,17 +20,17 @@ public class WordleTrollView {
     private Stage stage;
     private GridPane gridPane;
     private Button helpButton;
-    private ArrayList<TextField> inputTextField;
+    private TextField inputTextField;
     private Boolean helpToggle = false; //is help on display?
 
     public WordleTrollView(WordleTroll model) {
         this.model = model;
         uiHelper = new UIHelper();
+        stage = new Stage();
         initUI();
     }
 
     private void initUI() {
-        stage = new Stage();
         stage.setTitle("Wordle!");
 
         gridPane = new GridPane();
@@ -61,12 +61,21 @@ public class WordleTrollView {
 
         helpButton = new Button("Instructions");
         helpButton.setId("Instructions");
+        helpButton.setAlignment(Pos.CENTER);
         uiHelper.customizeButton(helpButton, 200, 50);
         uiHelper.makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
 
-        gridPane.add( helpButton, 1, 0, 1, 1 );  // Add buttons
+        // gridPane.add(helpButton, 1, 0, 1, 1 );  // Add buttons
 
-        inputTextField = new ArrayList<TextField>();
+        inputTextField = new TextField();
+        VBox textEntry = new VBox();
+        textEntry.setStyle("-fx-background-color: #000000;");
+        textEntry.setPadding(new Insets(20, 20, 20, 20));
+        textEntry.getChildren().add(inputTextField);
+        textEntry.setSpacing(10);
+        textEntry.setAlignment(Pos.CENTER);
+        gridPane.add( textEntry, 0, 2, 3, 1 );
+
         var scene = new Scene(gridPane,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
