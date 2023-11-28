@@ -21,6 +21,7 @@ public class WordleTrollView {
     private GridPane gridPane;
     private Button helpButton;
     private TextField inputTextField;
+    // private ArrayList<Text>
     private Boolean helpToggle = false; //is help on display?
 
     public WordleTrollView(WordleTroll model) {
@@ -61,11 +62,11 @@ public class WordleTrollView {
 
         helpButton = new Button("Instructions");
         helpButton.setId("Instructions");
-        helpButton.setAlignment(Pos.CENTER);
         uiHelper.customizeButton(helpButton, 200, 50);
         uiHelper.makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
+        helpButton.setAlignment(Pos.CENTER);
 
-        // gridPane.add(helpButton, 1, 0, 1, 1 );  // Add buttons
+        gridPane.add(helpButton, 1, 0, 3, 1 );  // Add buttons
 
         inputTextField = new TextField();
         VBox textEntry = new VBox();
