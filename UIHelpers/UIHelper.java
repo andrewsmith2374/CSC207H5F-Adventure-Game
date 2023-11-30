@@ -18,7 +18,7 @@ public class UIHelper {
      * @param w width
      * @param h height
      */
-    public void customizeButton(Button inputButton, int w, int h) { // TODO: Abstract to customizeNode
+    public void customizeButton(Button inputButton, int w, int h) {
         inputButton.setPrefSize(w, h);
         inputButton.setFont(new Font("Arial", 16));
         inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
