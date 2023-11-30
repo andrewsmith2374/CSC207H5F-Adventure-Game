@@ -28,10 +28,12 @@ public class TrollFactory {
     /*
      * Given a Class that implements the Troll interface, return an instance of that class
      */
-    private static Troll getTroll(Class<?> trollClass) {
+    private static Troll getTroll(Class<?> trollClass) throws ClassNotFoundException {
         Troll troll;
         try {
             troll = (Troll) trollClass.getDeclaredConstructor().newInstance();
+        } catch(ClassCastException e) {
+            throw new ClassNotFoundException("Not a Troll!");
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
             throw new RuntimeException();

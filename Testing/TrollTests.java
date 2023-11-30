@@ -40,6 +40,11 @@ public class TrollTests {
 
     @Test
     void testTrollFactoryClassNotTroll() {
-        // TODO: Add test
+        TrollFactory tf = new TrollFactory();
+
+        try {
+            Troll t = tf.createTroll("FakeTroll");
+            fail();
+        } catch (ClassNotFoundException ignored) {}
     }
 }
