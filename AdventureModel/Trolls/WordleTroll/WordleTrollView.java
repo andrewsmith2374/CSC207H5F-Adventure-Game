@@ -207,6 +207,19 @@ public class WordleTrollView {
     }
 
     /*
+     * Update the correct row to match the most recent guess
+     */
+    private void updateGuesses() {
+        int rowNum = model.getCurrentGuess() - 1;
+        ArrayList<VBox> row = guessFields.get(rowNum);
+        String guess = model.guesses[rowNum];
+        for(int i = 0; i < row.size(); i++) {
+            Text text = (Text) row.get(i).getChildren().get(0);
+            text.setText(guess.substring(i, i + 1));
+        }
+    }
+
+    /*
      * Articulate the instructions for this game
      */
     public void articulateInstructions() {

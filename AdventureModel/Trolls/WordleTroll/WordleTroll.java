@@ -110,6 +110,8 @@ public class WordleTroll implements Troll {
 
     public String getInstructions() { return instructions; }
 
+    public int getCurrentGuess() { return currentGuess; }
+
     public void setWordGenerator(SecretWordGenerator generator) {
         wordGenerator = generator;
         secretWord = wordGenerator.generate();
