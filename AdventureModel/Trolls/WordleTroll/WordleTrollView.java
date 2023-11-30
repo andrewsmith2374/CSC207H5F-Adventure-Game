@@ -222,8 +222,11 @@ public class WordleTrollView {
             text.setText(guess.substring(i, i + 1));
         }
 
-        if(rowNum == 3 && !Objects.equals(result, "22222")) {
-            closeWindow();
+        if(rowNum == 3) {
+            if(Objects.equals(result, "22222")) {
+                closeWindow(true);
+            }
+            closeWindow(false);
         }
     }
 
@@ -251,7 +254,10 @@ public class WordleTrollView {
     /*
      * Terminate this window and end the game
      */
-    public void closeWindow() { throw new UnsupportedOperationException("Implement closeWindow"); }
+    public void closeWindow(boolean result) {
+        model.endGame(result);
+        stage.close();
+    }
 
     /*
      * Change view to the main game

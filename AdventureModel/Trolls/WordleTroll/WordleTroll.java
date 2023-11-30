@@ -76,7 +76,7 @@ public class WordleTroll implements Troll {
      * If the string is not accepted, throw an InputMismatchException
      */
     public void submitGuess(String guess) throws InputMismatchException {
-        if(acceptedGuesses.contains(guess)) {
+        if(acceptedGuesses.contains(guess)) { // TODO: Update to check previous guesses
             guesses[currentGuess] = guess;
             currentGuess++;
             return;
