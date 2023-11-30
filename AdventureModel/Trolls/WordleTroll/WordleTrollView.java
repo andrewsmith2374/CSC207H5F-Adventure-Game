@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Objects;
 
 public class WordleTrollView {
     private WordleTroll model;
@@ -89,7 +90,7 @@ public class WordleTrollView {
                 VBox textBox = new VBox();
                 textBox.setMaxSize(colWidth * 0.8, colWidth * 0.8);
                 textBox.setAlignment(Pos.CENTER);
-                textBox.setStyle("-fx-background-color: #808080; -fx-text-fill: black;");
+                textBox.setStyle("-fx-background-color: #808080; -fx-text-fill: white;");
                 textBox.setPadding(new Insets(20, 20, 20, 20));
                 textBox.getChildren().add(textField);
                 textBox.setSpacing(colWidth);
@@ -213,10 +214,31 @@ public class WordleTrollView {
         int rowNum = model.getCurrentGuess() - 1;
         ArrayList<VBox> row = guessFields.get(rowNum);
         String guess = model.guesses[rowNum];
+        String result = model.checkGuess(rowNum);
         for(int i = 0; i < row.size(); i++) {
-            Text text = (Text) row.get(i).getChildren().get(0);
+            VBox vbox = updateVbox(result, i, row);
+
+            Text text = (Text) vbox.getChildren().get(0);
             text.setText(guess.substring(i, i + 1));
         }
+
+        if(rowNum == 3 && !Objects.equals(result, "22222")) {
+            closeWindow();
+        }
+    }
+
+    /*
+     * Update a vbox based on the results of a guess
+     */
+    private static VBox updateVbox(String result, int i, ArrayList<VBox> row) {
+        String subRes = result.substring(i, i + 1);
+        VBox vbox = row.get(i);
+        if(subRes.equals("1")) {
+            vbox.setStyle("-fx-background-color: #FFDA29; -fx-text-fill: white;");
+        } else if(subRes.equals("2")) {
+            vbox.setStyle("-fx-background-color: #00ff00; -fx-text-fill: white;");
+        }
+        return vbox;
     }
 
     /*
