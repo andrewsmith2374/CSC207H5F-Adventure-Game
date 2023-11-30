@@ -72,7 +72,7 @@ public class WordleTroll implements Troll {
     }
 
     /*
-     * Take a given string of length 5 and store in guesses if the string is an accepted guess
+     * Take a given UPPERCASE string of length 5 and store in guesses if the string is an accepted guess
      * If the string is not accepted, throw an InputMismatchException
      */
     public void submitGuess(String guess) throws InputMismatchException {

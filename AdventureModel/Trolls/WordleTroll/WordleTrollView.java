@@ -1,11 +1,14 @@
 package AdventureModel.Trolls.WordleTroll;
 
 import UIHelpers.UIHelper;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -13,6 +16,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class WordleTrollView {
     private WordleTroll model;
@@ -60,7 +64,49 @@ public class WordleTrollView {
         textEntry.getChildren().add(inputTextField);
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
+        addTextHandlingEvent();
         gridPane.add(textEntry,1,5,5, 1 );
+    }
+
+    /**
+     * addTextHandlingEvent
+     * __________________________
+     * Add an event handler to the inputTextField attribute
+     * <p>
+     * Your event handler should respond when users
+     * hits the ENTER or TAB KEY. If the user hits
+     * the ENTER Key, strip white space from the
+     * input to inputTextField and pass the stripped
+     * string to submitEvent for processing.
+     * <p>
+     * If the user hits the TAB key, move the focus
+     * of the scene onto any other node in the scene
+     * graph by invoking requestFocus method.
+     */
+    private void addTextHandlingEvent() {
+        EventHandler<KeyEvent> textEventHandler = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    handleEnter();
+                }
+            }
+        };
+        inputTextField.addEventHandler(KeyEvent.KEY_RELEASED, textEventHandler);
+    }
+
+    /*
+     * Take a guess and display the results
+     */
+    private void handleEnter() {
+        String input = inputTextField.getText().strip().toUpperCase();
+        try {
+            model.submitGuess(input);
+            updateGuesses();
+        } catch(InputMismatchException e) {
+            // TODO: Add error message
+        }
+        inputTextField.clear();
     }
 
     private void createGuessFields(int colWidth) {
@@ -122,11 +168,7 @@ public class WordleTrollView {
         column5.setHgrow( Priority.SOMETIMES );
         column6.setHgrow( Priority.SOMETIMES );
         column7.setHgrow(Priority.SOMETIMES);
-        createColumnConstraints colConstraints = new createColumnConstraints(column1, column2, column3, column4, column5, column6, column7);
-        gridPane.getColumnConstraints().addAll(colConstraints.column1(), colConstraints.column2(), colConstraints.column3(), colConstraints.column4(), colConstraints.column5(), colConstraints.column6(), colConstraints.column7());
-    }
-
-    private record createColumnConstraints(ColumnConstraints column1, ColumnConstraints column2, ColumnConstraints column3, ColumnConstraints column4, ColumnConstraints column5, ColumnConstraints column6, ColumnConstraints column7) {
+        gridPane.getColumnConstraints().addAll(column1, column2, column3, column4, column5, column6, column7);
     }
 
     private void createGridPane() {
@@ -156,9 +198,4 @@ public class WordleTrollView {
      * Change view to the main game
      */
     private void startGame() { throw new UnsupportedOperationException("Implement startGame"); }
-
-    /*
-     * Take a guess and display the results
-     */
-    private void processInput() { throw new UnsupportedOperationException("Implement processInput"); }
 }
