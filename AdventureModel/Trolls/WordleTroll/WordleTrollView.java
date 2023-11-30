@@ -5,12 +5,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -36,59 +33,37 @@ public class WordleTrollView {
     }
 
     private void initUI() {
-        stage.setTitle("Wordle!");
-
-        gridPane = new GridPane();
-        // GridPane, anyone?
-        gridPane.setPadding(new Insets(20));
-        gridPane.setBackground(new Background(new BackgroundFill(
-                Color.valueOf("#000000"),
-                new CornerRadii(0),
-                new Insets(0)
-        )));
-
         int colWidth = 100;
-        // Three columns, three rows for the GridPane
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints(colWidth);
-        ColumnConstraints column3 = new ColumnConstraints(colWidth);
-        ColumnConstraints column4 = new ColumnConstraints(colWidth);
-        ColumnConstraints column5 = new ColumnConstraints(colWidth);
-        ColumnConstraints column6 = new ColumnConstraints(colWidth);
-        ColumnConstraints column7 = new ColumnConstraints();
-        column1.setHgrow(Priority.SOMETIMES);
-        column2.setHgrow( Priority.SOMETIMES );
-        column3.setHgrow( Priority.SOMETIMES );
-        column4.setHgrow( Priority.SOMETIMES );
-        column5.setHgrow( Priority.SOMETIMES );
-        column6.setHgrow( Priority.SOMETIMES );
-        column7.setHgrow(Priority.SOMETIMES);
+        stage.setTitle("Wordle!");
+        createGridPane();
+        createColConstraints(colWidth);
+        createRowConstraints(colWidth);
+        createHelpButton(colWidth);
+        createGuessFields(colWidth);
+        createInputField();
+        initiateScene();
+    }
 
-        // Row constraints
-        RowConstraints row1 = new RowConstraints(200);
-        RowConstraints row2 = new RowConstraints(colWidth);
-        RowConstraints row3 = new RowConstraints(colWidth);
-        RowConstraints row4 = new RowConstraints(colWidth);
-        RowConstraints row5 = new RowConstraints(colWidth);
-        RowConstraints row6 = new RowConstraints(200);
-        row1.setVgrow( Priority.SOMETIMES );
-//        row2.setVgrow( Priority.SOMETIMES );
-//        row3.setVgrow( Priority.SOMETIMES );
-//        row4.setVgrow( Priority.SOMETIMES );
-//        row5.setVgrow( Priority.SOMETIMES );
-        row6.setVgrow( Priority.ALWAYS );
+    private void initiateScene() {
+        var scene = new Scene(gridPane,  1000, 800);
+        scene.setFill(Color.BLACK);
+        this.stage.setScene(scene);
+        this.stage.setResizable(false);
+        this.stage.show();
+    }
 
-        gridPane.getColumnConstraints().addAll(column1, column2, column3, column4, column5, column6, column7);
-        gridPane.getRowConstraints().addAll(row1, row2, row3, row4, row5, row6);
+    private void createInputField() {
+        inputTextField = new TextField();
+        VBox textEntry = new VBox();
+        textEntry.setStyle("-fx-background-color: #000000;");
+        textEntry.setPadding(new Insets(20, 20, 20, 20));
+        textEntry.getChildren().add(inputTextField);
+        textEntry.setSpacing(10);
+        textEntry.setAlignment(Pos.CENTER);
+        gridPane.add(textEntry,1,5,5, 1 );
+    }
 
-        helpButton = new Button("Instructions");
-        helpButton.setId("Instructions");
-        uiHelper.customizeButton(helpButton, 3 * colWidth, (int) (0.75 * colWidth));
-        uiHelper.makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
-        helpButton.setAlignment(Pos.CENTER);
-
-        gridPane.add(helpButton, 2, 0, 3, 1 );  // Add buttons
-
+    private void createGuessFields(int colWidth) {
         for(int i = 0; i < 4; i++) {
             guessFields.add(i, new ArrayList<VBox>());
             for(int j = 0; j < 5; j++) {
@@ -105,22 +80,64 @@ public class WordleTrollView {
                 gridPane.add(guessFields.get(i).get(j), j + 1, i + 1, 1, 1);
             }
         }
+    }
 
-        inputTextField = new TextField();
-        VBox textEntry = new VBox();
-        textEntry.setStyle("-fx-background-color: #000000;");
-//        textEntry.setMinSize(5 * colWidth, 0.3 * colWidth);
-        textEntry.setPadding(new Insets(20, 20, 20, 20));
-        textEntry.getChildren().add(inputTextField);
-        textEntry.setSpacing(10);
-        textEntry.setAlignment(Pos.CENTER);
-        gridPane.add(textEntry,1,5,5, 1 );
+    private void createHelpButton(int colWidth) {
+        helpButton = new Button("Instructions");
+        helpButton.setId("Instructions");
+        uiHelper.customizeButton(helpButton, 3 * colWidth, (int) (0.75 * colWidth));
+        uiHelper.makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
+        helpButton.setAlignment(Pos.CENTER);
 
-        var scene = new Scene(gridPane,  1000, 800);
-        scene.setFill(Color.BLACK);
-        this.stage.setScene(scene);
-        this.stage.setResizable(false);
-        this.stage.show();
+        gridPane.add(helpButton, 2, 0, 3, 1 );  // Add buttons
+    }
+
+    private void createRowConstraints(int colWidth) {
+        // Row constraints
+        RowConstraints row1 = new RowConstraints(200);
+        RowConstraints row2 = new RowConstraints(colWidth);
+        RowConstraints row3 = new RowConstraints(colWidth);
+        RowConstraints row4 = new RowConstraints(colWidth);
+        RowConstraints row5 = new RowConstraints(colWidth);
+        RowConstraints row6 = new RowConstraints(200);
+        row1.setVgrow( Priority.SOMETIMES );
+        row6.setVgrow( Priority.ALWAYS );
+
+        gridPane.getRowConstraints().addAll(row1, row2, row3, row4, row5, row6);
+    }
+
+    private void createColConstraints(int colWidth) {
+        // Three columns, three rows for the GridPane
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints(colWidth);
+        ColumnConstraints column3 = new ColumnConstraints(colWidth);
+        ColumnConstraints column4 = new ColumnConstraints(colWidth);
+        ColumnConstraints column5 = new ColumnConstraints(colWidth);
+        ColumnConstraints column6 = new ColumnConstraints(colWidth);
+        ColumnConstraints column7 = new ColumnConstraints();
+        column1.setHgrow(Priority.SOMETIMES);
+        column2.setHgrow( Priority.SOMETIMES );
+        column3.setHgrow( Priority.SOMETIMES );
+        column4.setHgrow( Priority.SOMETIMES );
+        column5.setHgrow( Priority.SOMETIMES );
+        column6.setHgrow( Priority.SOMETIMES );
+        column7.setHgrow(Priority.SOMETIMES);
+        createColumnConstraints colConstraints = new createColumnConstraints(column1, column2, column3, column4, column5, column6, column7);
+        gridPane.getColumnConstraints().addAll(colConstraints.column1(), colConstraints.column2(), colConstraints.column3(), colConstraints.column4(), colConstraints.column5(), colConstraints.column6(), colConstraints.column7());
+    }
+
+    private record createColumnConstraints(ColumnConstraints column1, ColumnConstraints column2, ColumnConstraints column3, ColumnConstraints column4, ColumnConstraints column5, ColumnConstraints column6, ColumnConstraints column7) {
+    }
+
+    private void createGridPane() {
+        gridPane = new GridPane();
+        // GridPane, anyone?
+        gridPane.setPadding(new Insets(20));
+        gridPane.setBackground(new Background(new BackgroundFill(
+                Color.valueOf("#000000"),
+                new CornerRadii(0),
+                new Insets(0)
+        )));
     }
 
     /*
