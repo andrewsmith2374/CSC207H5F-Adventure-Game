@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.nio.file.LinkPermission;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 
@@ -64,6 +65,17 @@ public class WordleTrollTests {
         WordleTroll wt = new WordleTroll();
         String guess = "LKJSD";
         try {
+            wt.submitGuess(guess);
+            fail();
+        } catch(InputMismatchException ignored) {}
+    }
+
+    @Test
+    void testSubmitGuessRepeat() {
+        WordleTroll wt = new WordleTroll();
+        String guess = "CRANE";
+        try {
+            wt.submitGuess(guess);
             wt.submitGuess(guess);
             fail();
         } catch(InputMismatchException ignored) {}

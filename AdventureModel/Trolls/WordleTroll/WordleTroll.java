@@ -9,10 +9,7 @@ import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGen
 import FileIO.FileHandler;
 
 import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.*;
 
 // List of words from https://github.com/Kinkelin/WordleCompetition
 public class WordleTroll implements Troll {
@@ -76,12 +73,16 @@ public class WordleTroll implements Troll {
      * If the string is not accepted, throw an InputMismatchException
      */
     public void submitGuess(String guess) throws InputMismatchException {
-        if(acceptedGuesses.contains(guess)) { // TODO: Update to check previous guesses
-            guesses[currentGuess] = guess;
-            currentGuess++;
-            return;
+        if(!acceptedGuesses.contains(guess)) {
+            throw new InputMismatchException("Not a word!");
         }
-        throw new InputMismatchException("Not a word!");
+        for(String prevGuess : guesses) {
+            if(Objects.equals(prevGuess, guess)) {
+                throw new InputMismatchException("Already tried!");
+            }
+        }
+        guesses[currentGuess] = guess;
+        currentGuess++;
     }
 
     /*
