@@ -62,7 +62,8 @@ public class AdventureGame implements Serializable {
         loader.loadGame();
 
         // set up the player's current location
-        this.player = new Player(this.rooms.get(1));
+        Room firstRoom = this.rooms.get(1);
+        player = new Player(firstRoom);
     }
 
     /**
@@ -99,7 +100,9 @@ public class AdventureGame implements Serializable {
      */
     public boolean movePlayer(String direction) {
         direction = direction.toUpperCase();
-        PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
+        Room currentRoom = player.getCurrentRoom();
+        currentRoom.visit();
+        PassageTable motionTable = currentRoom.getMotionTable(); //where can we move?
         if (!motionTable.optionExists(direction)) { return true; } //no move
         ArrayList<Passage> possibilities = getPossibilities(direction, motionTable);
 
@@ -137,7 +140,7 @@ public class AdventureGame implements Serializable {
                 try {
                     checkForTroll(entry);
                 } catch(InterruptedException e) {
-                    return entry; // Troll already defeated
+                    return null; // Troll already defeated
                 }
                 catch(ClassNotFoundException ignored) {}
                 boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());
@@ -153,7 +156,8 @@ public class AdventureGame implements Serializable {
     private void changeRoom(Passage chosen) {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
-        this.player.setCurrentRoom(room);
+        room.visit();
+        player.setCurrentRoom(room);
     }
 
     /*
