@@ -1,4 +1,4 @@
-package views;
+
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,11 +49,13 @@ public class SaveView {
         saveFileErrorLabel.setId("SaveFileErrorLabel");
         saveFileNameTextField.setId("SaveFileNameTextField");
         saveGameLabel.setStyle("-fx-text-fill: #e8e6e3;");
-        saveGameLabel.setFont(new Font(16));
+        saveGameLabel.setFont(new Font(adventureGameView.fontSize));
+        saveGameLabel.setWrapText(true);
         saveFileErrorLabel.setStyle("-fx-text-fill: #e8e6e3;");
-        saveFileErrorLabel.setFont(new Font(16));
+        saveFileErrorLabel.setFont(new Font(adventureGameView.fontSize));
+        saveFileErrorLabel.setWrapText(true);
         saveFileNameTextField.setStyle("-fx-text-fill: #000000;");
-        saveFileNameTextField.setFont(new Font(16));
+        saveFileNameTextField.setFont(new Font(adventureGameView.fontSize));
 
         String gameName = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".ser";
         saveFileNameTextField.setText(gameName);
@@ -62,19 +64,11 @@ public class SaveView {
         saveGameButton.setId("SaveBoardButton"); // DO NOT MODIFY ID
         saveGameButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
         saveGameButton.setPrefSize(200, 50);
-        saveGameButton.setFont(new Font(16));
+        saveGameButton.setFont(new Font(adventureGameView.fontSize));
         AdventureGameView.makeButtonAccessible(saveGameButton, "save game", "This is a button to save the game", "Use this button to save the current game.");
         saveGameButton.setOnAction(e -> saveGame());
 
-        closeWindowButton = new Button("Close Window");
-        closeWindowButton.setId("closeWindowButton"); // DO NOT MODIFY ID
-        closeWindowButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
-        closeWindowButton.setPrefSize(200, 50);
-        closeWindowButton.setFont(new Font(16));
-        closeWindowButton.setOnAction(e -> dialog.close());
-        AdventureGameView.makeButtonAccessible(closeWindowButton, "close window", "This is a button to close the save game window", "Use this button to close the save game window.");
-
-        VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel, closeWindowButton);
+        VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel);
         saveGameBox.setAlignment(Pos.CENTER);
 
         dialogVbox.getChildren().add(saveGameBox);
@@ -94,9 +88,8 @@ public class SaveView {
      */
     private void saveGame() {
         String name = saveFileNameTextField.getText();
-        String ext = name.substring(name.length() - 4, name.length());
-        File dir = new File("Games/Saved/" + name);
-        File temp = new File("Games/Saved");
+        File dir = new File("C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\Games\\Saved\\" + name);
+        File temp = new File("C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\Games\\Saved\\");
         // Check if the file is existed or not
         if (temp.list().length > 0) {
             if (Arrays.asList(temp.listFiles()).contains(dir)) {

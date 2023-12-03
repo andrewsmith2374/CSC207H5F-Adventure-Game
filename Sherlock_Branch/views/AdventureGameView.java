@@ -4,8 +4,6 @@
  * is named as leesze17.mp4
  */
 
-package views;
-
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Passage;
@@ -22,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -29,9 +28,13 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
+import javafx.scene.Group;
+import javafx.scene.Node;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Class AdventureGameView.
@@ -47,18 +50,29 @@ public class AdventureGameView {
 
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
-    Button saveButton, loadButton, helpButton; //buttons
+    Button saveButton, loadButton, helpButton, settingButton, mapButton, fontUpButton, fontDownButton; //buttons
+    Button quitButton = new Button(); // for other class
+    Button control = new Button(); // control font size
     Boolean helpToggle = false; //is help on display?
 
     GridPane gridPane = new GridPane(); //to hold images and buttons
     Label roomDescLabel = new Label(); //to hold room description and/or instructions
+    ScrollPane roomDesc = new ScrollPane();
     VBox objectsInRoom = new VBox(); //to hold room items
     VBox objectsInInventory = new VBox(); //to hold inventory items
     ImageView roomImageView; //to hold room image
-    TextField inputTextField; //for user input
+    TextField inputTextField, fontSizTextField; //for user input
+
+    Scene scene;
 
     private MediaPlayer mediaPlayer; //to play audio
     private boolean mediaPlaying; //to know if the audio is playing
+
+    int fontSize = 16;
+
+    ScrollPane controlPane = new ScrollPane(); // Use for font control
+    Button[] buttonList;
+    TextField[] textList;
 
     /**
      * Adventure Game View Constructor
@@ -113,13 +127,13 @@ public class AdventureGameView {
         // Buttons
         saveButton = new Button("Save");
         saveButton.setId("Save");
-        customizeButton(saveButton, 100, 50);
+        customizeButton(saveButton, 200, 50);
         makeButtonAccessible(saveButton, "Save Button", "This button saves the game.", "This button saves the game. Click it in order to save your current progress, so you can play more later.");
         addSaveEvent();
 
         loadButton = new Button("Load");
         loadButton.setId("Load");
-        customizeButton(loadButton, 100, 50);
+        customizeButton(loadButton, 200, 50);
         makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
         addLoadEvent();
 
@@ -129,13 +143,48 @@ public class AdventureGameView {
         makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
         addInstructionEvent();
 
+        fontUpButton = new Button("+");
+        fontUpButton.setId("FontUp");
+        customizeButton(fontUpButton, 50, 50);
+        makeButtonAccessible(fontUpButton, "Font Size Up Button", "This button can adjust font size", "This button will increase the font size of all words in the UI.");
+        addFontUpEvent();
+
+        fontDownButton = new Button("-");
+        fontDownButton.setId("FontDown");
+        customizeButton(fontDownButton, 50, 50);
+        makeButtonAccessible(fontDownButton, "Font Size Down Button", "This button can adjust font size", "This button will decrease the font size of all words in the UI.");
+        addFontDownEvent();
+
+        fontSizTextField = new TextField(Integer.toString(fontSize));
+        fontSizTextField.setId("Font Size");
+        fontSizTextField.setAlignment(Pos.CENTER);
+        addFontSizeEvent();
+
+        String settingIcon = "C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\views\\settings.png";
+        ImageView objPic = new ImageView(new Image(new File(settingIcon).toURI().toString()));
+        objPic.setFitHeight(40);
+        objPic.setFitWidth(40);
+        objPic.setAccessibleText("setting");
+        settingButton = new Button("", objPic);
+        settingButton.setId("Setting");
+        settingButton.setStyle("-fx-background-color: #000000");
+        customizeButton(settingButton, 50, 50);
+        makeButtonAccessible(settingButton, "Setting Button", "This button holds some config of the game", "This buttong holds the setting and config of the game, such as save and load games. Click it to do action on setting.");
+        addSettingEvent();
+
+        mapButton = new Button("Map");
+        mapButton.setId("Map");
+        customizeButton(mapButton, 100, 50);
+        makeButtonAccessible(helpButton, "Map Button", "This button can show map.", "This button shows the detail what the player is playing currently. Click to show and move by map.");
+        addMapEvent();
+
         HBox topButtons = new HBox();
-        topButtons.getChildren().addAll(saveButton, helpButton, loadButton);
+        topButtons.getChildren().addAll(mapButton, settingButton);
         topButtons.setSpacing(10);
         topButtons.setAlignment(Pos.CENTER);
 
         inputTextField = new TextField();
-        inputTextField.setFont(new Font("Arial", 16));
+        inputTextField.setFont(new Font("Arial", fontSize));
         inputTextField.setFocusTraversable(true);
 
         inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
@@ -176,13 +225,20 @@ public class AdventureGameView {
         textEntry.setAlignment(Pos.CENTER);
         gridPane.add( textEntry, 0, 2, 3, 1 );
 
+        // Font editbale
+        buttonList = new Button[] {saveButton, loadButton, mapButton, helpButton, fontDownButton, fontUpButton, quitButton, control};
+        // textList = new TextField[] {inputTextField, fontSizTextField};
+
+        // Scroll Pane description
+        roomDesc.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        roomDesc.setFitToWidth(true);
+
         // Render everything
-        var scene = new Scene(gridPane,  1000, 800);
+        scene = new Scene(gridPane,  1000, 800);
         scene.setFill(Color.BLACK);
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.show();
-
     }
 
 
@@ -215,8 +271,8 @@ public class AdventureGameView {
      */
     private void customizeButton(Button inputButton, int w, int h) {
         inputButton.setPrefSize(w, h);
-        inputButton.setFont(new Font("Arial", 16));
-        inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
+        inputButton.setFont(new Font("Arial", fontSize));
+        inputButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white; -fx-padding: 0");
     }
 
     /**
@@ -263,9 +319,12 @@ public class AdventureGameView {
         stopArticulation(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
-            String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
+            String roomDescTemp = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            if (!objectString.isEmpty()) {
+                roomDescLabel.setText(roomDescTemp + "\n\nObjects in this room:\n" + objectString);
+                roomDesc.setContent(roomDescLabel);
+            }
             articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
@@ -327,6 +386,7 @@ public class AdventureGameView {
         }
         // Set the description text become the move
         roomDescLabel.setText(target);
+        roomDesc.setContent(roomDescLabel);
     }
 
 
@@ -346,11 +406,12 @@ public class AdventureGameView {
 
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
-        roomDescLabel.setPrefWidth(500);
-        roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
         roomDescLabel.setWrapText(true);
-        VBox roomPane = new VBox(roomImageView,roomDescLabel);
+        roomDescLabel.setStyle("-fx-background-color: #000000;");
+        roomDescLabel.setTextFill(Color.WHITE);
+        roomDescLabel.setFont(new Font(fontSize));
+        VBox roomPane = new VBox(roomImageView, roomDesc);
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
@@ -372,14 +433,15 @@ public class AdventureGameView {
      */
     private void formatText(String textToDisplay) {
         if (textToDisplay == null || textToDisplay.isBlank()) {
-            String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
+            String roomDescTemp = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
-            else roomDescLabel.setText(roomDesc);
+            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDescTemp + "\n\nObjects in this room:\n" + objectString);
+            else roomDescLabel.setText(roomDescTemp);
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
-        roomDescLabel.setFont(new Font("Arial", 16));
-        roomDescLabel.setAlignment(Pos.CENTER);
+        roomDescLabel.setFont(new Font("Arial", fontSize));
+        roomDesc.setContent(roomDescLabel);
+        // roomDescLabel.setAlignment(Pos.CENTER);
     }
 
     /**
@@ -394,7 +456,7 @@ public class AdventureGameView {
         int roomNumber = this.model.getPlayer().getCurrentRoom().getRoomNumber();
         String roomImage = this.model.getDirectoryName() + "/room-images/" + roomNumber + ".png";
 
-        Image roomImageFile = new Image(roomImage);
+        Image roomImageFile = new Image(new File(roomImage).toURI().toString());
         roomImageView = new ImageView(roomImageFile);
         roomImageView.setPreserveRatio(true);
         roomImageView.setFitWidth(400);
@@ -462,8 +524,13 @@ public class AdventureGameView {
             String name = ele.getName();
             // Object image
             String picName = (pic == null) ? this.model.getDirectoryName() + "/objectImages/" + name + ".jpg" : pic;
+            //skip if it is repeated
+            String tempName = this.model.getDirectoryName() + "/objectImages/" + name + ".jpg";
+            if (!tempName.equals(picName)) {
+                continue;
+            }
             // Basic for the picture
-            ImageView objPic = new ImageView(new Image(picName));
+            ImageView objPic = new ImageView(new Image(new File(picName).toURI().toString()));
             objPic.setFitHeight(100);
             objPic.setFitWidth(100);
             objPic.setAccessibleText(name + ", " + ele.getDescription());
@@ -499,8 +566,13 @@ public class AdventureGameView {
             String name = ele.getName();
             // Object image
             String picName = (pic == null) ? this.model.getDirectoryName() + "/objectImages/" + name + ".jpg" : pic;
+            //skip if it is repeated
+            String tempName = this.model.getDirectoryName() + "/objectImages/" + name + ".jpg";
+            if (!tempName.equals(picName)) {
+                continue;
+            }
             // Basic for the picture
-            ImageView objPic = new ImageView(new Image(picName));
+            ImageView objPic = new ImageView(new Image(new File(picName).toURI().toString()));
             objPic.setFitHeight(100);
             objPic.setFitWidth(100);
             objPic.setAccessibleText(name + ", " + ele.getDescription());
@@ -545,17 +617,26 @@ public class AdventureGameView {
             instruction.setText(helpText);
             instruction.setWrapText(true);
             // Set the detail of the label
-            instruction.setStyle("-fx-text-fill: white;");
-            instruction.setFont(new Font("Arial", 14));
+            instruction.setStyle("-fx-background-color: #000000;");
+            instruction.setTextFill(Color.WHITE);
+            instruction.setFont(new Font("Arial", fontSize));
             instruction.setAlignment(Pos.CENTER);
-            gridPane.add(instruction, 1, 1);
+            // Scroll Pane
+            ScrollPane temp = controlPane;
+            temp.setContent(instruction);
+            temp.setFitToWidth(true);
+            temp.setStyle("-fx-background-color: black;");
+            gridPane.add(temp, 1, 1);
             // Set the helpToggle to true
             helpToggle = true;
             // Remove room image and room description
             roomImageView.setImage(null);
-            roomDescLabel.setText("");
+            roomDesc.setVisible(false);
         }
         else {
+            roomDesc.setVisible(true);
+            gridPane.getChildren().remove(controlPane);
+            controlPane = new ScrollPane();
             // Redraw the room image and set the description by updating the whole scene
             updateScene("");
             // Set the toggle to false
@@ -596,6 +677,100 @@ public class AdventureGameView {
         });
     }
 
+    /**
+     * This method handles the event related to the
+     * setting button.
+     */
+    public void addSettingEvent() {
+        settingButton.setOnAction(e -> {
+            gridPane.requestFocus();
+            SettingView settingView = new SettingView(this);
+        });
+    }
+
+    /**
+     * This method handles the event related to the
+     * map button
+     */
+    public void addMapEvent() {
+        mapButton.setOnAction(e -> {
+            gridPane.requestFocus();
+            MapView mapView = new MapView(this);
+        });
+    }
+
+    /**
+     * This method handles the event related to the
+     * font size button
+     */
+    public void addFontUpEvent() {
+        fontUpButton.setOnAction(e -> {
+            gridPane.requestFocus();
+            fontSize += 1;
+            ErrorView error = new ErrorView(this);
+            boolean invalid = error.fontSizeError(fontSize);
+            if (!invalid) {
+                fontSizTextField.setText(Integer.toString(fontSize));
+                fontSizTextField.fireEvent(e);
+            }
+            else {
+                fontSize -= 1;
+            }
+        });
+    }
+    
+    /**
+     * This method handles the event related to the
+     * font size button
+     */
+    public void addFontDownEvent() {
+        fontDownButton.setOnAction(e -> {
+            gridPane.requestFocus();
+            fontSize -= 1;
+            ErrorView error = new ErrorView(this);
+            boolean invalid = error.fontSizeError(fontSize);
+            if (!invalid) {
+                fontSizTextField.setText(Integer.toString(fontSize));
+                fontSizTextField.fireEvent(e);
+            }
+            else {
+                fontSize += 1;
+            }
+        });
+    }
+
+    /**
+     * This method handles the event related to the
+     * font size button
+     */
+    public void addFontSizeEvent() {
+        fontSizTextField.setOnAction(e -> {
+            gridPane.requestFocus();
+            int temp = Integer.parseInt(fontSizTextField.getText());
+            ErrorView error = new ErrorView(this);
+            boolean invalid = error.fontSizeError(temp);
+            if (!invalid) {
+                fontSize = temp;
+            }
+            else if (temp > 30) {
+                fontSize = 30;
+            }
+            else {
+                fontSize = 1;
+            }
+            fontSizTextField.setText(Integer.toString(fontSize));
+            for (Button b : buttonList) {
+                b.setFont(Font.font(fontSize));
+            }
+            roomDescLabel.setFont(Font.font(fontSize));
+            roomDesc.setContent(roomDescLabel);
+            // Instruction
+            Label tempLabel = (Label) controlPane.getContent();
+            tempLabel.setFont(Font.font(fontSize));
+            controlPane.setContent(tempLabel);
+        });
+    }
+
 
     /**
      * This method articulates Room Descriptions
@@ -614,7 +789,6 @@ public class AdventureGameView {
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
         mediaPlaying = true;
-
     }
 
     /**
