@@ -1,10 +1,11 @@
 package AdventureModel;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 
-public class TrollFactory {
+public class TrollFactory implements Serializable {
     private final HashSet<String> availableTrolls;
 
     public TrollFactory() {
