@@ -16,7 +16,7 @@ Master Oogways Cherry Tree
 You reach the valley beyond the Archen River. There stands a magnificent cherry tree, a solitary sentinel in the lush landscape. Its leaves, a deep, rich green, rustle softly, adding to the tree's serene presence. You lay at its deep roots, where you take a nap, and take in the fresh air while a gentle breeze caresses your grimy, smudged face. Hours later you find yourself disturbed by a thundering noise, while the ground below you rattles. You stand in a hurry, and in the distance, in the Dancing Lawn, you spot an orc army. Soldiers of the dark Witch herself, spreading like a plague, spreading fire and ruin to everything in their path. You must act quick, or perish yourself.
 -----
 NORTH          4
-EAST          19/SWORD_OF_ELDERS
+EAST          19/WhackAMoleTroll
 SOUTH          2/DUGOUT_BOAT
 
 4
@@ -126,7 +126,7 @@ WEST          15
 The Destructive Orc Camp
 You venture through the lands coming across an open plane bedded with tulips of all different colours. In the middle of the field lies a circular spiked wall, containing an orc camp. Enraged that they would ruin a beautiful landscape, you charge for their base, battling every orc till your dying breath.
 -----
-EAST          22/MAGIC_POTION
+EAST          22/HangmanTroll
 WEST          16/BOAT
 SOUTHEAST          18/SWORD_OF_ELDERS
 SOUTHWEST          4
@@ -137,7 +137,7 @@ Coming up a dune, on the other side ash fills the gray skies. A chilly wind blow
 -----
 NORTHWEST          17/SWORD_OF_ELDERS
 EAST          21
-SOUTH          19/SWORD_OF_ELDERS
+SOUTH          19/WhackAMoleTroll
 WEST          4
 
 19
@@ -152,7 +152,7 @@ WEST          3
 The Stone Table Meeting Spot Of Kings
 Here lies the Stone Table, the meeting spot of the fallen kings of the land. What was once a majestic, gold and diamond encrusted table of awe, has been reduced to a moss covered slab, surrounded by solemn, towering oaks, exuding an aura of mystique and long-forgotten history. You spot a diary on the middle of the table, vines growing, consuming it to be a lost relic of the past.
 -----
-WEST          19/SWORD_OF_ELDERS
+WEST          19/WhackAMoleTroll
 NORTHEAST          21
 EAST          28/BOAT
 
@@ -160,7 +160,7 @@ EAST          28/BOAT
 Prince Aslans Campsite
 You are now in the land of Ettinsmoor. Your journey has been long and tiresome, but will come to a halt without another day's rest, and a proper meal. You continue walking looking for more allies in your battle against the evil Witch Queen. You come across a campsite. Large tents stacked beside each other. You wander into the encampment and are halted by the soldiers. Knights of the kingdom of Anvard. They bring you handcuffed to the larger of the tents. You walk inside to reveal the most luxurious of atmospheres. Was this a tent, or the palace of the fallen kings? Further in, a man introduces himself. Standing 6 feet tall, muscles larger than that of a lion, golden blonde hair. “I am prince Arthur of Anvard, state your business, or die to my hand”. Before that could happen, we quickly stated our mission, and asked for their assistance. Intrigued that a simple middle aged peasant along with an old man were on such a quest, he offered a helping hand. You stay the night, finally able to sleep in a proper bed with the more delicious feast of boar meat, and the finest of cheese.
 -----
-NORTH          22/MAGIC_POTION
+NORTH          22/HangmanTroll
 EAST          27
 SOUTHEAST          28/BOAT
 SOUTHWEST          20
@@ -204,7 +204,7 @@ WEST          27
 The Kingdom Of Cair Paravel
 At the edge of the skyline you see a blue and white flag, waving in the windy atmosphere. You make your way to see what lies beyond the dense forest of trees that block you from a possible alliance. You come to a clearing to see Cair Paravel, a majestic castle by the sea, standing regal with towering spires and gleaming white walls. Surrounded by lush gardens and overlooking azure waters, it's a symbol of grace and power, echoing with tales of ancient kings and queens. You seek an audience with the king, at which you ask for his assistance. He speaks of a weapon of great power, lying east of his kingdom. A hammer not even the mighty Thor could hold. He offered this to you, on one condition. You must defeat the Basilisk that protects the land like a dragon does its gold. The very name itself strikes fear in your eyes, but what choice do you have? You need all the help you can get.
 -----
-EAST          26/SWORD_OF_SANCTUARY
+EAST          26/RockPaperScissorsTroll
 WEST          21
 SOUTHWEST          28/BOAT
 
@@ -229,7 +229,7 @@ The Great Stormness Head Mountain Range
 At the end of your long and peaceful boat ride, you come to Stormness Head. A mountain range that boasts its majestic peaks and lush valleys. Misty and mystical, it's a haven of tranquility, rich in wildlife and adorned with wildflowers and clear streams.
 -----
 NORTH          29/BOAT
-EAST          32/SHIP
+EAST          32/WordleTroll
 WEST          31
 
 31
