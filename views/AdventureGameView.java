@@ -259,7 +259,9 @@ public class AdventureGameView {
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            String outputString = roomDesc + "\n\nObjects in this room:\n" + objectString;
+            updateScene(outputString);
+            // if (!objectString.isEmpty()) roomDescLabel.setText(outputString);
             articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
@@ -320,7 +322,8 @@ public class AdventureGameView {
             target.append(ele.getDirection()).append(": ").append(this.model.getRooms().get(ele.getDestinationRoom()).getRoomName()).append("\n");
         }
         // Set the description text become the move
-        roomDescLabel.setText(target.toString());
+        updateScene(target.toString());
+        // roomDescLabel.setText(target.toString());
     }
 
 
@@ -337,7 +340,7 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
-
+        helpToggle = false;
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
         roomDescLabel.setPrefWidth(500);
