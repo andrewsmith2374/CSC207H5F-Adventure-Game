@@ -4,7 +4,7 @@ You are standing at the end of a road before a small brick building.  A small st
 -----
 WEST       2/WhackAMoleTroll
 UP         2
-NORTH      3
+NORTH      3/RockPaperScissorTroll
 IN         3
 SOUTH      4
 DOWN       4

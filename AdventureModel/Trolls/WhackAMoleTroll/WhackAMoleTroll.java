@@ -1,5 +1,6 @@
 package AdventureModel.Trolls.WhackAMoleTroll;
 
+import AdventureModel.AdventureGame;
 import AdventureModel.Troll;
 import AdventureModel.TrollFactory;
 import javafx.util.Duration;
@@ -13,16 +14,15 @@ import java.util.concurrent.TimeUnit;
 
 
 public class WhackAMoleTroll implements Troll, MoleEventListener {
-    public boolean gameStatus;
+    public static boolean gameStatus;
     public int score;
     private ScheduledExecutorService scheduler;
     public MoleEventManager moleEventManager;
-
-
+    public List<String> requiredItems;
 
 
     public WhackAMoleTroll() throws ClassNotFoundException {
-        this.gameStatus = false;
+        this.requiredItems = new ArrayList<>();
         this.score = 0;
         this.moleEventManager = new MoleEventManager();
         this.moleEventManager.subscribe(this);
@@ -43,21 +43,17 @@ public class WhackAMoleTroll implements Troll, MoleEventListener {
 
     @Override
     public List<String> getRequiredItems() {
-       List<String> items = new ArrayList<String>();
-       return items;
+        return requiredItems;
+    }
+
+    public void playGame(AdventureGame game, int destinationRoom) {
+        WhackAMoleTrollView view = new WhackAMoleTrollView(this);
+        view.runShowMole(Duration.seconds(2));
 
     }
 
-
-    @Override
-    public boolean playGame() {
-        WhackAMoleTrollView view = new WhackAMoleTrollView(this); // get view of the game
-        view.runShowMole(Duration.seconds(5));
+    public boolean defeated() {
         return gameStatus;
-
     }
-
-
-
-
 }
+

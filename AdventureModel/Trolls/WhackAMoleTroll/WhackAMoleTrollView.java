@@ -1,5 +1,6 @@
 package AdventureModel.Trolls.WhackAMoleTroll;
 
+import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,19 +23,17 @@ import java.util.Random;
 public class WhackAMoleTrollView {
 
     private WhackAMoleTroll model;
-    private Stage stage = new Stage();
+    private Stage stage;
     private Label scoreLabel;
     GridPane gridPane = new GridPane();
-    ImageView gameView;
     ArrayList<Button> moles;
-    private Button startButton;
     private Button moleButton;
     public Timeline moleTimeLine;
 
 
     public WhackAMoleTrollView(WhackAMoleTroll model) {
         this.model = model;
-        this.stage = stage;
+        this.stage = new Stage();
         this.scoreLabel = new Label();
         this.moles = new ArrayList<>();
         intiUI();
@@ -154,7 +153,7 @@ public class WhackAMoleTrollView {
         gridPane.add(box5, 1, 2);
         gridPane.add(box6, 2, 2);
 
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
         gridPane.setMaxWidth(1000);
         gridPane.setMaxHeight(1000);
 
@@ -175,30 +174,29 @@ public class WhackAMoleTrollView {
         } while (randomRow == 0);
 
         int randomCol = random.nextInt(3);
+        try {
+            ImageView moleImage = (ImageView) moleButton.getGraphic();
+            moleImage.setFitHeight(300);
+            moleImage.setFitWidth(300);
+            moleButton.setPrefWidth(300);
+            moleButton.setPrefHeight(300);
+            moleButton.setBackground(Background.EMPTY);
+            moleButton.setAlignment(Pos.TOP_CENTER);
+        } catch(IllegalArgumentException ignored) {}
 
-        ImageView moleImage = (ImageView) moleButton.getGraphic();
-        moleImage.setFitHeight(300);
-        moleImage.setFitWidth(300);
-        moleButton.setPrefWidth(300);
-        moleButton.setPrefHeight(300);
-        moleButton.setBackground(Background.EMPTY);
-        moleButton.setAlignment(Pos.TOP_CENTER);
-
+        finally {
 
         gridPane.add(moleButton, randomCol, randomRow);
-        stage.sizeToScene();
         stage.show();
         addMoleButtonEvent(); //if button is clicked it updates score;
         // need a method to remove the button after 2 seconds
-        removeMole(moleButton);
-
+        removeMole(moleButton); }
     }
 
     public void removeMole(Button moleButton) {
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> gridPane.getChildren().remove(moleButton));
         pause.play();
-        stage.sizeToScene();
         stage.show();
     }
 
@@ -207,17 +205,69 @@ public class WhackAMoleTrollView {
             this.model.moleEventManager.notifyMoleClicked();
             gridPane.getChildren().remove(moleButton);// calls update score and incremenets score to 1
             this.scoreLabel.setText("Score: " + model.score);
-            stage.sizeToScene();
+            if(model.score == 10) {
+                moleTimeLine.stop();
+                winLabel();
+            }
             stage.show();
         });
     }
 
     public void runShowMole(Duration duration) {
-        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
-            showMole();}));
-        timeline.setCycleCount(30);  // Run 30 times
-        timeline.play();
+        try {
+            moleTimeLine = new Timeline(new KeyFrame(duration, event -> {
+                showMole();
+            }));
+            moleTimeLine.setCycleCount(15);
+
+            // Set an event handler to be triggered when the timeline finishes
+            moleTimeLine.setOnFinished(e -> {
+                // Check the end condition of the game (e.g., reaching a certain score)
+                if (model.score < 10) {
+                    loseLabel(); // Show the "LOST!" label
+                }
+
+            });
+
+            moleTimeLine.play();
+        } catch (IllegalArgumentException ignored) {
+            // Ignored, do nothing.
         }
+    }
+
+    public void loseLabel() {
+        model.gameStatus = false;
+        Label lose = new Label();
+        lose.setText("LOST!");
+        lose.setId("lose");
+        lose.setFont(new Font("Times New Roman", 25));
+        lose.setAlignment(Pos.TOP_CENTER);
+        gridPane.add(lose, 1, 1);
+        stage.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {stage.close();});
+        pause.play();
+    }
+
+    public void winLabel() {
+        model.gameStatus = true;
+        Label win = new Label();
+        win.setText("WIN");
+        win.setId("win");
+        win.setFont(new Font("Times New Roman", 25));
+        win.setAlignment(Pos.TOP_CENTER);
+        gridPane.add(win, 1, 1);
+        stage.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> {
+            stage.close();
+        });
+        pause.play();
+
+
+
+
+    }
 }
 
 

@@ -32,9 +32,6 @@ public class RockPaperScissorTrollView {
     private Button helpButton;
     private boolean helpToggle;
     private Label help;
-    private Button screenReader;
-    private MediaPlayer mediaPlayer;
-    private boolean mediaToggle;
     private RockPaperScissorTroll model;
     private GridPane gridPane;
     private Button rock;
@@ -100,14 +97,7 @@ public class RockPaperScissorTrollView {
         helpButton.setFont(new Font("Arial", 16));
         addHelpEvent();
 
-        screenReader = new Button();
-        screenReader.setText("READ");
-        screenReader.setFont(new Font("Arial", 16));
-        addScreanReaderEvent();
-
-        VBox box = new VBox(helpButton, screenReader);
-        box.setAlignment(Pos.CENTER);
-        gridPane.add(box, 1, 0);
+        gridPane.add(helpButton, 1, 0);
 
         HBox buttonBox = new HBox();
         rock = new Button();
@@ -168,7 +158,7 @@ public class RockPaperScissorTrollView {
         computerChoices.add(1, compPaper);
         computerChoices.add(2, compScissor);
 
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         var scene = new Scene(gridPane, 1000, 1000);
         stage.setResizable(false);
@@ -178,9 +168,6 @@ public class RockPaperScissorTrollView {
         stage.show();
     }
 
-    public void addScreanReaderEvent() {
-
-    }
     public void addHelpEvent() {
         helpButton.setOnAction(e -> {
             if(!helpToggle) {
@@ -258,9 +245,9 @@ public class RockPaperScissorTrollView {
         try {
             choice = model.computerChoice();
             for (int i = 0; i < 3; i++) {
-                if (choice.equals(computerChoices.get(i).getId())) { // Use equals() for string comparison
+                if (choice.equals(computerChoices.get(i).getId())) {
                     updateBoxContentComp(compBox, computerChoices.get(i));
-                    break;  // Break out of the loop after updating the content
+                    break;  // Break out of the loop after updating content
                 }
             }
         } catch (IllegalArgumentException ignored) {
@@ -279,6 +266,7 @@ public class RockPaperScissorTrollView {
 
     }
     public void winLabel() {
+        model.gameStat = true;
         Label win = new Label();
         win.setText("YOU WIN!");
         win.setFont(new Font("Times New Roman", 25));
