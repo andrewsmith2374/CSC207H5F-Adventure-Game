@@ -30,8 +30,8 @@ public class WordleTroll implements Troll {
     public WordleTroll() {
         guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
-        // createWordGenerator(fileHandler);
-        wordGenerator = new TestGenerator();
+        createWordGenerator(fileHandler);
+//        wordGenerator = new TestGenerator();
         secretWord = wordGenerator.generate();
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
@@ -130,5 +130,6 @@ public class WordleTroll implements Troll {
             model.setPlayerLocation(destinationRoom);
         }
         model.view.updateScene("");
+        model.view.updateItems();
     }
 }
