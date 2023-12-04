@@ -128,6 +128,9 @@ public class WordleTrollView {
         gridPane.add(helpButton, 2, 0, 3, 1 );  // Add buttons
     }
 
+    /*
+     * Adds functionality to the Instructions button
+     */
     private void addMouseHandlingEvent(Button button) {
         EventHandler<MouseEvent> mouseClickedHandler = new EventHandler<MouseEvent>() {
             @Override

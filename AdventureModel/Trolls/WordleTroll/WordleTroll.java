@@ -15,8 +15,6 @@ import java.util.*;
 // List of words from https://github.com/Kinkelin/WordleCompetition
 public class WordleTroll implements Troll {
     public String[] guesses;
-    private AdventureGame model;
-    private int destinationRoom;
     private SecretWordGenerator wordGenerator;
     private AcceptedGuessGenerator guessGenerator;
     private String secretWord;
@@ -41,12 +39,18 @@ public class WordleTroll implements Troll {
         currentGuess = 0;
     }
 
+    /*
+     * Creates the default SecretWordGenerator
+     */
     private void createWordGenerator(FileHandler fileHandler) {
         String path = "AdventureModel/Trolls/WordleTroll/SecretWordGenerator/possible_answers.txt";
         BufferedReader buff = fileHandler.getBufferedReader(path);
         wordGenerator = new WordleSecretWordGenerator(buff);
     }
 
+    /*
+     * Creates the default AcceptedGuessGenerator
+     */
     private void createGuessGenerator(FileHandler fileHandler) {
         String path = "AdventureModel/Trolls/WordleTroll/AcceptedGuessGenerator/accepted_guesses.txt";
         BufferedReader buff = fileHandler.getBufferedReader(path);
@@ -55,8 +59,6 @@ public class WordleTroll implements Troll {
 
     @Override
     public void playGame(AdventureGame model, int destinationRoom) {
-        this.model = model;
-        this.destinationRoom = destinationRoom;
         new WordleTrollView(this);
     }
 
@@ -120,6 +122,9 @@ public class WordleTroll implements Troll {
         secretWord = wordGenerator.generate();
     }
 
+    /*
+     * Ends the game
+     */
     public void endGame(boolean gameWon) {
         if (gameWon) {
             isDefeated = true;
