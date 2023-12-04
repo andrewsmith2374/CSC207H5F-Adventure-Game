@@ -6,11 +6,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -26,6 +28,7 @@ public class WordleTrollView {
     private GridPane gridPane;
     private Button helpButton;
     private TextField inputTextField;
+    private Label commandLabel;
     private ArrayList<ArrayList<VBox>> guessFields;
     private Boolean helpToggle = false; //is help on display?
 
@@ -64,14 +67,17 @@ public class WordleTrollView {
     }
 
     /*
-     * Create the inputTextField
+     * Create the inputTextField and associated command label
      */
     private void createInputField() {
         inputTextField = new TextField();
+        commandLabel = new Label("Input Your Guess!");
+        commandLabel.setStyle("-fx-text-fill: white;");
+        commandLabel.setFont(new Font("Arial", 16));
         VBox textEntry = new VBox();
         textEntry.setStyle("-fx-background-color: #000000;");
         textEntry.setPadding(new Insets(20, 20, 20, 20));
-        textEntry.getChildren().add(inputTextField);
+        textEntry.getChildren().addAll(commandLabel, inputTextField);
         textEntry.setSpacing(10);
         textEntry.setAlignment(Pos.CENTER);
         addTextHandlingEvent();
