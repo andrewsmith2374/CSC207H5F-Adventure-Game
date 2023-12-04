@@ -33,6 +33,7 @@ public class RockPaperScissorTroll implements Troll {
     public RockPaperScissorTroll() throws ClassNotFoundException, IOException {
         this.options = new ArrayList<>();
         this.requiredItems = new ArrayList<>();
+        requiredItems.add("SWORD_OF_SANCTUARY");
         options.add("rock");
         options.add("paper");
         options.add("scissor");

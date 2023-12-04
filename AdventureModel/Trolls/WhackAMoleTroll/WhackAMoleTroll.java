@@ -30,6 +30,7 @@ public class WhackAMoleTroll implements Troll, MoleEventListener {
      */
     public WhackAMoleTroll() throws ClassNotFoundException {
         this.requiredItems = new ArrayList<>();
+        requiredItems.add("SWORD_OF_ELDERS");
         this.score = 0;
         this.moleEventManager = new MoleEventManager();
         this.moleEventManager.subscribe(this);
