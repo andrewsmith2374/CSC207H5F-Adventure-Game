@@ -25,5 +25,6 @@ public class AdventureGameApp extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.model = new AdventureGame("TrollGame"); //change the name of the game if you want to try something bigger!
         this.view = new AdventureGameView(model, primaryStage);
+        this.model.setView(view);
     }
 }

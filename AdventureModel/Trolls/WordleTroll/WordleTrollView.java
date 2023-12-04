@@ -1,9 +1,15 @@
 package AdventureModel.Trolls.WordleTroll;
 
 import UIHelpers.UIHelper;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -227,11 +234,10 @@ public class WordleTrollView {
             Text text = (Text) vbox.getChildren().get(0);
             text.setText(guess.substring(i, i + 1));
         }
-
+        if(Objects.equals(result, "22222")) {
+            closeWindow(true);
+        }
         if(rowNum == 3) {
-            if(Objects.equals(result, "22222")) {
-                closeWindow(true);
-            }
             closeWindow(false);
         }
     }
@@ -262,7 +268,13 @@ public class WordleTrollView {
      */
     public void closeWindow(boolean result) {
         model.endGame(result);
-        stage.close();
+        if(result) {
+            commandLabel.setText("Congrats! You won! Onwards!");
+        } else {
+            commandLabel.setText("Better luck next time! Heading back now");
+        }
+        Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(2), event -> {stage.close();}));
+        timeLine.play();
     }
 
     /*

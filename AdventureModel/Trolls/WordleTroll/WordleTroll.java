@@ -5,6 +5,7 @@ import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
+import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.TestGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
 import FileIO.FileHandler;
 
@@ -29,7 +30,8 @@ public class WordleTroll implements Troll {
     public WordleTroll() {
         guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
-        createWordGenerator(fileHandler);
+        // createWordGenerator(fileHandler);
+        wordGenerator = new TestGenerator();
         secretWord = wordGenerator.generate();
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
@@ -127,5 +129,6 @@ public class WordleTroll implements Troll {
         if (gameWon) {
             model.setPlayerLocation(destinationRoom);
         }
+        model.view.updateScene("");
     }
 }

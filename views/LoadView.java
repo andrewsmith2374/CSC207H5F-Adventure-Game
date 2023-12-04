@@ -143,6 +143,7 @@ public class LoadView {
             message = gameName;
         } catch (IOException | ClassNotFoundException e) {
             game = new AdventureGame("TinyGame");
+            game.setView(adventureGameView);
             message = "No game found! Loading new game";
         }
         selectGameLabel.setText(message);
