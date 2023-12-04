@@ -9,7 +9,6 @@ import java.io.IOException;
  * Class AdventureGameApp.
  */
 public class AdventureGameApp extends Application {
-
     AdventureGame model;
     AdventureGameView view;
 
@@ -24,7 +23,7 @@ public class AdventureGameApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        this.model = new AdventureGame("TinyGame"); //change the name of the game if you want to try something bigger!
+        this.model = new AdventureGame("CelestialRealms"); //change the name of the game if you want to try something bigger!
         this.view = new AdventureGameView(model, primaryStage);
     }
 }

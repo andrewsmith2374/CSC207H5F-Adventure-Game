@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -16,7 +17,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,14 +24,13 @@ import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Class AdventureGameView.
  */
 public class AdventureGameView {
-
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
     Button saveButton, loadButton, helpButton; //buttons
@@ -252,14 +251,15 @@ public class AdventureGameView {
      * @param text the command that needs to be processed
      */
     private void submitEvent(String text) {
-
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            String outputString = roomDesc + "\n\nObjects in this room:\n" + objectString;
+            updateScene(outputString);
+            // if (!objectString.isEmpty()) roomDescLabel.setText(outputString);
             articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
@@ -299,7 +299,6 @@ public class AdventureGameView {
             // Once updated, call a 5-second gap and submit a recursion in case
             // the destination room also have force
             gap.play();
-            
         }
     }
 
@@ -320,7 +319,8 @@ public class AdventureGameView {
             target.append(ele.getDirection()).append(": ").append(this.model.getRooms().get(ele.getDestinationRoom()).getRoomName()).append("\n");
         }
         // Set the description text become the move
-        roomDescLabel.setText(target.toString());
+        updateScene(target.toString());
+        // roomDescLabel.setText(target.toString());
     }
 
 
@@ -337,7 +337,7 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
-
+        helpToggle = false;
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
         roomDescLabel.setPrefWidth(500);
@@ -414,33 +414,72 @@ public class AdventureGameView {
      * folders of the given adventure game.
      */
     public void updateItems() {
+        //write some code here to add images of objects in a given room to the objectsInRoom Vbox
+        clearBox(objectsInRoom);
+        for(AdventureObject object : model.player.getCurrentRoom().objectsInRoom) {
+            String objectName = object.getName();
+            getButton(objectName, objectsInRoom);
+        }
 
-        // Scroll pane for object in the current room
-        ScrollPane scO = new ScrollPane(objectsInRoom);
-        scO.setPadding(new Insets(10));
-        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        scO.setFitToWidth(true);
+        //write some code here to add images of objects in a player's inventory room to the objectsInInventory Vbox
+        //please use setAccessibleText to add "alt" descriptions to your images!
+        //the path to the image of any is as follows:
+        //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
+        clearBox(objectsInInventory);
+        for(String object : model.player.getInventory()) {
+            getButton(object, objectsInInventory);
+        }
+
+        ScrollPane scO = getScrollPane();
         gridPane.add(scO,0,1);
 
-        // Scroll Pane for object in inventory
         ScrollPane scI = new ScrollPane(objectsInInventory);
         scI.setFitToWidth(true);
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
         gridPane.add(scI,2,1);
+    }
 
-        // Vbox for collecting button
-        VBox objInInv = new VBox();
-        VBox objInRm = new VBox();
+    private void getButton(String objectName, VBox room) {
+        String path = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
+        Button objectButton = getButtonFromImage(path);
+        makeButtonAccessible(objectButton, objectName, objectName, objectName);
+        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(room.equals(objectsInRoom)) {
+                    submitEvent("TAKE " + objectName);
+                } else {
+                    submitEvent("DROP " + objectName);
+                }
+            }
+        };
+        objectButton.setOnMouseClicked(handler);
 
-        // Set button for obj in inventory
-        objectInInventory(null, objInInv, objInRm);
-        // Put the vbox into the scroll panel
-        scI.setContent(objInInv);
+        room.getChildren().add(objectButton);
+    }
 
-        // Set button for obj in room
-        objectInRoom(null, objInInv, objInRm);
-        // Put the vbox into the scroll panel
-        scO.setContent(objInRm);
+    private Button getButtonFromImage(String pathname) {
+        Button button = new Button();
+        ImageView image = new ImageView(pathname);
+        image.setFitWidth(100);
+        image.setFitHeight(75);
+        button.setGraphic(image);
+
+        return button;
+    }
+
+    private ScrollPane getScrollPane() {
+        ScrollPane scO = new ScrollPane(objectsInRoom);
+        scO.setPadding(new Insets(10));
+        scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
+        scO.setFitToWidth(true);
+        return scO;
+    }
+
+    private void clearBox(VBox node) {
+        while(!node.getChildren().isEmpty()) {
+            node.getChildren().remove(0);
+        }
     }
 
     // Helper for updateItems to make button of object in inventory
@@ -575,7 +614,7 @@ public class AdventureGameView {
     public void addSaveEvent() {
         saveButton.setOnAction(e -> {
             gridPane.requestFocus();
-            SaveView saveView = new SaveView(this);
+            new SaveView(this);
         });
     }
 
@@ -586,7 +625,7 @@ public class AdventureGameView {
     public void addLoadEvent() {
         loadButton.setOnAction(e -> {
             gridPane.requestFocus();
-            LoadView loadView = new LoadView(this);
+            new LoadView(this);
         });
     }
 
