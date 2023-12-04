@@ -32,7 +32,7 @@ import java.io.Serializable;
 /**
  * Class AdventureGameView.
  */
-public class AdventureGameView implements Serializable {
+public class AdventureGameView {
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
     Button saveButton, loadButton, helpButton; //buttons

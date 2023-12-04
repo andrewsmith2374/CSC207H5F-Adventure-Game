@@ -29,8 +29,7 @@ public class WordleTroll implements Troll {
     public WordleTroll() {
         guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
-        // createWordGenerator(fileHandler);
-        wordGenerator = new TestGenerator();
+        createWordGenerator(fileHandler);
         secretWord = wordGenerator.generate();
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
@@ -38,7 +37,7 @@ public class WordleTroll implements Troll {
                 " the secret word! Grey means the letter is not in the secret word, yellow means it's in the word but in" +
                 " the wrong spot, and green means you got the right letter in the right spot.";
         requiredItems = new ArrayList<>();
-        // requiredItems.add("SHIP");
+        requiredItems.add("SHIP");
         currentGuess = 0;
     }
 
