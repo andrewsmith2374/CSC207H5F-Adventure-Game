@@ -16,7 +16,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +23,6 @@ import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
-import java.io.BufferedReader;
 import java.io.File;
 
 /**
@@ -252,14 +250,15 @@ public class AdventureGameView {
      * @param text the command that needs to be processed
      */
     private void submitEvent(String text) {
-
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (!objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            String outputString = roomDesc + "\n\nObjects in this room:\n" + objectString;
+            updateScene(outputString);
+            // if (!objectString.isEmpty()) roomDescLabel.setText(outputString);
             articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
@@ -299,7 +298,6 @@ public class AdventureGameView {
             // Once updated, call a 5-second gap and submit a recursion in case
             // the destination room also have force
             gap.play();
-            
         }
     }
 
@@ -320,7 +318,8 @@ public class AdventureGameView {
             target.append(ele.getDirection()).append(": ").append(this.model.getRooms().get(ele.getDestinationRoom()).getRoomName()).append("\n");
         }
         // Set the description text become the move
-        roomDescLabel.setText(target.toString());
+        updateScene(target.toString());
+        // roomDescLabel.setText(target.toString());
     }
 
 
@@ -337,7 +336,7 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
-
+        helpToggle = false;
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
         roomDescLabel.setPrefWidth(500);
@@ -575,7 +574,7 @@ public class AdventureGameView {
     public void addSaveEvent() {
         saveButton.setOnAction(e -> {
             gridPane.requestFocus();
-            SaveView saveView = new SaveView(this);
+            new SaveView(this);
         });
     }
 
@@ -586,7 +585,7 @@ public class AdventureGameView {
     public void addLoadEvent() {
         loadButton.setOnAction(e -> {
             gridPane.requestFocus();
-            LoadView loadView = new LoadView(this);
+            new LoadView(this);
         });
     }
 
