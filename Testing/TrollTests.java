@@ -1,6 +1,5 @@
 package Testing;
 
-import AdventureModel.AdventureGame;
 import AdventureModel.Troll;
 import AdventureModel.TrollFactory;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class TrollTests {
         TrollFactory tf = new TrollFactory();
 
         try {
-            Troll t = tf.createTroll("foo");
+            tf.createTroll("foo");
             fail();
         } catch (ClassNotFoundException ignored) {}
     }
@@ -43,7 +42,7 @@ public class TrollTests {
         TrollFactory tf = new TrollFactory();
 
         try {
-            Troll t = tf.createTroll("FakeTroll");
+            tf.createTroll("FakeTroll");
             fail();
         } catch (ClassNotFoundException ignored) {}
     }
