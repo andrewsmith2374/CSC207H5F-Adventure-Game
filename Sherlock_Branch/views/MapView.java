@@ -4,7 +4,13 @@ import javafx.collections.ObservableList;
 import static javafx.application.Application.launch;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import AdventureModel.Passage;
+import AdventureModel.Room;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -17,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
@@ -29,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
@@ -41,9 +49,12 @@ public class MapView {
     private Button killButton = new Button();
     private Button cherryTree = new Button();
 
-    public MapView(AdventureGameView adventureGameView) {
+    public MapView(AdventureGameView adventureGameView) throws IOException {
+        this.adventureGameView = adventureGameView;
         // image: https://www.narniaweb.com/wp-content/uploads/2009/08/NarniaMap.jpg
-        String backgroundImage = "C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\views\\NarniaMap.jpg";
+        // "views" +　name
+        String head = this.adventureGameView.model.getDirectoryName();
+        String backgroundImage = head + "NarniaMap.jpg";
         map = new ImageView(new Image(new File(backgroundImage).toURI().toString()));
         // Set only the cirlce
         c1 = new Circle(5);
@@ -57,20 +68,25 @@ public class MapView {
 
         GridPane test = paneSetUp();
 
-        this.adventureGameView = adventureGameView;
         oPane = adventureGameView.gridPane;
         var scene = new Scene(test,  1000, 800);
         adventureGameView.stage.setScene(scene);
+
+        Location test2 = new Location(adventureGameView);
+        try {
+            test2.allLocation();
+        } catch (IOException e) {}
     }
     
-    public GridPane paneSetUp() {
-        cherryTree = createCherryTree();
-        killButton = createKillButton();
+    public GridPane paneSetUp() throws IOException {
         // construct the scene contents over a stacked background.
         StackPane layout = new StackPane();
         layout.getChildren().setAll(
-            map, killButton, cherryTree, c1
+            map
         );
+
+        // Put button on the pane
+        createButton(layout);
 
         // wrap the scene contents in a pannable scroll pane.
         ScrollPane scroll = createScrollPane(layout);
@@ -104,6 +120,7 @@ public class MapView {
         scroll.setPannable(true);
         scroll.setPrefSize(800, 600);
         scroll.setContent(layout);
+
         return scroll;
     }
 
@@ -134,43 +151,78 @@ public class MapView {
             exit();
         });
     }
-    
-    private void moveDot(Button button) {
-        TranslateTransition transition = new TranslateTransition();
-        transition.setNode(c1);
-        transition.setToX(button.getTranslateX());
-        transition.setToY(button.getTranslateY() - 40);
-        transition.setInterpolator(Interpolator.LINEAR);
-        transition.play();
+
+    /**
+     * Create button on the stack pane
+     * @throws IOException
+     */
+    public void createButton(StackPane layout) throws IOException {
+        Location location = new Location(this.adventureGameView);
+        // HashMap<roomNumber, roomCoordinate>
+        HashMap<Integer, int[]> locationList = location.allLocation();
+        int currentRmNum = this.adventureGameView.model.getPlayer().getCurrentRoom().getRoomNumber();
+        // Current player location
+        String currRmName = location.getRoomName(currentRmNum);
+        Button currButton = new Button();
+        // Button
+        makeButton(currButton, currRmName, false, locationList, currentRmNum);
+        // player location
+        c1.setTranslateX(locationList.get(currentRmNum)[0]);
+        c1.setTranslateY(locationList.get(currentRmNum)[1] - 40);
+        layout.getChildren().addAll(
+            currButton, c1
+        );
+
+        // Seach for all possible path, set red color to represent
+        List<Passage> path = this.adventureGameView.model.getPlayer().getCurrentRoom().getMotionTable().getDirection();
+        for (Passage ele : path) {
+            int nextRm = ele.getDestinationRoom();
+            String dir = ele.getDirection();
+            Button tempButton = new Button();
+            makeButton(tempButton, location.getRoomName(nextRm), false, locationList, nextRm);
+            tempButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override 
+                public void handle(ActionEvent t) {
+                    location.moveDot(tempButton, c1, dir, exitButton);
+                }
+            });
+            layout.getChildren().addAll(
+                tempButton
+            );
+        }
+
+        // Search for all visited place
+        // List<Room> roomList = new ArrayList<>(this.adventureGameView.model.getRooms().values());
+        // for (Room ele : roomList) {
+        //     Button notButton = new Button();
+        //     if (ele.getVisited()) {
+        //         makeButton(notButton, ele.getRoomName(), true, locationList, ele.getRoomNumber());
+        //     }
+        //     notButton.setDisable(true);
+        //     layout.getChildren().addAll(
+        //         notButton
+        //     );
+        // }
     }
 
-    /** @return a control to place on the scene. */
-    private Button createKillButton() {
-        killButton.setStyle("-fx-base: firebrick;");
-        killButton.setTranslateX(65);
-        killButton.setTranslateY(-150);
-        killButton.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent t) {
-            moveDot(killButton);
-            }
-        });
-        return killButton;
+    /**
+     * Make button and related stuff
+     * @return made button
+     */
+    public void makeButton(Button b, String name, boolean visit, HashMap<Integer, int[]> loca, int num) {
+        b.setText(name);
+        b.setFont(new Font(this.adventureGameView.fontSize));
+        if (!visit) {
+            b.setStyle("-fx-base: firebrick;");
+        }
+        else {
+            b.setStyle("-fx-base: grey;");
+        }
+        b.setTranslateX(loca.get(num)[0]);
+        b.setTranslateY(loca.get(num)[1]);
     }
 
-    /** @return a control to place on the scene. */
-    private Button createCherryTree() {
-        cherryTree.setStyle("-fx-base: firebrick;");
-        cherryTree.setTranslateX(5);
-        cherryTree.setTranslateY(160);
-        cherryTree.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent t) {
-            moveDot(cherryTree);
-            }
-        });
-        return cherryTree;
-    }
-
-    private void exit() {
+    public void exit() {
         adventureGameView.stage.setScene(this.adventureGameView.scene);
     }
 

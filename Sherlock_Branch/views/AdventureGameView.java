@@ -33,6 +33,7 @@ import javafx.scene.Node;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -231,6 +232,9 @@ public class AdventureGameView {
 
         // Scroll Pane description
         roomDesc.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        roomDesc.setPrefHeight(400);
+        roomDesc.setPrefWidth(600);
+        roomDesc.setStyle("-fx-background: #000000");
         roomDesc.setFitToWidth(true);
 
         // Render everything
@@ -313,7 +317,7 @@ public class AdventureGameView {
      *
      * @param text the command that needs to be processed
      */
-    private void submitEvent(String text) {
+    public void submitEvent(String text) {
 
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
@@ -695,7 +699,9 @@ public class AdventureGameView {
     public void addMapEvent() {
         mapButton.setOnAction(e -> {
             gridPane.requestFocus();
-            MapView mapView = new MapView(this);
+            try {
+                MapView mapView = new MapView(this);
+            } catch (IOException e1) {}
         });
     }
 

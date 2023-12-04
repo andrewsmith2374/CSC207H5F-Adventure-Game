@@ -1,0 +1,104 @@
+IMPORTANT
+=======================================================
+line change for local use:
+
+AdventureGame.java
+----------------------------------------------------------------------------------------------------
+line 28 --> changed:
+	this.directoryName = "Games/" + name;
+	--> this.directoryName = name;
+
+AdventureGameView.java
+----------------------------------------------------------------------------------------------------
+line 389 --> changed:
+	Image roomImageFile = new Image(roomImage);
+	--> Image roomImageFile = new Image(new File(roomImage).toURI().toString());
+
+line 595 --> commented:
+	method articulateRoomDescription()
+
+line 534 --> commented
+
+line 495 --> changed:
+	ImageView objPic = new ImageView(new Image(picName));
+	--> ImageView objPic = new ImageView(new Image(new File(picName).toURI().toString()));
+
+line 261 --> commented
+
+line 458 --> changed:
+	ImageView objPic = new ImageView(new Image(picName));
+	--> ImageView objPic = new ImageView(new Image(new File(picName).toURI().toString()));
+
+line 124 --> added:
+	settingButton = new Button("Setting");
+	--> settingButton setup for 10 lines
+	--> setting icon destination has to be changed!
+
+line 593 --> added:
+	addSettingEvent
+
+line 42 --> changed:
+	Button saveButton, loadButton, helpButton;
+	--> Button saveButton, loadButton, helpButton, settingButton, mapButton, fontUpButton, fontDownButton;
+
+line 131 --> changed:
+	topButtons.getChildren().addAll(saveButton, helpButton, loadButton);
+	--> topButtons.getChildren().addAll(mapButton, settingButton);
+
+line 114 --> changed:
+	customizeButton(saveButton, 100, 50)
+	--> customizeButton(saveButton, 200, 50)
+
+line 120 -- > changed:
+	customizeButton(loadButton, 100, 50)
+	--> customizeButton(loadButton, 200, 50)
+
+line 142 --> added:
+	mapButton = new Button("Map")
+	--> mapButton setup for 5 line
+
+line 58 --> added:
+	Scene scene;
+
+method customizeButton --> changed:
+	inputButton.setFont(new Font("Arial", 16));
+	--> inputButton.setFont(new Font("Arial", fontSize));
+
+line 63 --> added:
+	int fontSize = 16
+
+method addFontUpEvent --> added
+
+method addFontBownEvent --> added
+
+method addFontSizeEvent --> added
+
+line 56 --> changed:
+	TextField inputTextField;
+	-->     TextField inputTextField, fontSizTextField;
+
+line 134 --> added:
+	line x14
+	--> font Up
+	--> font Down
+	--> font Size
+
+line 584 --> changed:
+	instruction.setFont(new Font("Arial", 14));
+	--> instruction.setFont(new Font("Arial", fontSize));
+
+ArrayList<Object> collection --> added
+
+Add Relation:
+	roomDesc -> roomDescLabel
+
+SettingView.java
+----------------------------------------------------------------------------------------------------
+new
+
+MapView.java
+----------------------------------------------------------------------------------------------------
+new
+
+--> change destination of map
+	
