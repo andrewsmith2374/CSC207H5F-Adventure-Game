@@ -29,14 +29,14 @@ public class WordleTroll implements Troll {
         guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
         createWordGenerator(fileHandler);
-//        wordGenerator = new TestGenerator();
         secretWord = wordGenerator.generate();
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
         instructions = "Guess a 5 letter secret word. With each guess, the game will let you know how close you were to" +
                 " the secret word! Grey means the letter is not in the secret word, yellow means it's in the word but in" +
                 " the wrong spot, and green means you got the right letter in the right spot.";
-        requiredItems = new ArrayList<String>(); // TODO: update to required item
+        requiredItems = new ArrayList<>();
+        requiredItems.add("SHIP");
         currentGuess = 0;
         isDefeated = false;
     }
