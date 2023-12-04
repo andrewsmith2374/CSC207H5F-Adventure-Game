@@ -213,6 +213,7 @@ public class WordleTrollView {
         String input = inputTextField.getText().strip().toUpperCase();
         try {
             model.submitGuess(input);
+            commandLabel.setText("Input Your Guess!");
             updateGuesses();
         } catch(InputMismatchException e) {
             commandLabel.setText(e.getMessage());
@@ -273,7 +274,7 @@ public class WordleTrollView {
         } else {
             commandLabel.setText("Better luck next time! Heading back now");
         }
-        Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(2), event -> {stage.close();}));
+        Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(5), event -> {stage.close();}));
         timeLine.play();
     }
 
