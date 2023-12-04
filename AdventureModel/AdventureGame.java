@@ -1,5 +1,7 @@
 package AdventureModel;
 
+import views.AdventureGameView;
+
 import java.io.*;
 import java.util.*;
 
@@ -22,7 +24,7 @@ public class AdventureGame implements Serializable {
      *
      * @param name the name of the adventure
      */
-    public AdventureGame(String name){
+    public AdventureGame(String name) {
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
         this.directoryName = "Games/" + name; //all games files are in the Games directory!
@@ -44,8 +46,8 @@ public class AdventureGame implements Serializable {
             FileOutputStream outfile = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(outfile);
             oos.writeObject(this);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            throw new RuntimeException();
         }
     }
 
@@ -56,13 +58,13 @@ public class AdventureGame implements Serializable {
      * @throws IOException in the case of a file I/O error
      */
     public void setUpGame() throws IOException {
-
         String directoryName = this.directoryName;
         AdventureLoader loader = new AdventureLoader(this, directoryName);
         loader.loadGame();
 
         // set up the player's current location
-        this.player = new Player(this.rooms.get(1));
+        Room firstRoom = this.rooms.get(1);
+        player = new Player(firstRoom);
     }
 
     /**
@@ -99,7 +101,9 @@ public class AdventureGame implements Serializable {
      */
     public boolean movePlayer(String direction) {
         direction = direction.toUpperCase();
-        PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
+        Room currentRoom = player.getCurrentRoom();
+        currentRoom.visit();
+        PassageTable motionTable = currentRoom.getMotionTable(); //where can we move?
         if (!motionTable.optionExists(direction)) { return true; } //no move
         ArrayList<Passage> possibilities = getPossibilities(direction, motionTable);
 
@@ -153,7 +157,8 @@ public class AdventureGame implements Serializable {
     private void changeRoom(Passage chosen) {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
-        this.player.setCurrentRoom(room);
+        room.visit();
+        player.setCurrentRoom(room);
     }
 
     /*
@@ -171,14 +176,6 @@ public class AdventureGame implements Serializable {
         }
         if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
         troll.playGame(this, entry.getDestinationRoom());
-    }
-
-    /*
-     * Set player's room to room with given index
-     */
-    public void setPlayerLocation(int roomNumber) {
-        Room newRoom = rooms.get(roomNumber);
-        player.setCurrentRoom(newRoom);
     }
 
     /**
