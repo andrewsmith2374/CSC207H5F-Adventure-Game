@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -34,6 +35,7 @@ public class WordleTrollView {
     private Stage stage;
     private GridPane gridPane;
     private Button helpButton;
+    private Label helpLabel;
     private TextField inputTextField;
     private Label commandLabel;
     private ArrayList<ArrayList<VBox>> guessFields;
@@ -97,8 +99,11 @@ public class WordleTrollView {
     private void createGuessFields(int colWidth) {
         for(int i = 0; i < 4; i++) {
             guessFields.add(i, new ArrayList<VBox>());
+            String guess = model.guesses[i];
             for(int j = 0; j < 5; j++) {
-                Text textField = new Text("");
+                String subGuess;
+                if(guess == null) { subGuess = ""; } else { subGuess = guess.substring(j, j + 1); }
+                Text textField = new Text(subGuess);
                 textField.setTextAlignment(TextAlignment.CENTER);
                 VBox textBox = new VBox();
                 textBox.setMaxSize(colWidth * 0.8, colWidth * 0.8);
@@ -119,12 +124,37 @@ public class WordleTrollView {
     private void createHelpButton(int colWidth) {
         helpButton = new Button("Instructions");
         helpButton.setId("Instructions");
+        addMouseHandlingEvent(helpButton);
         uiHelper.customizeButton(helpButton, 3 * colWidth, (int) (0.75 * colWidth));
         uiHelper.makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
         helpButton.setAlignment(Pos.CENTER);
 
         gridPane.add(helpButton, 2, 0, 3, 1 );  // Add buttons
     }
+
+    private void addMouseHandlingEvent(Button button) {
+        EventHandler<MouseEvent> mouseClickedHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(helpToggle) {
+                    gridPane.getChildren().remove(helpLabel);
+                    helpToggle = false;
+                } else {
+                    helpLabel = new Label(model.getInstructions());
+                    helpLabel.setWrapText(true);
+                    helpLabel.setStyle("-fx-text-fill: white;");
+                    helpLabel.setFont(new Font("Arial", 16));
+                    helpLabel.setAlignment(Pos.CENTER);
+                    helpLabel.setMaxWidth(200);
+                    gridPane.add(helpLabel, 6, 1, 1, 4);
+
+                    helpToggle = true;
+                }
+            }
+        };
+        button.setOnMouseClicked(mouseClickedHandler);
+    }
+
 
     /*
      * Create constraints so rows are properly sized and spaced
@@ -154,7 +184,7 @@ public class WordleTrollView {
         ColumnConstraints column4 = new ColumnConstraints(colWidth);
         ColumnConstraints column5 = new ColumnConstraints(colWidth);
         ColumnConstraints column6 = new ColumnConstraints(colWidth);
-        ColumnConstraints column7 = new ColumnConstraints();
+        ColumnConstraints column7 = new ColumnConstraints(200);
         column1.setHgrow(Priority.SOMETIMES);
         column2.setHgrow( Priority.SOMETIMES );
         column3.setHgrow( Priority.SOMETIMES );
