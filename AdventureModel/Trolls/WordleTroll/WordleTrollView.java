@@ -7,9 +7,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,15 +27,14 @@ import java.util.InputMismatchException;
 import java.util.Objects;
 
 public class WordleTrollView {
-    private WordleTroll model;
-    private UIHelper uiHelper;
-    private Stage stage;
+    private final WordleTroll model;
+    private final UIHelper uiHelper;
+    private final Stage stage;
     private GridPane gridPane;
-    private Button helpButton;
     private Label helpLabel;
     private TextField inputTextField;
     private Label commandLabel;
-    private ArrayList<ArrayList<VBox>> guessFields;
+    private final ArrayList<ArrayList<VBox>> guessFields;
     private Boolean helpToggle = false; //is help on display?
 
     public WordleTrollView(WordleTroll model) {
@@ -122,7 +118,7 @@ public class WordleTrollView {
      * Create the help button at the top of the screen
      */
     private void createHelpButton(int colWidth) {
-        helpButton = new Button("Instructions");
+        Button helpButton = new Button("Instructions");
         helpButton.setId("Instructions");
         addMouseHandlingEvent(helpButton);
         uiHelper.customizeButton(helpButton, 3 * colWidth, (int) (0.75 * colWidth));
@@ -288,13 +284,6 @@ public class WordleTrollView {
     }
 
     /*
-     * Articulate the instructions for this game
-     */
-    public void articulateInstructions() {
-        throw new UnsupportedOperationException("Implement articulateInstructions");
-    }
-
-    /*
      * Terminate this window and end the game
      */
     public void closeWindow(boolean result) {
@@ -307,9 +296,4 @@ public class WordleTrollView {
         Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(5), event -> {stage.close();}));
         timeLine.play();
     }
-
-    /*
-     * Change view to the main game
-     */
-    private void startGame() { throw new UnsupportedOperationException("Implement startGame"); }
 }
