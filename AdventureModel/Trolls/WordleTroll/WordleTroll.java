@@ -5,7 +5,6 @@ import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
-import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.TestGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
 import FileIO.FileHandler;
 
@@ -19,11 +18,10 @@ public class WordleTroll implements Troll {
     private int destinationRoom;
     private SecretWordGenerator wordGenerator;
     private AcceptedGuessGenerator guessGenerator;
-    private WordleTrollView view;
     private String secretWord;
-    private HashSet<String> acceptedGuesses;
-    private String instructions;
-    private List<String> requiredItems;
+    private final HashSet<String> acceptedGuesses;
+    private final String instructions;
+    private final List<String> requiredItems;
     private int currentGuess;
     private boolean isDefeated;
 
@@ -59,7 +57,7 @@ public class WordleTroll implements Troll {
     public void playGame(AdventureGame model, int destinationRoom) {
         this.model = model;
         this.destinationRoom = destinationRoom;
-        view = new WordleTrollView(this);
+        new WordleTrollView(this);
     }
 
     @Override
@@ -122,13 +120,9 @@ public class WordleTroll implements Troll {
         secretWord = wordGenerator.generate();
     }
 
-    public void setGuessGenerator(AcceptedGuessGenerator generator) {
-        guessGenerator = generator;
-        acceptedGuesses = guessGenerator.generate();
-    }
-
     public void endGame(boolean gameWon) {
         if (gameWon) {
+            isDefeated = true;
             model.setPlayerLocation(destinationRoom);
         }
         model.view.updateScene("");
