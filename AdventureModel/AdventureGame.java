@@ -58,7 +58,6 @@ public class AdventureGame implements Serializable {
      * @throws IOException in the case of a file I/O error
      */
     public void setUpGame() throws IOException {
-
         String directoryName = this.directoryName;
         AdventureLoader loader = new AdventureLoader(this, directoryName);
         loader.loadGame();
