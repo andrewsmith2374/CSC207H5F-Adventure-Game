@@ -142,7 +142,7 @@ public class LoadView {
             game = this.loadGame(filePath);
             message = gameName;
         } catch (IOException | ClassNotFoundException e) {
-            game = new AdventureGame("TinyGame");
+            game = new AdventureGame("CelestialRealms");
             message = "No game found! Loading new game";
         }
         selectGameLabel.setText(message);
