@@ -208,7 +208,7 @@ public class WordleTrollView {
             model.submitGuess(input);
             updateGuesses();
         } catch(InputMismatchException e) {
-            // TODO: Add error message
+            commandLabel.setText(e.getMessage());
         }
         inputTextField.clear();
     }
