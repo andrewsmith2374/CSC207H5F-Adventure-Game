@@ -1,13 +1,10 @@
 package AdventureModel.Trolls.WhackAMoleTroll;
 
-import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -20,6 +17,10 @@ import javafx.animation.Timeline;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class WhackAMoleTrollView
+ */
+
 public class WhackAMoleTrollView {
 
     private WhackAMoleTroll model;
@@ -30,7 +31,10 @@ public class WhackAMoleTrollView {
     private Button moleButton;
     public Timeline moleTimeLine;
 
-
+    /**
+     * WhackAMoleTrollView Constructor to initialize attributes
+     * @param model to represent the Troll game.
+     */
     public WhackAMoleTrollView(WhackAMoleTroll model) {
         this.model = model;
         this.stage = new Stage();
@@ -41,6 +45,9 @@ public class WhackAMoleTrollView {
 
     }
 
+    /**
+     * Initialize the UI
+     */
     public void intiUI() {
         this.stage.setTitle("Whack A Mole");
 
@@ -163,6 +170,10 @@ public class WhackAMoleTrollView {
         stage.show();
     }
 
+    /**
+     * Show a random mole on a random hole on the screen.
+     */
+
     public void showMole() {
         Random random = new Random();
         int moleNum = model.getMole();
@@ -193,6 +204,11 @@ public class WhackAMoleTrollView {
         removeMole(moleButton); }
     }
 
+    /**
+     * Keep the mole on screen for a few seconds and then remove it
+     * @param moleButton the current mole on screen
+     */
+
     public void removeMole(Button moleButton) {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(e -> gridPane.getChildren().remove(moleButton));
@@ -200,18 +216,27 @@ public class WhackAMoleTrollView {
         stage.show();
     }
 
+    /**
+     * Increment score by 1 if mole is clicked. If score reaches 5, player wins and game ends.
+     */
+
     public void addMoleButtonEvent() {
         moleButton.setOnAction(e -> {
             this.model.moleEventManager.notifyMoleClicked();
             gridPane.getChildren().remove(moleButton);// calls update score and incremenets score to 1
             this.scoreLabel.setText("Score: " + model.score);
-            if(model.score == 10) {
+            if(model.score == 5) {
                 moleTimeLine.stop();
                 winLabel();
             }
             stage.show();
         });
     }
+
+    /**
+     * Show moles on the screen.
+     * @param duration time interval between each mole that pops up.
+     */
 
     public void runShowMole(Duration duration) {
         try {
@@ -235,6 +260,10 @@ public class WhackAMoleTrollView {
         }
     }
 
+    /**
+     * Show that player lost on the UI and end game.
+     */
+
     public void loseLabel() {
         model.gameStatus = false;
         Label lose = new Label();
@@ -248,6 +277,10 @@ public class WhackAMoleTrollView {
         pause.setOnFinished(e -> {stage.close();});
         pause.play();
     }
+
+    /**
+     * Show that player won on UI and end game.
+     */
 
     public void winLabel() {
         model.gameStatus = true;

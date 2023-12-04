@@ -13,12 +13,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Class RockPaperScissorTroll implements Troll interface
+ */
+
 public class RockPaperScissorTroll implements Troll {
 
     public static boolean gameStat;
     public String helpText;
     private List<String> options;
     private List<String> requiredItems;
+
+    /**
+     * Class constructor. Initialize attributes
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
 
     public RockPaperScissorTroll() throws ClassNotFoundException, IOException {
         this.options = new ArrayList<>();
@@ -31,6 +41,10 @@ public class RockPaperScissorTroll implements Troll {
 
     }
 
+    /**
+     * Get help text from help.txt file.
+     */
+
     public void parseHelp() throws IOException {
         String fileName = "AdventureModel/Trolls/RockPaperScissorTroll/help.txt";
         BufferedReader buff = new BufferedReader(new FileReader(fileName));
@@ -40,32 +54,67 @@ public class RockPaperScissorTroll implements Troll {
             line = buff.readLine();
         }
     }
+
+    /**
+     * Get a random computer choice
+     * @return Random choice to represent computers move.
+     */
     public String computerChoice() {
         Random rand = new Random();
         int index = rand.nextInt(3);
         return options.get(index);
         // these will be set as id's to choose what image will be put on;
     }
+
+    /**
+     * Check if player wins by comparing moves.
+     * @param player
+     * @param compPlay
+     * @return True is player's
+     */
     public boolean win(String player, String compPlay) {
-        if(Objects.equals(player, compPlay)) {
+        if(compPlay == "rock" && player == "scissor") {
+            gameStat = true;
+            return true;
+        }
+        else if(compPlay == "scissor" && player == "paper") {
+            gameStat = true;
+            return true;
+        }
+        else if(compPlay == "paper" && player == "rock") {
             gameStat = true;
             return true;
         }
         else {
+            gameStat = false;
             return false;
         }
     }
+
+    /**
+     * Play the game
+     * @param model
+     * @param destinationRoom
+     */
     public void playGame(AdventureGame model, int destinationRoom) {
         RockPaperScissorTrollView view = new RockPaperScissorTrollView(this);
 
-
     }
+
+    /**
+     * Determine if player defeated the troll or not.
+     * @return
+     */
 
     @Override
     public boolean defeated() {
         return gameStat;
     }
 
+    /**
+     * Get objects needed to play the game.
+     * @return a string array of all objects needs to go against the troll
+     */
     @Override
     public List<String> getRequiredItems() {
         return requiredItems;

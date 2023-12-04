@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.ToDoubleBiFunction;
 
+/**
+ * Rock Paper Scissor Troll View
+ */
+
 public class RockPaperScissorTrollView {
     private Stage stage;
     private Button helpButton;
@@ -47,6 +51,10 @@ public class RockPaperScissorTrollView {
     private VBox box;
     private VBox compBox;
 
+    /**
+     * Class Constructor initializes attributes
+     * @param model
+     */
 
     public RockPaperScissorTrollView(RockPaperScissorTroll model) {
         this.model = model;
@@ -66,6 +74,9 @@ public class RockPaperScissorTrollView {
         intiUI();
     }
 
+    /**
+     * Initialize the UI
+     */
 
     private void intiUI() {
         stage.setTitle("Rock Paper Scissor");
@@ -168,6 +179,9 @@ public class RockPaperScissorTrollView {
         stage.show();
     }
 
+    /**
+     * Show instructions when rules Button pressed.
+     */
     public void addHelpEvent() {
         helpButton.setOnAction(e -> {
             if(!helpToggle) {
@@ -186,42 +200,47 @@ public class RockPaperScissorTrollView {
         });
     }
 
+    /**
+     * Play rock for player
+     */
+
     public void addRockButtonEvent(){
         rock.setOnAction(e -> {
             String player = computerTurn();
             rockView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             updateBoxContent(box, rockView);
-//            if(rockView.getId() == player){
-//                model.winLabel();
-//            }
             if(model.win(player, rockView.getId())) {
                 winLabel();
             }
 
         });
     }
+
+    /**
+     * Play Scissor for player
+     */
     public void addScissorButtonEvent(){
         scissor.setOnAction(e -> {
             String player = computerTurn();
             scissorView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             updateBoxContent(box, scissorView);
-//            if(scissorView.getId() == player) {
-//                winLabel();
-//            }
+
             if(model.win(player, scissor.getId())) {
                 winLabel();
             }
 
         });
     }
+
+    /**
+     * Play Paper for player
+     */
     public void addPaperButtonEvent() {
         paper.setOnAction(e -> {
             String player = computerTurn();
             paperView.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             updateBoxContent(box, paperView);
-//            if (paperView.getId() == player){
-//                winLabel();
-//            }
+
             if(model.win(player, paperView.getId())) {
                 winLabel();
             }
@@ -230,6 +249,11 @@ public class RockPaperScissorTrollView {
         });
     }
 
+    /**
+     * Update the previous player move with the new move
+     * @param box
+     * @param image
+     */
     public void updateBoxContent(VBox box, ImageView image) {
         try {
             box.getChildren().clear();
@@ -240,6 +264,10 @@ public class RockPaperScissorTrollView {
 
     }
 
+    /**
+     * Play for the computer.
+     * @return
+     */
     public String computerTurn() {
         String choice = null;
         try {
@@ -256,6 +284,12 @@ public class RockPaperScissorTrollView {
             return choice;
         }
     }
+
+    /**
+     * Update computers previous move with the current move.
+     * @param box
+     * @param image
+     */
     public void updateBoxContentComp(VBox box, ImageView image) {
         try {
             box.getChildren().clear();
@@ -265,6 +299,10 @@ public class RockPaperScissorTrollView {
         } catch(IllegalArgumentException ignored){}
 
     }
+
+    /**
+     * Show that player won on the UI and end the game.
+     */
     public void winLabel() {
         model.gameStat = true;
         Label win = new Label();
