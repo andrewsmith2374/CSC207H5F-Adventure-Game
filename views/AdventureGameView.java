@@ -16,7 +16,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +23,6 @@ import javafx.util.Duration;
 import javafx.event.EventHandler; //you will need this too!
 import javafx.scene.AccessibleRole;
 
-import java.io.BufferedReader;
 import java.io.File;
 
 /**
@@ -252,7 +250,6 @@ public class AdventureGameView {
      * @param text the command that needs to be processed
      */
     private void submitEvent(String text) {
-
         text = text.strip(); //get rid of white space
         stopArticulation(); //if speaking, stop
 
@@ -301,7 +298,6 @@ public class AdventureGameView {
             // Once updated, call a 5-second gap and submit a recursion in case
             // the destination room also have force
             gap.play();
-            
         }
     }
 
@@ -578,7 +574,7 @@ public class AdventureGameView {
     public void addSaveEvent() {
         saveButton.setOnAction(e -> {
             gridPane.requestFocus();
-            SaveView saveView = new SaveView(this);
+            new SaveView(this);
         });
     }
 
@@ -589,7 +585,7 @@ public class AdventureGameView {
     public void addLoadEvent() {
         loadButton.setOnAction(e -> {
             gridPane.requestFocus();
-            LoadView loadView = new LoadView(this);
+            new LoadView(this);
         });
     }
 
