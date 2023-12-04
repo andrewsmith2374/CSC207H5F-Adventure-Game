@@ -9,7 +9,6 @@ import java.util.*;
  * Class AdventureGame.  Handles all the necessary tasks to run the Adventure game.
  */
 public class AdventureGame implements Serializable {
-    public AdventureGameView view;
     private final String directoryName; //An attribute to store the Introductory text of the game.
     private String helpText; //A variable to store the Help text of the game. This text is displayed when the user types "HELP" command.
     private final HashMap<Integer, Room> rooms; //A list of all the rooms in the game.
@@ -36,8 +35,6 @@ public class AdventureGame implements Serializable {
             throw new RuntimeException("An Error Occurred: " + e.getMessage());
         }
     }
-
-    public void setView(AdventureGameView view) { this.view = view; }
 
     /**
      * Save the current state of the game to a file
@@ -145,7 +142,7 @@ public class AdventureGame implements Serializable {
                 try {
                     checkForTroll(entry);
                 } catch(InterruptedException e) {
-                    return null; // Troll already defeated
+                    return entry; // Troll already defeated
                 }
                 catch(ClassNotFoundException ignored) {}
                 boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());

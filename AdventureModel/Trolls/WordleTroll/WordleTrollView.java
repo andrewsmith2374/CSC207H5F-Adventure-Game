@@ -263,8 +263,7 @@ public class WordleTrollView {
         }
         if(Objects.equals(result, "22222")) {
             closeWindow(true);
-        }
-        if(rowNum == 3) {
+        } else if(rowNum == 3) {
             closeWindow(false);
         }
     }

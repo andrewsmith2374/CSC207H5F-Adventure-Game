@@ -5,6 +5,7 @@ import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
+import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.TestGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
 import FileIO.FileHandler;
 
@@ -23,12 +24,13 @@ public class WordleTroll implements Troll {
     private final String instructions;
     private final List<String> requiredItems;
     private int currentGuess;
-    private boolean isDefeated;
+    private static boolean isDefeated;
 
     public WordleTroll() {
         guesses = new String[4];
         FileHandler fileHandler = new FileHandler();
-        createWordGenerator(fileHandler);
+        // createWordGenerator(fileHandler);
+        wordGenerator = new TestGenerator();
         secretWord = wordGenerator.generate();
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
@@ -36,9 +38,8 @@ public class WordleTroll implements Troll {
                 " the secret word! Grey means the letter is not in the secret word, yellow means it's in the word but in" +
                 " the wrong spot, and green means you got the right letter in the right spot.";
         requiredItems = new ArrayList<>();
-        requiredItems.add("SHIP");
+        // requiredItems.add("SHIP");
         currentGuess = 0;
-        isDefeated = false;
     }
 
     private void createWordGenerator(FileHandler fileHandler) {
@@ -123,9 +124,6 @@ public class WordleTroll implements Troll {
     public void endGame(boolean gameWon) {
         if (gameWon) {
             isDefeated = true;
-            model.setPlayerLocation(destinationRoom);
         }
-        model.view.updateScene("");
-        model.view.updateItems();
     }
 }

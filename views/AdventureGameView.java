@@ -27,12 +27,12 @@ import javafx.scene.AccessibleRole;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Class AdventureGameView.
  */
-public class AdventureGameView {
-
+public class AdventureGameView implements Serializable {
     AdventureGame model; //model of the game
     Stage stage; //stage on which all is rendered
     Button saveButton, loadButton, helpButton; //buttons
