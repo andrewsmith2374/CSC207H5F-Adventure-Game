@@ -179,14 +179,6 @@ public class AdventureGame implements Serializable {
         troll.playGame(this, entry.getDestinationRoom());
     }
 
-    /*
-     * Set player's room to room with given index
-     */
-    public void setPlayerLocation(int roomNumber) {
-        Room newRoom = rooms.get(roomNumber);
-        player.setCurrentRoom(newRoom);
-    }
-
     /**
      * interpretAction
      * interpret the user's action.
