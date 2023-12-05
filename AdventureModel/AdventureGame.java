@@ -1,5 +1,7 @@
 package AdventureModel;
 
+import views.AdventureGameView;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,6 +15,7 @@ public class AdventureGame implements Serializable {
     private HashMap<String,String> synonyms = new HashMap<>(); //A HashMap to store synonyms of commands.
     private final String[] actionVerbs = {"QUIT","INVENTORY","TAKE","DROP"}; //List of action verbs (other than motions) that exist in all games. Motion vary depending on the room and game.
     public Player player; //The Player of the game.
+    private final TrollFactory trollFactory;
 
     /**
      * Adventure Game Constructor
@@ -24,7 +27,8 @@ public class AdventureGame implements Serializable {
     public AdventureGame(String name){
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
-        this.directoryName = name; //all games files are in the Games directory!
+        this.directoryName = "Games/" + name; //all games files are in the Games directory!
+        this.trollFactory = new TrollFactory();
         try {
             setUpGame();
         } catch (IOException e) {
@@ -42,8 +46,8 @@ public class AdventureGame implements Serializable {
             FileOutputStream outfile = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(outfile);
             oos.writeObject(this);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            throw new RuntimeException();
         }
     }
 
@@ -86,6 +90,23 @@ public class AdventureGame implements Serializable {
 
     }
 
+    /*
+     * Check for a Troll in the given passage
+     * If there is no Troll or the player does not have the required item, throw a ClassNotFoundException
+     */
+    private void checkForTroll(Passage entry) throws ClassNotFoundException, InterruptedException {
+        String name = entry.getKeyName();
+        Troll troll = trollFactory.createTroll(name);
+        List<String> requiredItems = troll.getRequiredItems();
+        for(String item : requiredItems) {
+            if(!this.player.getInventory().contains(item)) {
+                throw new ClassNotFoundException();
+            }
+        }
+        if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
+        troll.playGame(this, entry.getDestinationRoom());
+    }
+
     /**
      * movePlayer
      * __________________________
@@ -96,7 +117,6 @@ public class AdventureGame implements Serializable {
      * @return false, if move results in death or a win (and game is over).  Else, true.
      */
     public boolean movePlayer(String direction) {
-
         direction = direction.toUpperCase();
         PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
         if (!motionTable.optionExists(direction)) return true; //no move
@@ -115,6 +135,11 @@ public class AdventureGame implements Serializable {
             System.out.println(entry.getKeyName());
 
             if (chosen == null && entry.getIsBlocked()) {
+                try {
+                    checkForTroll(entry);
+                } catch (InterruptedException e) {
+                    chosen = entry;
+                } catch (ClassNotFoundException ignored) {}
                 if (this.player.getInventory().contains(entry.getKeyName())) {
                     chosen = entry; //we can make it through, given our stuff
                     break;

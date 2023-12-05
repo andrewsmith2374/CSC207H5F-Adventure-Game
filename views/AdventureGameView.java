@@ -92,7 +92,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("group83's Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("group83's Adventure Game");
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);
@@ -161,7 +161,8 @@ public class AdventureGameView {
         fontSizTextField.setAlignment(Pos.CENTER);
         addFontSizeEvent();
 
-        String settingIcon = "C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\views\\settings.png";
+        String head = this.model.getDirectoryName();
+        String settingIcon = head + "settings.png";
         ImageView objPic = new ImageView(new Image(new File(settingIcon).toURI().toString()));
         objPic.setFitHeight(40);
         objPic.setFitWidth(40);
