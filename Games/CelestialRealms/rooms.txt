@@ -79,7 +79,7 @@ The Wizard Tumnus Hut
 You travel north getting even closer to the Witch’s castle. You find a small hut, vines growing along its walls, consuming it, making the hut one of the forest. You approach the hut, and knock on its rotting door. The door creaks open, and on the other side you are greeted by a wizard. He welcomes you into his home. You scan your surroundings, coming to the conclusion that even you were living in better conditions at the top of Mount Pire. There was also a remarkably large collection of potions stacked on the shelfs that lined his walls. You ask him who he is. He introduces himself as Mr. Tumnus, a potion wizard, who can make anything a reality with the power of his potions.
 -----
 SOUTH          10
-NORTHEAST          12/BLADE_OF_DELIVERANCE
+NORTHEAST          12/WordleTroll
 
 12
 The Evil Witch Queens Castle
@@ -93,7 +93,7 @@ SOUTH          13
 Dam Of The Industrious Beaver
 You make your way North, getting dangerously close to the Witch’s castle. But you are nowhere near ready to fight her head on. Tired from your long journey, and many sleepless nights, you decide to stop to rest, and regain your strength. You find a beaver’s dam, a wooden structure, skillfully crafted, creating a tranquil pond amidst the gentle flow of a stream. You decide to sleep in the dam to keep out of sight of potential orc patrols.
 -----
-NORTH          12/BLADE_OF_DELIVERANCE
+NORTH          12/WordleTroll
 SOUTH          14
 WEST          10
 
@@ -117,7 +117,7 @@ WEST          14
 The Great River Jewel Of The Realm
 You enter your boat and travel through the Great River, the crown jewel of the Celestial Realm. A majestic waterway, whose powerful currents carve through the landscape. It's lined with lush forests and teems with life. The freshest of water that calls to many, who gather to fish, trade, and admire their surroundings.
 -----
-NORTH          12/BLADE_OF_DELIVERANCE
+NORTH          12/WordleTroll
 EAST          17/SWORD_OF_ELDERS
 SOUTH          6
 WEST          15
@@ -127,7 +127,7 @@ The Destructive Orc Camp
 You venture through the lands coming across an open plane bedded with tulips of all different colours. In the middle of the field lies a circular spiked wall, containing an orc camp. Enraged that they would ruin a beautiful landscape, you charge for their base, battling every orc till your dying breath.
 -----
 EAST          22/HangmanTroll
-WEST          16/BOAT
+WEST          16/WordleTroll
 SOUTHEAST          18/SWORD_OF_ELDERS
 SOUTHWEST          4
 
