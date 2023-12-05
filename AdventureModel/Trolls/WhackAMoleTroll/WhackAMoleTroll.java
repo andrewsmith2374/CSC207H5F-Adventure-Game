@@ -73,7 +73,9 @@ public class WhackAMoleTroll implements Troll, MoleEventListener {
 
     public void playGame(AdventureGame game, int destinationRoom) {
         WhackAMoleTrollView view = new WhackAMoleTrollView(this);
+
         view.runShowMole(Duration.seconds(2));
+
 
     }
 
