@@ -329,7 +329,7 @@ public class AdventureGameView {
                 roomDescLabel.setText(roomDescTemp + "\n\nObjects in this room:\n" + objectString);
                 roomDesc.setContent(roomDescLabel);
             }
-            // articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
+            articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
             showInstructions();
@@ -429,7 +429,7 @@ public class AdventureGameView {
         }
 
         //finally, articulate the description
-        // if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
+        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
     }
 
     /**
@@ -794,21 +794,21 @@ public class AdventureGameView {
     /**
      * This method articulates Room Descriptions
      */
-    // public void articulateRoomDescription() {
-    //     String musicFile;
-    //     String adventureName = this.model.getDirectoryName();
-    //     String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
+    public void articulateRoomDescription() {
+        String musicFile;
+        String adventureName = this.model.getDirectoryName();
+        String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
 
-    //     if (!this.model.getPlayer().getCurrentRoom().getVisited()) musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3" ;
-    //     else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3" ;
-    //     musicFile = musicFile.replace(" ","-");
+        if (!this.model.getPlayer().getCurrentRoom().getVisited()) musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3" ;
+        else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3" ;
+        musicFile = musicFile.replace(" ","-");
 
-    //     Media sound = new Media(new File(musicFile).toURI().toString());
+        Media sound = new Media(new File(musicFile).toURI().toString());
 
-    //     mediaPlayer = new MediaPlayer(sound);
-    //     mediaPlayer.play();
-    //     mediaPlaying = true;
-    // }
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+        mediaPlaying = true;
+    }
 
     /**
      * This method stops articulations 

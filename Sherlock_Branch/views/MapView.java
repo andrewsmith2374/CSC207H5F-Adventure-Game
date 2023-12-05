@@ -53,9 +53,8 @@ public class MapView {
         this.adventureGameView = adventureGameView;
         // image: https://www.narniaweb.com/wp-content/uploads/2009/08/NarniaMap.jpg
         // "views" +　name
-        // String head = this.adventureGameView.model.getDirectoryName();
-        // String backgroundImage = head + "NarniaMap.jpg";
-        String backgroundImage = "C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\Games\\CelestialRealms\\NarniaMap.jpg";
+        String head = this.adventureGameView.model.getDirectoryName();
+        String backgroundImage = head + "NarniaMap.jpg";
         map = new ImageView(new Image(new File(backgroundImage).toURI().toString()));
         // Set only the cirlce
         c1 = new Circle(5);
