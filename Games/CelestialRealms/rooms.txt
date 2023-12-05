@@ -79,7 +79,7 @@ The Wizard Tumnus Hut
 You travel north getting even closer to the Witch’s castle. You find a small hut, vines growing along its walls, consuming it, making the hut one of the forest. You approach the hut, and knock on its rotting door. The door creaks open, and on the other side you are greeted by a wizard. He welcomes you into his home. You scan your surroundings, coming to the conclusion that even you were living in better conditions at the top of Mount Pire. There was also a remarkably large collection of potions stacked on the shelfs that lined his walls. You ask him who he is. He introduces himself as Mr. Tumnus, a potion wizard, who can make anything a reality with the power of his potions.
 -----
 SOUTH          10
-NORTHEAST          12/WordleTroll
+NORTHEAST          12/BLADE_OF_DELIVERANCE
 
 12
 The Evil Witch Queens Castle
@@ -93,7 +93,7 @@ SOUTH          13
 Dam Of The Industrious Beaver
 You make your way North, getting dangerously close to the Witch’s castle. But you are nowhere near ready to fight her head on. Tired from your long journey, and many sleepless nights, you decide to stop to rest, and regain your strength. You find a beaver’s dam, a wooden structure, skillfully crafted, creating a tranquil pond amidst the gentle flow of a stream. You decide to sleep in the dam to keep out of sight of potential orc patrols.
 -----
-NORTH          12/WordleTroll
+NORTH          12/BLADE_OF_DELIVERANCE
 SOUTH          14
 WEST          10
 
@@ -117,7 +117,7 @@ WEST          14
 The Great River Jewel Of The Realm
 You enter your boat and travel through the Great River, the crown jewel of the Celestial Realm. A majestic waterway, whose powerful currents carve through the landscape. It's lined with lush forests and teems with life. The freshest of water that calls to many, who gather to fish, trade, and admire their surroundings.
 -----
-NORTH          12/WordleTroll
+NORTH          12/BLADE_OF_DELIVERANCE
 EAST          17/SWORD_OF_ELDERS
 SOUTH          6
 WEST          15
@@ -229,7 +229,7 @@ The Great Stormness Head Mountain Range
 At the end of your long and peaceful boat ride, you come to Stormness Head. A mountain range that boasts its majestic peaks and lush valleys. Misty and mystical, it's a haven of tranquility, rich in wildlife and adorned with wildflowers and clear streams.
 -----
 NORTH          29/BOAT
-EAST          32/BOAT
+EAST          32/WordleTroll
 WEST          31
 
 31

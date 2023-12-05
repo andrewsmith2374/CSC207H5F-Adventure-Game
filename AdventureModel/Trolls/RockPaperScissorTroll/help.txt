@@ -1,6 +1,0 @@
-Rules of the game:
-
-Play the game until you beat the computer. Player wins if:
-1. Player plays rock against scissor.
-2. Player plays scissor against paper.
-3. Player plays paper against rock.
