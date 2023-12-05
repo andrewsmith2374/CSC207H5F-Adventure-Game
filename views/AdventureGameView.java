@@ -162,7 +162,7 @@ public class AdventureGameView {
         addFontSizeEvent();
 
         String head = this.model.getDirectoryName();
-        String settingIcon = head + "settings.png";
+        String settingIcon = head + "/settings.png";
         ImageView objPic = new ImageView(new Image(new File(settingIcon).toURI().toString()));
         objPic.setFitHeight(40);
         objPic.setFitWidth(40);

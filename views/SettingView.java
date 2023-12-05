@@ -48,7 +48,7 @@ public class SettingView {
         AdventureGameView.makeButtonAccessible(closeWindowButton, "quit game", "This is a button to quit the game", "Use this button to close the entire game window, and back to window.");
 
         // Lets build the text box here
-        HBox font = new HBox(10, adventureGameView.fontUpButton, adventureGameView.fontSizTextField, adventureGameView.fontDownButton);
+        HBox font = new HBox(10, adventureGameView.fontDownButton, adventureGameView.fontSizTextField, adventureGameView.fontUpButton);
         font.setAlignment(Pos.CENTER);
 
         VBox saveGameBox = new VBox(10, font, adventureGameView.saveButton, adventureGameView.loadButton, adventureGameView.helpButton, closeWindowButton);
