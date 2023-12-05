@@ -92,7 +92,7 @@ public class AdventureGameView {
     public void intiUI() {
 
         // setting up the stage
-        this.stage.setTitle("leesze17's Adventure Game"); //Replace <YOUR UTORID> with your UtorID
+        this.stage.setTitle("group83's Adventure Game"); //Replace <YOUR UTORID> with your UtorID
 
         //Inventory + Room items
         objectsInInventory.setSpacing(10);

@@ -61,10 +61,6 @@ public class MapView {
         c1.setFill(Color.RED);
         c1.setTranslateX(0);
         c1.setTranslateY(90);
-        // Killbutton
-        killButton = new Button("Move to witch's camp");
-        // CherryTree
-        cherryTree = new Button("Move to Cherry Tree");
 
         GridPane test = paneSetUp();
 
