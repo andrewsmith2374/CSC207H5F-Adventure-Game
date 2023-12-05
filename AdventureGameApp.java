@@ -1,6 +1,8 @@
 import AdventureModel.AdventureGame;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import views.AdventureGameView;
+
 import java.io.IOException;
 
 /**

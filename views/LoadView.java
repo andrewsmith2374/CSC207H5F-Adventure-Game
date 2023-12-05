@@ -1,4 +1,4 @@
-
+package views;
 
 import AdventureModel.AdventureGame;
 import javafx.geometry.Insets;

@@ -1,3 +1,5 @@
+package views;
+
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
