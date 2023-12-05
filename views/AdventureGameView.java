@@ -440,8 +440,7 @@ public class AdventureGameView {
     }
 
     private void getButton(String objectName, VBox room) {
-        String path = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
-        Button objectButton = getButtonFromImage(path);
+        Button objectButton = getButtonFromImage(objectName);
         makeButtonAccessible(objectButton, objectName, objectName, objectName);
         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
             @Override
@@ -458,12 +457,15 @@ public class AdventureGameView {
         room.getChildren().add(objectButton);
     }
 
-    private Button getButtonFromImage(String pathname) {
+    private Button getButtonFromImage(String objectName) {
+        String pathname = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
         Button button = new Button();
         ImageView image = new ImageView(pathname);
         image.setFitWidth(100);
         image.setFitHeight(75);
         button.setGraphic(image);
+        button.setText(objectName);
+        button.setContentDisplay(ContentDisplay.TOP);
 
         return button;
     }
