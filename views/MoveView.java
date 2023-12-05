@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-public class move extends Application {
+public class MoveView extends Application {
 
     private Circle c1;
     private Circle c2;
