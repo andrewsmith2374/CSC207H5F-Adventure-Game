@@ -329,7 +329,7 @@ public class AdventureGameView {
                 roomDescLabel.setText(roomDescTemp + "\n\nObjects in this room:\n" + objectString);
                 roomDesc.setContent(roomDescLabel);
             }
-            articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
+            // articulateRoomDescription(); //all we want, if we are looking, is to repeat description.
             return;
         } else if (text.equalsIgnoreCase("HELP") || text.equalsIgnoreCase("H")) {
             showInstructions();
@@ -423,8 +423,13 @@ public class AdventureGameView {
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
 
+        // Set room is visited
+        if (this.model.getPlayer().getCurrentRoom().getVisited() == false) {
+            this.model.getPlayer().getCurrentRoom().visit();
+        }
+
         //finally, articulate the description
-        if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
+        // if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
     }
 
     /**
@@ -752,7 +757,13 @@ public class AdventureGameView {
     public void addFontSizeEvent() {
         fontSizTextField.setOnAction(e -> {
             gridPane.requestFocus();
-            int temp = Integer.parseInt(fontSizTextField.getText());
+            int temp = fontSize;
+            try {
+                temp = Integer.parseInt(fontSizTextField.getText());
+            } catch (Exception error) {
+                ErrorView notInt = new ErrorView(this);
+                notInt.typeError(true);
+            }
             ErrorView error = new ErrorView(this);
             boolean invalid = error.fontSizeError(temp);
             if (!invalid) {
@@ -772,8 +783,10 @@ public class AdventureGameView {
             roomDesc.setContent(roomDescLabel);
             // Instruction
             Label tempLabel = (Label) controlPane.getContent();
-            tempLabel.setFont(Font.font(fontSize));
-            controlPane.setContent(tempLabel);
+            if (tempLabel != null) {
+                tempLabel.setFont(Font.font(fontSize));
+                controlPane.setContent(tempLabel);
+            }
         });
     }
 
@@ -781,21 +794,21 @@ public class AdventureGameView {
     /**
      * This method articulates Room Descriptions
      */
-    public void articulateRoomDescription() {
-        String musicFile;
-        String adventureName = this.model.getDirectoryName();
-        String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
+    // public void articulateRoomDescription() {
+    //     String musicFile;
+    //     String adventureName = this.model.getDirectoryName();
+    //     String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
 
-        if (!this.model.getPlayer().getCurrentRoom().getVisited()) musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3" ;
-        else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3" ;
-        musicFile = musicFile.replace(" ","-");
+    //     if (!this.model.getPlayer().getCurrentRoom().getVisited()) musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3" ;
+    //     else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3" ;
+    //     musicFile = musicFile.replace(" ","-");
 
-        Media sound = new Media(new File(musicFile).toURI().toString());
+    //     Media sound = new Media(new File(musicFile).toURI().toString());
 
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-        mediaPlaying = true;
-    }
+    //     mediaPlayer = new MediaPlayer(sound);
+    //     mediaPlayer.play();
+    //     mediaPlaying = true;
+    // }
 
     /**
      * This method stops articulations 

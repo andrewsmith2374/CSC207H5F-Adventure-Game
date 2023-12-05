@@ -1,29 +1,29 @@
 1
-Cloud Capped Range of Mount Pire
+mt. Pire
 -145,571
 
 2
-The Glistening Archen River
+Archen River
 -235,315
 
 3
-Master Oogways Cherry Tree
+Cherry Tree
 0,90
 
 4
-The Forever Frozen Waterfall
+Frozen Waterfall
 15,-15
 
 5
-The Old Mans Winter Home
+Father Christmas
 -160,-25
 
 6
-The Frozen Lake Of Charybdis
+The Frozen Lake
 -225,-104
 
 7
-The Ominous Telmar River
+Telmar River
 -455,26
 
 8
@@ -35,35 +35,35 @@ The Wardrobe
 794,-245
 
 10
-The Directional Lamp Post
+Lamp Post
 -685,-315
 
 11
-The Wizard Tumnus Hut
+Tumnus Hut
 -665,-449
 
 12
-The Evil Witch Queens Castle
+Witch's Castle
 295,-504
 
 13
-Dam Of The Industrious Beaver
+Beaver's Dam
 -480,-305
 
 14
-The Fabled Allies Enclave
+ Allies Enclave
 -419,-204
 
 15
-The Rock Bridge Passage Between Worlds
+Rock Bridge
 -220,-190
 
 16
-The Great River Jewel Of The Realm
+The Great River
 -125,-260
 
 17
-The Destructive Orc Camp
+Witch's Camp
 70,-119
 
 18
@@ -71,11 +71,11 @@ Fords Of Beruna
 206,-15
 
 19
-The Orc Overrun Dancing Lawn
+Dancing Lawn
 210,126
 
 20
-The Stone Table Meeting Spot Of Kings
+The Stone Table
 400,90
 
 21
@@ -95,27 +95,27 @@ The Depressing Northern Marsh
 590,-355
 
 25
-The Mountain Bordered River Shribble
+River Shribble
 500,-468
 
 26
-The Port City of Galma
+Galma
 891,-109
 
 27
-The Kingdom Of Cair Paravel
+Cair Paravel
 700,-109
 
 28
-The Lively Rush River
+Rush River
 550,50
 
 29
-Crystal Clear Glasswater Creek
+Glasswater Creek
 575,310
 
 30
-The Great Stormness Head Mountain Range
+Stormness Head
 595,501
 
 31
@@ -123,5 +123,5 @@ The Kingdom Of Anvard
 441,595
 
 32
-The Raging Winding Arrow Sea
+Winding Arrow River
 796,550

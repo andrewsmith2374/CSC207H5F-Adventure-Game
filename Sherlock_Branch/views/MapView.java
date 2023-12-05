@@ -165,7 +165,7 @@ public class MapView {
         String currRmName = location.getRoomName(currentRmNum);
         Button currButton = new Button();
         // Button
-        makeButton(currButton, currRmName, false, locationList, currentRmNum);
+        makeButton(currButton, currRmName, "false", locationList, currentRmNum);
         // player location
         c1.setTranslateX(locationList.get(currentRmNum)[0]);
         c1.setTranslateY(locationList.get(currentRmNum)[1] - 40);
@@ -175,11 +175,23 @@ public class MapView {
 
         // Seach for all possible path, set red color to represent
         List<Passage> path = this.adventureGameView.model.getPlayer().getCurrentRoom().getMotionTable().getDirection();
+        ArrayList<Integer> allRoom = new ArrayList<Integer>();
         for (Passage ele : path) {
             int nextRm = ele.getDestinationRoom();
+            allRoom.add(nextRm);
             String dir = ele.getDirection();
             Button tempButton = new Button();
-            makeButton(tempButton, location.getRoomName(nextRm), false, locationList, nextRm);
+            if (ele.getKeyName() != null) {
+                if (ele.getKeyName().endsWith("Troll")) {
+                    makeButton(tempButton, location.getRoomName(nextRm), "troll", locationList, nextRm);
+                }
+                else {
+                    makeButton(tempButton, location.getRoomName(nextRm), "false", locationList, nextRm);
+                }
+            }
+            else {
+                    makeButton(tempButton, location.getRoomName(nextRm), "false", locationList, nextRm);
+            }
             tempButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override 
                 public void handle(ActionEvent t) {
@@ -192,31 +204,38 @@ public class MapView {
         }
 
         // Search for all visited place
-        // List<Room> roomList = new ArrayList<>(this.adventureGameView.model.getRooms().values());
-        // for (Room ele : roomList) {
-        //     Button notButton = new Button();
-        //     if (ele.getVisited()) {
-        //         makeButton(notButton, ele.getRoomName(), true, locationList, ele.getRoomNumber());
-        //     }
-        //     notButton.setDisable(true);
-        //     layout.getChildren().addAll(
-        //         notButton
-        //     );
-        // }
+        List<Room> roomList = new ArrayList<>(this.adventureGameView.model.getRooms().values());
+        for (Room ele : roomList) {
+            if (allRoom.contains(ele.getRoomNumber()) || ele.getRoomNumber() == this.adventureGameView.model.getPlayer().getCurrentRoom().getRoomNumber()) {
+                continue;
+            }
+            if (ele.getVisited()) {
+                Button notButton = new Button();
+                System.out.println(ele.getRoomName());
+                makeButton(notButton, location.getRoomName(ele.getRoomNumber()), "true", locationList, ele.getRoomNumber());
+                notButton.setDisable(true);
+                layout.getChildren().addAll(
+                    notButton
+                );
+            }
+        }
     }
 
     /**
      * Make button and related stuff
      * @return made button
      */
-    public void makeButton(Button b, String name, boolean visit, HashMap<Integer, int[]> loca, int num) {
+    public void makeButton(Button b, String name, String visit, HashMap<Integer, int[]> loca, int num) {
         b.setText(name);
         b.setFont(new Font(this.adventureGameView.fontSize));
-        if (!visit) {
+        if (visit.equals("false")) {
             b.setStyle("-fx-base: firebrick;");
         }
-        else {
+        else if (visit.equals("true")) {
             b.setStyle("-fx-base: grey;");
+        }
+        else {
+            b.setStyle("-fx-base: purple;");
         }
         b.setTranslateX(loca.get(num)[0]);
         b.setTranslateY(loca.get(num)[1]);

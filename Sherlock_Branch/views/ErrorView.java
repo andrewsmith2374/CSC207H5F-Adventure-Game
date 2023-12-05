@@ -71,4 +71,15 @@ public class ErrorView {
         }
         return false;
     }
+
+    /**
+     * Type Error
+     * @return boolean indicate whether it is error or not
+     */
+    public void typeError(Boolean indi) {
+        if (indi) {
+            errorMessage.setText("At what point you think this is a font size??");
+            dialog.show();
+        }
+    }
 }
