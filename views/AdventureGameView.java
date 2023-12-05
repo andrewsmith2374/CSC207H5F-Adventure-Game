@@ -482,56 +482,7 @@ public class AdventureGameView {
      */
     public void updateItems() {
 
-        //write some code here to add images of objects in a player's inventory room to the objectsInInventory Vbox
-        //please use setAccessibleText to add "alt" descriptions to your images!
-        //the path to the image of any is as follows:
-        //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
-        clearBox(objectsInInventory);
-        for(String object : model.player.getInventory()) {
-            getButton(object, objectsInInventory);
-        }
-
-        ScrollPane scO = getScrollPane();
-        gridPane.add(scO,0,1);
-
-        ScrollPane scI = new ScrollPane(objectsInInventory);
-        scI.setFitToWidth(true);
-        scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        gridPane.add(scI,2,1);
-    }
-
-    private void getButton(String objectName, VBox room) {
-        Button objectButton = getButtonFromImage(objectName);
-        makeButtonAccessible(objectButton, objectName, objectName, objectName);
-        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(room.equals(objectsInRoom)) {
-                    submitEvent("TAKE " + objectName);
-                } else {
-                    submitEvent("DROP " + objectName);
-                }
-            }
-        };
-        objectButton.setOnMouseClicked(handler);
-
-        room.getChildren().add(objectButton);
-    }
-
-    private Button getButtonFromImage(String objectName) {
-        String pathname = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
-        Button button = new Button();
-        ImageView image = new ImageView(pathname);
-        image.setFitWidth(100);
-        image.setFitHeight(75);
-        button.setGraphic(image);
-        button.setText(objectName);
-        button.setContentDisplay(ContentDisplay.TOP);
-
-        return button;
-    }
-
-    private ScrollPane getScrollPane() {
+        // Scroll pane for object in the current room
         ScrollPane scO = new ScrollPane(objectsInRoom);
         scO.setPadding(new Insets(10));
         scO.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
