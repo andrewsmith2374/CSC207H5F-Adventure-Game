@@ -1,5 +1,6 @@
 package AdventureModel.Trolls.WordleTroll;
 
+import views.AdventureGameView;
 import AdventureModel.AdventureGame;
 import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
@@ -29,24 +30,15 @@ public class WordleTroll implements Troll {
         FileHandler fileHandler = new FileHandler();
         createWordGenerator(fileHandler);
         secretWord = wordGenerator.generate();
+        System.out.println(secretWord);
         createGuessGenerator(fileHandler);
         acceptedGuesses = guessGenerator.generate();
         instructions = "Guess a 5 letter secret word. With each guess, the game will let you know how close you were to" +
                 " the secret word! Grey means the letter is not in the secret word, yellow means it's in the word but in" +
                 " the wrong spot, and green means you got the right letter in the right spot.";
-        requiredItems = populateRequiredItems();
-        currentGuess = 0;
-    }
-
-    private List<String> populateRequiredItems() {
-        final List<String> requiredItems;
         requiredItems = new ArrayList<>();
-        requiredItems.add("BLADE_OF_DELIVERANCE");
-        requiredItems.add("GLAMDRING");
-        requiredItems.add("SWORD_OF_ELDERS");
-        requiredItems.add("SWORD_OF_SANCTUARY");
-        requiredItems.add("WARHAMMER");
-        return requiredItems;
+        requiredItems.add("SHIP");
+        currentGuess = 0;
     }
 
     /*

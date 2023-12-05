@@ -171,8 +171,10 @@ public class RockPaperScissorTrollView {
 
         gridPane.setGridLinesVisible(false);
 
-        var scene = new Scene(gridPane, 1000, 800);
+        var scene = new Scene(gridPane, 1000, 1000);
         stage.setResizable(false);
+        stage.setMaxHeight(1000);
+        stage.setMaxWidth(1000);
         stage.setScene(scene);
         stage.show();
     }

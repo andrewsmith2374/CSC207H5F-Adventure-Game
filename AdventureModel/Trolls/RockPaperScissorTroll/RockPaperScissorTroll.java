@@ -1,16 +1,16 @@
 package AdventureModel.Trolls.RockPaperScissorTroll;
 
 import AdventureModel.AdventureGame;
-
+import AdventureModel.Room;
 import AdventureModel.Troll;
 
 import java.io.BufferedReader;
-
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -33,7 +33,7 @@ public class RockPaperScissorTroll implements Troll {
     public RockPaperScissorTroll() throws ClassNotFoundException, IOException {
         this.options = new ArrayList<>();
         this.requiredItems = new ArrayList<>();
-        requiredItems.add("SWORD_OF_SANCTUARY");
+        requiredItems.add("SWORD_OF_ELDERS");
         options.add("rock");
         options.add("paper");
         options.add("scissor");

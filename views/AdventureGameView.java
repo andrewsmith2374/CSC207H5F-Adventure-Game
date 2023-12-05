@@ -4,6 +4,7 @@ import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Passage;
 import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -26,6 +28,7 @@ import javafx.scene.AccessibleRole;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Class AdventureGameView.
@@ -61,113 +64,166 @@ public class AdventureGameView {
      * Initialize the UI
      */
     public void intiUI() {
+        Pane root = new Pane();
+        root.setStyle("-fx-background-color: black;"); // Set the background color to black
+        Scene scene = new Scene(root, 1000, 800);
+        int numberOfDots = 5;
+        double dotSpacing = 30;
+        double movementRange = 50; // The vertical movement range of each dot
 
-        // setting up the stage
-        this.stage.setTitle("group83's Adventure Game");
+        ArrayList<Circle> circles = new ArrayList<Circle>();
+        Circle dot1 = new Circle(12, Color.web("#581845"));
+        Circle dot2 = new Circle(12, Color.web("#900C3F"));
+        Circle dot3 = new Circle(12, Color.web("#C70039"));
+        Circle dot4 = new Circle(12, Color.web("#FF5733"));
+        Circle dot5 = new Circle(12, Color.web("#FFC300"));
 
-        //Inventory + Room items
-        objectsInInventory.setSpacing(10);
-        objectsInInventory.setAlignment(Pos.TOP_CENTER);
-        objectsInRoom.setSpacing(10);
-        objectsInRoom.setAlignment(Pos.TOP_CENTER);
+        circles.add(dot1);
+        circles.add(dot2);
+        circles.add(dot3);
+        circles.add(dot4);
+        circles.add(dot5);
 
-        // GridPane, anyone?
-        gridPane.setPadding(new Insets(20));
-        gridPane.setBackground(new Background(new BackgroundFill(
-                Color.valueOf("#000000"),
-                new CornerRadii(0),
-                new Insets(0)
-        )));
+        // Create and animate each dot
+        for (int i = 0; i < numberOfDots; i++) {
+            circles.get(i).setCenterX(440 + i * dotSpacing);
+            circles.get(i).setCenterY(scene.getHeight() / 2);
 
-        //Three columns, three rows for the GridPane
-        ColumnConstraints column1 = new ColumnConstraints(150);
-        ColumnConstraints column2 = new ColumnConstraints(650);
-        ColumnConstraints column3 = new ColumnConstraints(150);
-        column3.setHgrow( Priority.SOMETIMES ); //let some columns grow to take any extra space
-        column1.setHgrow( Priority.SOMETIMES );
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(1), circles.get(i));
+            transition.setByY(movementRange);
+            transition.setAutoReverse(true);
+            transition.setCycleCount(TranslateTransition.INDEFINITE);
+            transition.setDelay(Duration.millis(i * 100)); // Stagger the start of each dot's movement
+            transition.play();
 
-        // Row constraints
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints( 550 );
-        RowConstraints row3 = new RowConstraints();
-        row1.setVgrow( Priority.SOMETIMES );
-        row3.setVgrow( Priority.SOMETIMES );
+            root.getChildren().add(circles.get(i));
+        }
 
-        gridPane.getColumnConstraints().addAll( column1 , column2 , column1 );
-        gridPane.getRowConstraints().addAll( row1 , row2 , row1 );
+        stage.setTitle("Loading Screen");
+        stage.setScene(scene);
+        scene.setFill(Color.web("#000000"));
+        stage.show();
 
-        // Buttons
-        saveButton = new Button("Save");
-        saveButton.setId("Save");
-        customizeButton(saveButton, 100, 50);
-        makeButtonAccessible(saveButton, "Save Button", "This button saves the game.", "This button saves the game. Click it in order to save your current progress, so you can play more later.");
-        addSaveEvent();
+        //play loading screen for 5 seconds
+        PauseTransition loadingPause = new PauseTransition(Duration.seconds(1));
 
-        loadButton = new Button("Load");
-        loadButton.setId("Load");
-        customizeButton(loadButton, 100, 50);
-        makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
-        addLoadEvent();
 
-        helpButton = new Button("Instructions");
-        helpButton.setId("Instructions");
-        customizeButton(helpButton, 200, 50);
-        makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
-        addInstructionEvent();
+        //switch to game after loading screen time done
+        loadingPause.setOnFinished(event -> {
+            //clear loading screen
+            root.getChildren().clear();
 
-        HBox topButtons = new HBox();
-        topButtons.getChildren().addAll(saveButton, helpButton, loadButton);
-        topButtons.setSpacing(10);
-        topButtons.setAlignment(Pos.CENTER);
+            var scene1 = new Scene(gridPane, 1000, 800);
 
-        inputTextField = new TextField();
-        inputTextField.setFont(new Font("Arial", 16));
-        inputTextField.setFocusTraversable(true);
+            // setting up the stage
+            this.stage.setTitle("group83's Adventure Game");
 
-        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
-        inputTextField.setAccessibleRoleDescription("Text Entry Box");
-        inputTextField.setAccessibleText("Enter commands in this box.");
-        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
-        addTextHandlingEvent(); //attach an event to this input field
+            //Inventory + Room items
+            objectsInInventory.setSpacing(10);
+            objectsInInventory.setAlignment(Pos.TOP_CENTER);
+            objectsInRoom.setSpacing(10);
+            objectsInRoom.setAlignment(Pos.TOP_CENTER);
 
-        //labels for inventory and room items
-        Label objLabel =  new Label("Objects in Room");
-        objLabel.setAlignment(Pos.CENTER);
-        objLabel.setStyle("-fx-text-fill: white;");
-        objLabel.setFont(new Font("Arial", 16));
+            // GridPane, anyone?
+            gridPane.setPadding(new Insets(20));
+            gridPane.setBackground(new Background(new BackgroundFill(
+                    Color.valueOf("#000000"),
+                    new CornerRadii(0),
+                    new Insets(0)
+            )));
 
-        Label invLabel =  new Label("Your Inventory");
-        invLabel.setAlignment(Pos.CENTER);
-        invLabel.setStyle("-fx-text-fill: white;");
-        invLabel.setFont(new Font("Arial", 16));
+            //Three columns, three rows for the GridPane
+            ColumnConstraints column1 = new ColumnConstraints(150);
+            ColumnConstraints column2 = new ColumnConstraints(650);
+            ColumnConstraints column3 = new ColumnConstraints(150);
+            column3.setHgrow(Priority.SOMETIMES); //let some columns grow to take any extra space
+            column1.setHgrow(Priority.SOMETIMES);
 
-        //add all the widgets to the GridPane
-        gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
-        gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
-        gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
+            // Row constraints
+            RowConstraints row1 = new RowConstraints();
+            RowConstraints row2 = new RowConstraints(550);
+            RowConstraints row3 = new RowConstraints();
+            row1.setVgrow(Priority.SOMETIMES);
+            row3.setVgrow(Priority.SOMETIMES);
 
-        Label commandLabel = new Label("What would you like to do?");
-        commandLabel.setStyle("-fx-text-fill: white;");
-        commandLabel.setFont(new Font("Arial", 16));
+            gridPane.getColumnConstraints().addAll(column1, column2, column1);
+            gridPane.getRowConstraints().addAll(row1, row2, row1);
 
-        updateScene(""); //method displays an image and whatever text is supplied
-        updateItems(); //update items shows inventory and objects in rooms
+            // Buttons
+            saveButton = new Button("Save");
+            saveButton.setId("Save");
+            customizeButton(saveButton, 100, 50);
+            makeButtonAccessible(saveButton, "Save Button", "This button saves the game.", "This button saves the game. Click it in order to save your current progress, so you can play more later.");
+            addSaveEvent();
 
-        // adding the text area and submit button to a VBox
-        VBox textEntry = new VBox();
-        textEntry.setStyle("-fx-background-color: #000000;");
-        textEntry.setPadding(new Insets(20, 20, 20, 20));
-        textEntry.getChildren().addAll(commandLabel, inputTextField);
-        textEntry.setSpacing(10);
-        textEntry.setAlignment(Pos.CENTER);
-        gridPane.add( textEntry, 0, 2, 3, 1 );
+            loadButton = new Button("Load");
+            loadButton.setId("Load");
+            customizeButton(loadButton, 100, 50);
+            makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
+            addLoadEvent();
 
-        // Render everything
-        var scene = new Scene(gridPane,  1000, 800);
-        scene.setFill(Color.BLACK);
-        this.stage.setScene(scene);
-        this.stage.setResizable(false);
-        this.stage.show();
+            helpButton = new Button("Instructions");
+            helpButton.setId("Instructions");
+            customizeButton(helpButton, 200, 50);
+            makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
+            addInstructionEvent();
+
+            HBox topButtons = new HBox();
+            topButtons.getChildren().addAll(saveButton, helpButton, loadButton);
+            topButtons.setSpacing(10);
+            topButtons.setAlignment(Pos.CENTER);
+
+            inputTextField = new TextField();
+            inputTextField.setFont(new Font("Arial", 16));
+            inputTextField.setFocusTraversable(true);
+
+            inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
+            inputTextField.setAccessibleRoleDescription("Text Entry Box");
+            inputTextField.setAccessibleText("Enter commands in this box.");
+            inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
+            addTextHandlingEvent(); //attach an event to this input field
+
+            //labels for inventory and room items
+            Label objLabel = new Label("Objects in Room");
+            objLabel.setAlignment(Pos.CENTER);
+            objLabel.setStyle("-fx-text-fill: white;");
+            objLabel.setFont(new Font("Arial", 16));
+
+            Label invLabel = new Label("Your Inventory");
+            invLabel.setAlignment(Pos.CENTER);
+            invLabel.setStyle("-fx-text-fill: white;");
+            invLabel.setFont(new Font("Arial", 16));
+
+            //add all the widgets to the GridPane
+            gridPane.add(objLabel, 0, 0, 1, 1);  // Add label
+            gridPane.add(topButtons, 1, 0, 1, 1);  // Add buttons
+            gridPane.add(invLabel, 2, 0, 1, 1);  // Add label
+
+            Label commandLabel = new Label("What would you like to do?");
+            commandLabel.setStyle("-fx-text-fill: white;");
+            commandLabel.setFont(new Font("Arial", 16));
+
+            updateScene(""); //method displays an image and whatever text is supplied
+            updateItems(); //update items shows inventory and objects in rooms
+
+            // adding the text area and submit button to a VBox
+            VBox textEntry = new VBox();
+            textEntry.setStyle("-fx-background-color: #000000;");
+            textEntry.setPadding(new Insets(20, 20, 20, 20));
+            textEntry.getChildren().addAll(commandLabel, inputTextField);
+            textEntry.setSpacing(10);
+            textEntry.setAlignment(Pos.CENTER);
+            gridPane.add(textEntry, 0, 2, 3, 1);
+
+            // Render everything
+            scene1.setFill(Color.BLACK);
+            this.stage.setScene(scene1);
+            this.stage.setResizable(false);
+            this.stage.show();
+        });
+
+        loadingPause.play();
+
     }
 
 
@@ -178,9 +234,9 @@ public class AdventureGameView {
      * https://www.w3.org/WAI/standards-guidelines/aria/
      *
      * @param inputButton the button to add screen reader hooks to
-     * @param name ARIA name
+     * @param name        ARIA name
      * @param shortString ARIA accessible text
-     * @param longString ARIA accessible help text
+     * @param longString  ARIA accessible help text
      */
     public static void makeButtonAccessible(Button inputButton, String name, String shortString, String longString) {
         inputButton.setAccessibleRole(AccessibleRole.BUTTON);
@@ -195,8 +251,8 @@ public class AdventureGameView {
      * __________________________
      *
      * @param inputButton the button to make stylish :)
-     * @param w width
-     * @param h height
+     * @param w           width
+     * @param h           height
      */
     private void customizeButton(Button inputButton, int w, int h) {
         inputButton.setPrefSize(w, h);
@@ -207,25 +263,25 @@ public class AdventureGameView {
     /**
      * addTextHandlingEvent
      * __________________________
-     * Add an event handler to the inputTextField attribute 
+     * Add an event handler to the inputTextField attribute
      * <p>
-     * Your event handler should respond when users 
-     * hits the ENTER or TAB KEY. If the user hits 
+     * Your event handler should respond when users
+     * hits the ENTER or TAB KEY. If the user hits
      * the ENTER Key, strip white space from the
-     * input to inputTextField and pass the stripped 
+     * input to inputTextField and pass the stripped
      * string to submitEvent for processing.
      * <p>
-     * If the user hits the TAB key, move the focus 
-     * of the scene onto any other node in the scene 
+     * If the user hits the TAB key, move the focus
+     * of the scene onto any other node in the scene
      * graph by invoking requestFocus method.
      */
     private void addTextHandlingEvent() {
         EventHandler<KeyEvent> textEventHandler = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                     handleEnter();
-                } else if(keyEvent.getCode().equals(KeyCode.TAB)) {
+                } else if (keyEvent.getCode().equals(KeyCode.TAB)) {
                     handleTab();
                 }
             }
@@ -308,7 +364,7 @@ public class AdventureGameView {
      * __________________________
      * <p>
      * update the text in the GUI (within roomDescLabel)
-     * to show all the moves that are possible from the 
+     * to show all the moves that are possible from the
      * current room.
      */
     private void showCommands() {
@@ -333,7 +389,7 @@ public class AdventureGameView {
      * below the image.
      * Otherwise, the current room description will be displayed
      * below the image.
-     * 
+     *
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
@@ -344,7 +400,7 @@ public class AdventureGameView {
         roomDescLabel.setPrefHeight(500);
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
         roomDescLabel.setWrapText(true);
-        VBox roomPane = new VBox(roomImageView,roomDescLabel);
+        VBox roomPane = new VBox(roomImageView, roomDescLabel);
         roomPane.setPadding(new Insets(10));
         roomPane.setAlignment(Pos.TOP_CENTER);
         roomPane.setStyle("-fx-background-color: #000000;");
@@ -361,14 +417,15 @@ public class AdventureGameView {
      * __________________________
      * <p>
      * Format text for display.
-     * 
+     *
      * @param textToDisplay the text to be formatted for display.
      */
     private void formatText(String textToDisplay) {
         if (textToDisplay == null || textToDisplay.isBlank()) {
             String roomDesc = this.model.getPlayer().getCurrentRoom().getRoomDescription() + "\n";
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
-            if (objectString != null && !objectString.isEmpty()) roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
+            if (objectString != null && !objectString.isEmpty())
+                roomDescLabel.setText(roomDesc + "\n\nObjects in this room:\n" + objectString);
             else roomDescLabel.setText(roomDesc);
         } else roomDescLabel.setText(textToDisplay);
         roomDescLabel.setStyle("-fx-text-fill: white;");
@@ -380,8 +437,8 @@ public class AdventureGameView {
      * getRoomImage
      * __________________________
      * <p>
-     * Get the image for the current room and place 
-     * it in the roomImageView 
+     * Get the image for the current room and place
+     * it in the roomImageView
      */
     private void getRoomImage() {
 
@@ -410,13 +467,13 @@ public class AdventureGameView {
      * Each Vbox should contain a collection of nodes (Buttons, ImageViews, you can decide)
      * Each node represents a different object.
      * <p>
-     * Images of each object are in the assets 
+     * Images of each object are in the assets
      * folders of the given adventure game.
      */
     public void updateItems() {
         //write some code here to add images of objects in a given room to the objectsInRoom Vbox
         clearBox(objectsInRoom);
-        for(AdventureObject object : model.player.getCurrentRoom().objectsInRoom) {
+        for (AdventureObject object : model.player.getCurrentRoom().objectsInRoom) {
             String objectName = object.getName();
             getButton(objectName, objectsInRoom);
         }
@@ -426,26 +483,27 @@ public class AdventureGameView {
         //the path to the image of any is as follows:
         //this.model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
         clearBox(objectsInInventory);
-        for(String object : model.player.getInventory()) {
+        for (String object : model.player.getInventory()) {
             getButton(object, objectsInInventory);
         }
 
         ScrollPane scO = getScrollPane();
-        gridPane.add(scO,0,1);
+        gridPane.add(scO, 0, 1);
 
         ScrollPane scI = new ScrollPane(objectsInInventory);
         scI.setFitToWidth(true);
         scI.setStyle("-fx-background: #000000; -fx-background-color:transparent;");
-        gridPane.add(scI,2,1);
+        gridPane.add(scI, 2, 1);
     }
 
     private void getButton(String objectName, VBox room) {
-        Button objectButton = getButtonFromImage(objectName);
+        String path = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
+        Button objectButton = getButtonFromImage(path);
         makeButtonAccessible(objectButton, objectName, objectName, objectName);
         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if(room.equals(objectsInRoom)) {
+                if (room.equals(objectsInRoom)) {
                     submitEvent("TAKE " + objectName);
                 } else {
                     submitEvent("DROP " + objectName);
@@ -457,15 +515,12 @@ public class AdventureGameView {
         room.getChildren().add(objectButton);
     }
 
-    private Button getButtonFromImage(String objectName) {
-        String pathname = model.getDirectoryName() + "/objectImages/" + objectName + ".jpg";
+    private Button getButtonFromImage(String pathname) {
         Button button = new Button();
         ImageView image = new ImageView(pathname);
         image.setFitWidth(100);
         image.setFitHeight(75);
         button.setGraphic(image);
-        button.setText(objectName);
-        button.setContentDisplay(ContentDisplay.TOP);
 
         return button;
     }
@@ -479,7 +534,7 @@ public class AdventureGameView {
     }
 
     private void clearBox(VBox node) {
-        while(!node.getChildren().isEmpty()) {
+        while (!node.getChildren().isEmpty()) {
             node.getChildren().remove(0);
         }
     }
@@ -490,7 +545,9 @@ public class AdventureGameView {
         // Let the loop below loop for once iff it is call by action and there is no object in the inventory
         AdventureObject additional = new AdventureObject(null, null, null);
         boolean check = (pic != null && this.model.getPlayer().inventory.isEmpty());
-        if (check) { this.model.getPlayer().inventory.add(additional); }
+        if (check) {
+            this.model.getPlayer().inventory.add(additional);
+        }
         // Iterate through players inventory
         for (AdventureObject ele : this.model.getPlayer().inventory) {
             // Object name
@@ -515,10 +572,14 @@ public class AdventureGameView {
             });
             objInInv.getChildren().add(temp);
             // Loop only once if it is called by button action
-            if (pic != null) { break; }
+            if (pic != null) {
+                break;
+            }
         }
         // Remove the append item after it is finished
-        if (check) { this.model.getPlayer().inventory.remove(additional); }
+        if (check) {
+            this.model.getPlayer().inventory.remove(additional);
+        }
     }
 
     // Helper for updateItems to make button of object in room
@@ -527,7 +588,9 @@ public class AdventureGameView {
         // Let the loop below loop for once iff it is call by action and there is no object in room
         AdventureObject additional = new AdventureObject(null, null, null);
         boolean check = (pic != null && this.model.getPlayer().getCurrentRoom().objectsInRoom.isEmpty());
-        if (check) { this.model.getPlayer().getCurrentRoom().objectsInRoom.add(additional); }
+        if (check) {
+            this.model.getPlayer().getCurrentRoom().objectsInRoom.add(additional);
+        }
         // Iterate through current room obj
         for (AdventureObject ele : this.model.getPlayer().getCurrentRoom().objectsInRoom) {
             // Object name
@@ -552,10 +615,14 @@ public class AdventureGameView {
             });
             objInRm.getChildren().add(temp2);
             // Loop only once if it is called by button action
-            if (pic != null) { break; }
+            if (pic != null) {
+                break;
+            }
         }
         // Remove the append item after it is finished
-        if (check) { this.model.getPlayer().getCurrentRoom().objectsInRoom.remove(additional); }
+        if (check) {
+            this.model.getPlayer().getCurrentRoom().objectsInRoom.remove(additional);
+        }
     }
 
     /*
@@ -589,8 +656,7 @@ public class AdventureGameView {
             // Remove room image and room description
             roomImageView.setImage(null);
             roomDescLabel.setText("");
-        }
-        else {
+        } else {
             // Redraw the room image and set the description by updating the whole scene
             updateScene("");
             // Set the toggle to false
@@ -639,9 +705,10 @@ public class AdventureGameView {
         String adventureName = this.model.getDirectoryName();
         String roomName = this.model.getPlayer().getCurrentRoom().getRoomName();
 
-        if (!this.model.getPlayer().getCurrentRoom().getVisited()) musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3" ;
-        else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3" ;
-        musicFile = musicFile.replace(" ","-");
+        if (!this.model.getPlayer().getCurrentRoom().getVisited())
+            musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-long.mp3";
+        else musicFile = "./" + adventureName + "/sounds/" + roomName.toLowerCase() + "-short.mp3";
+        musicFile = musicFile.replace(" ", "-");
 
         Media sound = new Media(new File(musicFile).toURI().toString());
 
@@ -652,7 +719,7 @@ public class AdventureGameView {
     }
 
     /**
-     * This method stops articulations 
+     * This method stops articulations
      * (useful when transitioning to a new room or loading a new game)
      */
     public void stopArticulation() {

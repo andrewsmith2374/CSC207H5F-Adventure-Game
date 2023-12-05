@@ -49,6 +49,7 @@ public class WordleTrollView {
      * Create all UI present at the start of the game
      */
     private void initUI() {
+        System.out.println();
         int colWidth = 100;
         stage.setTitle("Wordle!");
         createGridPane();
