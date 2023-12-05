@@ -192,10 +192,11 @@ public class WhackAMoleTrollView {
             moleButton.setPrefHeight(300);
             moleButton.setBackground(Background.EMPTY);
             moleButton.setAlignment(Pos.TOP_CENTER);
+            gridPane.add(moleButton, randomCol, randomRow);
         } catch(IllegalArgumentException ignored) {}
 
         finally {
-        gridPane.add(moleButton, randomCol, randomRow);
+
         stage.show();
         addMoleButtonEvent(); //if button is clicked it updates score;
         // need a method to remove the button after 2 seconds
