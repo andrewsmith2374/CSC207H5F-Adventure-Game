@@ -24,7 +24,7 @@ public class AdventureGame implements Serializable {
     public AdventureGame(String name){
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
-        this.directoryName = "Games\\" + name; //all games files are in the Games directory!
+        this.directoryName = name; //all games files are in the Games directory!
         try {
             setUpGame();
         } catch (IOException e) {
