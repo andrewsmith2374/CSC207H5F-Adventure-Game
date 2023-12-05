@@ -1,6 +1,7 @@
 package AdventureModel.Trolls.WhackAMoleTroll;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -52,7 +53,7 @@ public class WhackAMoleTrollView {
         this.stage.setTitle("Whack A Mole");
 
 
-        Image background = new Image("AdventureModel/Trolls/graphics/whack a mole background .png");
+        Image background = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/whack a mole background .png");
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
@@ -66,23 +67,23 @@ public class WhackAMoleTrollView {
         scoreLabel.setWrapText(true);
         scoreLabel.setId("Score");
 
-        Image mole1 = new Image("AdventureModel/Trolls/graphics/mole1.png");
+        Image mole1 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/mole1.png");
         Button mole1Button = new Button();
         mole1Button.setGraphic(new ImageView(mole1));
         mole1Button.setId("mole1");
-        Image mole2 = new Image("AdventureModel/Trolls/graphics/mole2.png");
+        Image mole2 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/mole2.png");
         Button mole2Button = new Button();
         mole2Button.setGraphic(new ImageView(mole2));
         mole2Button.setId("mole2");
-        Image mole3 = new Image("AdventureModel/Trolls/graphics/mole3.png");
+        Image mole3 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/mole3.png");
         Button mole3Button = new Button();
         mole3Button.setGraphic(new ImageView(mole3));
         mole3Button.setId("mole3");
-        Image mole4 = new Image("AdventureModel/Trolls/graphics/mole4.png");
+        Image mole4 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/mole4.png");
         Button mole4Button = new Button();
         mole4Button.setGraphic(new ImageView(mole4));
         mole4Button.setId("mole4");
-        Image mole5 = new Image("AdventureModel/Trolls/graphics/mole5.png");
+        Image mole5 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/mole5.png");
         Button mole5Button = new Button();
         mole5Button.setGraphic(new ImageView(mole5));
         mole5Button.setId("mole5");
@@ -95,32 +96,32 @@ public class WhackAMoleTrollView {
 
         //add thesr to VBOX's and assign position
 
-        Image hole1 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole1 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole1View = new ImageView(hole1);
         VBox box1 = new VBox(hole1View);
         box1.setAlignment(Pos.BOTTOM_CENTER);
 
-        Image hole2 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole2 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole2View = new ImageView(hole2);
         VBox box2 = new VBox(hole2View);
         box2.setAlignment(Pos.BOTTOM_CENTER);
 
-        Image hole3 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole3 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole3View = new ImageView(hole3);
         VBox box3 = new VBox(hole3View);
         box3.setAlignment(Pos.BOTTOM_CENTER);
 
-        Image hole4 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole4 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole4View = new ImageView(hole4);
         VBox box4 = new VBox(hole4View);
         box4.setAlignment(Pos.BOTTOM_CENTER);
 
-        Image hole5 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole5 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole5View = new ImageView(hole5);
         VBox box5 = new VBox(hole5View);
         box5.setAlignment(Pos.BOTTOM_CENTER);
 
-        Image hole6 = new Image("AdventureModel/Trolls/graphics/hole1.png");
+        Image hole6 = new Image("AdventureModel/Trolls/WhackAMoleTroll/graphics/hole1.png");
         ImageView hole6View = new ImageView(hole6);
         VBox box6 = new VBox(hole6View);
         box6.setAlignment(Pos.BOTTOM_CENTER);
@@ -161,10 +162,8 @@ public class WhackAMoleTrollView {
         gridPane.add(box6, 2, 2);
 
         gridPane.setGridLinesVisible(false);
-        gridPane.setMaxWidth(1000);
-        gridPane.setMaxHeight(1000);
 
-        var scene = new Scene(gridPane, 1000, 1000);
+        var scene = new Scene(gridPane, 1000, 800);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
@@ -196,7 +195,6 @@ public class WhackAMoleTrollView {
         } catch(IllegalArgumentException ignored) {}
 
         finally {
-
         gridPane.add(moleButton, randomCol, randomRow);
         stage.show();
         addMoleButtonEvent(); //if button is clicked it updates score;
@@ -253,10 +251,12 @@ public class WhackAMoleTrollView {
                 }
 
             });
-
-            moleTimeLine.play();
         } catch (IllegalArgumentException ignored) {
             // Ignored, do nothing.
+        } finally {
+            moleTimeLine.play();
+            stage.setOnCloseRequest(e -> {moleTimeLine.stop();
+                stage.close();});
         }
     }
 

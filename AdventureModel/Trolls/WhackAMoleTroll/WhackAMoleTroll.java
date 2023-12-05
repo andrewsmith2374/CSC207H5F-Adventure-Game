@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 public class WhackAMoleTroll implements Troll, MoleEventListener {
     public static boolean gameStatus;
     public int score;
-    private ScheduledExecutorService scheduler;
     public MoleEventManager moleEventManager;
     public List<String> requiredItems;
 
@@ -34,7 +33,7 @@ public class WhackAMoleTroll implements Troll, MoleEventListener {
         this.score = 0;
         this.moleEventManager = new MoleEventManager();
         this.moleEventManager.subscribe(this);
-        this.scheduler = Executors.newSingleThreadScheduledExecutor();
+
 
     }
 
