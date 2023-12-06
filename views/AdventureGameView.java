@@ -326,6 +326,7 @@ public class AdventureGameView {
         stopArticulation(); //if speaking, stop
 
         if (text.equalsIgnoreCase("LOOK") || text.equalsIgnoreCase("L")) {
+            updateScene("");
             String roomDescTemp = this.model.getPlayer().getCurrentRoom().getRoomDescription();
             String objectString = this.model.getPlayer().getCurrentRoom().getObjectString();
             if (!objectString.isEmpty()) {
@@ -338,6 +339,7 @@ public class AdventureGameView {
             showInstructions();
             return;
         } else if (text.equalsIgnoreCase("COMMANDS") || text.equalsIgnoreCase("C")) {
+            updateScene("");
             showCommands(); //this is new!  We did not have this command in A1
             return;
         }
@@ -410,7 +412,9 @@ public class AdventureGameView {
      * @param textToDisplay the text to display below the image.
      */
     public void updateScene(String textToDisplay) {
-
+        if(helpToggle) {
+            showInstructions();
+        }
         getRoomImage(); //get the image of the current room
         formatText(textToDisplay); //format the text to display
         roomDescLabel.setTextOverrun(OverrunStyle.CLIP);
@@ -646,13 +650,13 @@ public class AdventureGameView {
             roomDesc.setVisible(false);
         }
         else {
+            helpToggle = false;
             roomDesc.setVisible(true);
             gridPane.getChildren().remove(controlPane);
             controlPane = new ScrollPane();
             // Redraw the room image and set the description by updating the whole scene
             updateScene("");
             // Set the toggle to false
-            helpToggle = false;
         }
     }
 

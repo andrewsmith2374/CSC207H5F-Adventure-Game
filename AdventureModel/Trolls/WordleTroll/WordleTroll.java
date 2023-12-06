@@ -5,9 +5,8 @@ import AdventureModel.Troll;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.AcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.AcceptedGuessGenerator.WordleAcceptedGuessGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.SecretWordGenerator;
-import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.TestGenerator;
 import AdventureModel.Trolls.WordleTroll.SecretWordGenerator.WordleSecretWordGenerator;
-import FileIO.FileHandler;
+import Util.FileIO.FileHandler;
 
 import java.io.BufferedReader;
 import java.util.*;
