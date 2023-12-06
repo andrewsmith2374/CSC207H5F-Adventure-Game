@@ -1,33 +1,14 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-/**
-=======
 package views; /**
->>>>>>> Stashed changes
-=======
-package views; /**
->>>>>>> Stashed changes
  * Since I don't want to pay zoom for just cloud recording one video,
  * thus I just record it and push to the repo as a mp4 file, which 
  * is named as leesze17.mp4
  */
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-package views;
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Passage;
 import javafx.animation.PauseTransition;
-<<<<<<< Updated upstream
-=======
 import javafx.animation.TranslateTransition;
->>>>>>> Stashed changes
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -39,10 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
-<<<<<<< Updated upstream
-=======
 import javafx.scene.shape.Circle;
->>>>>>> Stashed changes
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -114,11 +92,6 @@ public class AdventureGameView {
      * Initialize the UI
      */
     public void intiUI() {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
         // setting up the stage
         this.stage.setTitle("group83's Adventure Game");
 
@@ -129,28 +102,6 @@ public class AdventureGameView {
         int numberOfDots = 5;
         double dotSpacing = 30;
         double movementRange = 50; // The vertical movement range of each dot
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-
-        // setting up the stage
-        this.stage.setTitle("group83's Adventure Game");
-
-        //Inventory + Room items
-        objectsInInventory.setSpacing(10);
-        objectsInInventory.setAlignment(Pos.TOP_CENTER);
-        objectsInRoom.setSpacing(10);
-        objectsInRoom.setAlignment(Pos.TOP_CENTER);
-
-<<<<<<< Updated upstream
-        // GridPane, anyone?
-        gridPane.setPadding(new Insets(20));
-        gridPane.setBackground(new Background(new BackgroundFill(
-                Color.valueOf("#000000"),
-                new CornerRadii(0),
-                new Insets(0)
-        )));
-=======
-=======
 
         ArrayList<Circle> circles = new ArrayList<Circle>();
         Circle dot1 = new Circle(12, Color.web("#581845"));
@@ -165,115 +116,10 @@ public class AdventureGameView {
         circles.add(dot4);
         circles.add(dot5);
 
->>>>>>> Stashed changes
         // Create and animate each dot
         for (int i = 0; i < numberOfDots; i++) {
             circles.get(i).setCenterX(440 + i * dotSpacing);
             circles.get(i).setCenterY(scene1.getHeight() / 2);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-
-        //Three columns, three rows for the GridPane
-        ColumnConstraints column1 = new ColumnConstraints(150);
-        ColumnConstraints column2 = new ColumnConstraints(650);
-        ColumnConstraints column3 = new ColumnConstraints(150);
-        column3.setHgrow( Priority.SOMETIMES ); //let some columns grow to take any extra space
-        column1.setHgrow( Priority.SOMETIMES );
-
-        // Row constraints
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints( 550 );
-        RowConstraints row3 = new RowConstraints();
-        row1.setVgrow( Priority.SOMETIMES );
-        row3.setVgrow( Priority.SOMETIMES );
-
-<<<<<<< Updated upstream
-        gridPane.getColumnConstraints().addAll( column1 , column2 , column1 );
-        gridPane.getRowConstraints().addAll( row1 , row2 , row1 );
-
-        // Buttons
-        saveButton = new Button("Save");
-        saveButton.setId("Save");
-        customizeButton(saveButton, 200, 50);
-        makeButtonAccessible(saveButton, "Save Button", "This button saves the game.", "This button saves the game. Click it in order to save your current progress, so you can play more later.");
-        addSaveEvent();
-=======
-        this.stage.setScene(scene1);
-        this.stage.setResizable(false);
-        this.stage.show();
->>>>>>> Stashed changes
-
-        loadButton = new Button("Load");
-        loadButton.setId("Load");
-        customizeButton(loadButton, 200, 50);
-        makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
-        addLoadEvent();
-
-<<<<<<< Updated upstream
-        helpButton = new Button("Instructions");
-        helpButton.setId("Instructions");
-        customizeButton(helpButton, 200, 50);
-        makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
-        addInstructionEvent();
-
-        fontUpButton = new Button("+");
-        fontUpButton.setId("FontUp");
-        customizeButton(fontUpButton, 50, 50);
-        makeButtonAccessible(fontUpButton, "Font Size Up Button", "This button can adjust font size", "This button will increase the font size of all words in the UI.");
-        addFontUpEvent();
-
-        fontDownButton = new Button("-");
-        fontDownButton.setId("FontDown");
-        customizeButton(fontDownButton, 50, 50);
-        makeButtonAccessible(fontDownButton, "Font Size Down Button", "This button can adjust font size", "This button will decrease the font size of all words in the UI.");
-        addFontDownEvent();
-
-        fontSizTextField = new TextField(Integer.toString(fontSize));
-        fontSizTextField.setId("Font Size");
-        fontSizTextField.setAlignment(Pos.CENTER);
-        addFontSizeEvent();
-
-        String head = this.model.getDirectoryName();
-        String settingIcon = head + "/settings.png";
-        ImageView objPic = new ImageView(new Image(new File(settingIcon).toURI().toString()));
-        objPic.setFitHeight(40);
-        objPic.setFitWidth(40);
-        objPic.setAccessibleText("setting");
-        settingButton = new Button("", objPic);
-        settingButton.setId("Setting");
-        settingButton.setStyle("-fx-background-color: #000000");
-        customizeButton(settingButton, 50, 50);
-        makeButtonAccessible(settingButton, "Setting Button", "This button holds some config of the game", "This buttong holds the setting and config of the game, such as save and load games. Click it to do action on setting.");
-        addSettingEvent();
-
-        mapButton = new Button("Map");
-        mapButton.setId("Map");
-        customizeButton(mapButton, 100, 50);
-        makeButtonAccessible(helpButton, "Map Button", "This button can show map.", "This button shows the detail what the player is playing currently. Click to show and move by map.");
-        addMapEvent();
-
-        HBox topButtons = new HBox();
-        topButtons.getChildren().addAll(mapButton, settingButton);
-        topButtons.setSpacing(10);
-        topButtons.setAlignment(Pos.CENTER);
-
-        inputTextField = new TextField();
-        inputTextField.setFont(new Font("Arial", fontSize));
-        inputTextField.setFocusTraversable(true);
-
-        inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
-        inputTextField.setAccessibleRoleDescription("Text Entry Box");
-        inputTextField.setAccessibleText("Enter commands in this box.");
-        inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
-        addTextHandlingEvent(); //attach an event to this input field
-
-        //labels for inventory and room items
-        Label objLabel =  new Label("Objects in Room");
-        objLabel.setAlignment(Pos.CENTER);
-        objLabel.setStyle("-fx-text-fill: white;");
-        objLabel.setFont(new Font("Arial", 16));
-=======
-=======
 
             TranslateTransition transition = new TranslateTransition(Duration.seconds(1), circles.get(i));
             transition.setByY(movementRange);
@@ -290,7 +136,6 @@ public class AdventureGameView {
         this.stage.show();
 
 
->>>>>>> Stashed changes
 
         PauseTransition startGame= new PauseTransition();
         startGame.setDuration(Duration.seconds(5));
@@ -350,25 +195,6 @@ public class AdventureGameView {
             customizeButton(loadButton, 200, 50);
             makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
             addLoadEvent();
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-
-        Label invLabel =  new Label("Your Inventory");
-        invLabel.setAlignment(Pos.CENTER);
-        invLabel.setStyle("-fx-text-fill: white;");
-        invLabel.setFont(new Font("Arial", 16));
-
-<<<<<<< Updated upstream
-        //add all the widgets to the GridPane
-        gridPane.add( objLabel, 0, 0, 1, 1 );  // Add label
-        gridPane.add( topButtons, 1, 0, 1, 1 );  // Add buttons
-        gridPane.add( invLabel, 2, 0, 1, 1 );  // Add label
-
-        Label commandLabel = new Label("What would you like to do?");
-        commandLabel.setStyle("-fx-text-fill: white;");
-        commandLabel.setFont(new Font("Arial", 16));
-=======
-=======
 
             helpButton = new Button("Instructions");
             helpButton.setId("Instructions");
@@ -376,7 +202,6 @@ public class AdventureGameView {
             makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
             addInstructionEvent();
 
->>>>>>> Stashed changes
             fontUpButton = new Button("+");
             fontUpButton.setId("FontUp");
             customizeButton(fontUpButton, 50, 50);
@@ -421,34 +246,6 @@ public class AdventureGameView {
             inputTextField = new TextField();
             inputTextField.setFont(new Font("Arial", fontSize));
             inputTextField.setFocusTraversable(true);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-
-        updateScene(""); //method displays an image and whatever text is supplied
-        updateItems(); //update items shows inventory and objects in rooms
-
-<<<<<<< Updated upstream
-        // adding the text area and submit button to a VBox
-        VBox textEntry = new VBox();
-        textEntry.setStyle("-fx-background-color: #000000;");
-        textEntry.setPadding(new Insets(20, 20, 20, 20));
-        textEntry.getChildren().addAll(commandLabel, inputTextField);
-        textEntry.setSpacing(10);
-        textEntry.setAlignment(Pos.CENTER);
-        gridPane.add( textEntry, 0, 2, 3, 1 );
-
-        // Font editbale
-        buttonList = new Button[] {saveButton, loadButton, mapButton, helpButton, fontDownButton, fontUpButton, quitButton, control};
-        // textList = new TextField[] {inputTextField, fontSizTextField};
-
-        // Scroll Pane description
-        roomDesc.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        roomDesc.setPrefHeight(400);
-        roomDesc.setPrefWidth(600);
-        roomDesc.setStyle("-fx-background: #000000");
-        roomDesc.setFitToWidth(true);
-=======
-=======
 
             inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
             inputTextField.setAccessibleRoleDescription("Text Entry Box");
@@ -456,7 +253,6 @@ public class AdventureGameView {
             inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
             addTextHandlingEvent(); //attach an event to this input field
 
->>>>>>> Stashed changes
             //labels for inventory and room items
             Label objLabel =  new Label("Objects in Room");
             objLabel.setAlignment(Pos.CENTER);
@@ -510,18 +306,7 @@ public class AdventureGameView {
         });
 
         startGame.play();
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
 
-        // Render everything
-        scene = new Scene(gridPane,  1000, 800);
-        scene.setFill(Color.BLACK);
-        this.stage.setScene(scene);
-        this.stage.setResizable(false);
-        this.stage.show();
-=======
-
->>>>>>> Stashed changes
     }
 
 
@@ -581,23 +366,12 @@ public class AdventureGameView {
     private void keyPressed(KeyCode code, String text) {
         if (code == KeyCode.ENTER) {
             inputTextField.setText(null);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            text.strip();
-            submitEvent(text);
-=======
-=======
->>>>>>> Stashed changes
             try {
                 text.strip();
                 submitEvent(text);
             } catch (Exception e) {
                 // do nothing
             }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
         else if (code == KeyCode.TAB) {
             gridPane.requestFocus();
@@ -717,14 +491,6 @@ public class AdventureGameView {
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
 
-<<<<<<< Updated upstream
-        // Set room is visited
-        if (this.model.getPlayer().getCurrentRoom().getVisited() == false) {
-            this.model.getPlayer().getCurrentRoom().visit();
-        }
-
-=======
->>>>>>> Stashed changes
         //finally, articulate the description
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
 
