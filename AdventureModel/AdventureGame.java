@@ -100,7 +100,7 @@ public class AdventureGame implements Serializable {
     public boolean movePlayer(String direction) {
         direction = direction.toUpperCase();
         Room currentRoom = player.getCurrentRoom();
-        currentRoom.visit();
+        // currentRoom.visit();
         PassageTable motionTable = currentRoom.getMotionTable(); //where can we move?
         if (!motionTable.optionExists(direction)) { return true; } //no move
         ArrayList<Passage> possibilities = getPossibilities(direction, motionTable);
@@ -156,7 +156,7 @@ public class AdventureGame implements Serializable {
     private void changeRoom(Passage chosen) {
         int roomNumber = chosen.getDestinationRoom();
         Room room = this.rooms.get(roomNumber);
-        room.visit();
+        // room.visit();
         player.setCurrentRoom(room);
     }
 

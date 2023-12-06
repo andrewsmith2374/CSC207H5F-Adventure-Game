@@ -59,8 +59,8 @@ public class MapView {
         String backgroundImage = head + "/NarniaMap.jpg";
         map = new ImageView(new Image(new File(backgroundImage).toURI().toString()));
         // Set only the cirlce
-        c1 = new Circle(5);
-        c1.setFill(Color.RED);
+        c1 = new Circle(8);
+        c1.setFill(Color.WHITE);
         c1.setTranslateX(0);
         c1.setTranslateY(90);
 

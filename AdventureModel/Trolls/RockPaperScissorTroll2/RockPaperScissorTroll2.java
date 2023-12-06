@@ -1,4 +1,4 @@
-package AdventureModel.Trolls.RockPaperScissorTroll;
+package AdventureModel.Trolls.RockPaperScissorTroll2;
 
 import AdventureModel.AdventureGame;
 
@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Class RockPaperScissorTroll implements Troll interface
+ * Class RockPaperScissorTroll2 implements Troll interface
  */
 
-public class RockPaperScissorTroll implements Troll {
+public class RockPaperScissorTroll2 implements Troll {
 
     public static boolean gameStat;
     public String helpText;
@@ -30,10 +30,10 @@ public class RockPaperScissorTroll implements Troll {
      * @throws IOException
      */
 
-    public RockPaperScissorTroll() throws ClassNotFoundException, IOException {
+    public RockPaperScissorTroll2() throws ClassNotFoundException, IOException {
         this.options = new ArrayList<>();
         this.requiredItems = new ArrayList<>();
-        requiredItems.add("SWORD_OF_ELDERS");
+        requiredItems.add("SWORD_OF_SANCTUARY");
         options.add("rock");
         options.add("paper");
         options.add("scissor");
@@ -47,7 +47,7 @@ public class RockPaperScissorTroll implements Troll {
      */
 
     public void parseHelp() throws IOException {
-        String fileName = "AdventureModel/Trolls/RockPaperScissorTroll/help.txt";
+        String fileName = "AdventureModel/Trolls/RockPaperScissorTroll2/help.txt";
         BufferedReader buff = new BufferedReader(new FileReader(fileName));
         String line = buff.readLine();
         while (line != null) {
@@ -98,7 +98,7 @@ public class RockPaperScissorTroll implements Troll {
      * @param destinationRoom
      */
     public void playGame(AdventureGame model, int destinationRoom) {
-        RockPaperScissorTrollView view = new RockPaperScissorTrollView(this);
+        RockPaperScissorTrollView2 view = new RockPaperScissorTrollView2(this);
 
     }
 
