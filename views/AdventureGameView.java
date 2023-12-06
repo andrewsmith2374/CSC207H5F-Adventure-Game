@@ -4,6 +4,8 @@
  * is named as leesze17.mp4
  */
 
+package views;
+
 import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Passage;
