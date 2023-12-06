@@ -1,5 +1,9 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /**
+=======
+package views; /**
+>>>>>>> Stashed changes
 =======
 package views; /**
 >>>>>>> Stashed changes
@@ -8,8 +12,11 @@ package views; /**
  * is named as leesze17.mp4
  */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 package views;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -17,6 +24,10 @@ import AdventureModel.AdventureGame;
 import AdventureModel.AdventureObject;
 import AdventureModel.Passage;
 import javafx.animation.PauseTransition;
+<<<<<<< Updated upstream
+=======
+import javafx.animation.TranslateTransition;
+>>>>>>> Stashed changes
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,6 +39,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent; //you will need these!
 import javafx.scene.input.KeyCode;
+<<<<<<< Updated upstream
+=======
+import javafx.scene.shape.Circle;
+>>>>>>> Stashed changes
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -100,7 +115,10 @@ public class AdventureGameView {
      */
     public void intiUI() {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         // setting up the stage
         this.stage.setTitle("group83's Adventure Game");
 
@@ -111,6 +129,7 @@ public class AdventureGameView {
         int numberOfDots = 5;
         double dotSpacing = 30;
         double movementRange = 50; // The vertical movement range of each dot
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         // setting up the stage
@@ -131,10 +150,27 @@ public class AdventureGameView {
                 new Insets(0)
         )));
 =======
+=======
+
+        ArrayList<Circle> circles = new ArrayList<Circle>();
+        Circle dot1 = new Circle(12, Color.web("#581845"));
+        Circle dot2 = new Circle(12, Color.web("#900C3F"));
+        Circle dot3 = new Circle(12, Color.web("#C70039"));
+        Circle dot4 = new Circle(12, Color.web("#FF5733"));
+        Circle dot5 = new Circle(12, Color.web("#FFC300"));
+
+        circles.add(dot1);
+        circles.add(dot2);
+        circles.add(dot3);
+        circles.add(dot4);
+        circles.add(dot5);
+
+>>>>>>> Stashed changes
         // Create and animate each dot
         for (int i = 0; i < numberOfDots; i++) {
             circles.get(i).setCenterX(440 + i * dotSpacing);
             circles.get(i).setCenterY(scene1.getHeight() / 2);
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         //Three columns, three rows for the GridPane
@@ -237,6 +273,24 @@ public class AdventureGameView {
         objLabel.setStyle("-fx-text-fill: white;");
         objLabel.setFont(new Font("Arial", 16));
 =======
+=======
+
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(1), circles.get(i));
+            transition.setByY(movementRange);
+            transition.setAutoReverse(true);
+            transition.setCycleCount(TranslateTransition.INDEFINITE);
+            transition.setDelay(Duration.millis(i * 100)); // Stagger the start of each dot's movement
+            transition.play();
+
+            root.getChildren().add(circles.get(i));
+        }
+
+        this.stage.setScene(scene1);
+        this.stage.setResizable(false);
+        this.stage.show();
+
+
+>>>>>>> Stashed changes
 
         PauseTransition startGame= new PauseTransition();
         startGame.setDuration(Duration.seconds(5));
@@ -296,6 +350,7 @@ public class AdventureGameView {
             customizeButton(loadButton, 200, 50);
             makeButtonAccessible(loadButton, "Load Button", "This button loads a game from a file.", "This button loads the game from a file. Click it in order to load a game that you saved at a prior date.");
             addLoadEvent();
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         Label invLabel =  new Label("Your Inventory");
@@ -313,6 +368,15 @@ public class AdventureGameView {
         commandLabel.setStyle("-fx-text-fill: white;");
         commandLabel.setFont(new Font("Arial", 16));
 =======
+=======
+
+            helpButton = new Button("Instructions");
+            helpButton.setId("Instructions");
+            customizeButton(helpButton, 200, 50);
+            makeButtonAccessible(helpButton, "Help Button", "This button gives game instructions.", "This button gives instructions on the game controls. Click it to learn how to play.");
+            addInstructionEvent();
+
+>>>>>>> Stashed changes
             fontUpButton = new Button("+");
             fontUpButton.setId("FontUp");
             customizeButton(fontUpButton, 50, 50);
@@ -357,6 +421,7 @@ public class AdventureGameView {
             inputTextField = new TextField();
             inputTextField.setFont(new Font("Arial", fontSize));
             inputTextField.setFocusTraversable(true);
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         updateScene(""); //method displays an image and whatever text is supplied
@@ -383,6 +448,15 @@ public class AdventureGameView {
         roomDesc.setStyle("-fx-background: #000000");
         roomDesc.setFitToWidth(true);
 =======
+=======
+
+            inputTextField.setAccessibleRole(AccessibleRole.TEXT_AREA);
+            inputTextField.setAccessibleRoleDescription("Text Entry Box");
+            inputTextField.setAccessibleText("Enter commands in this box.");
+            inputTextField.setAccessibleHelp("This is the area in which you can enter commands you would like to play.  Enter a command and hit return to continue.");
+            addTextHandlingEvent(); //attach an event to this input field
+
+>>>>>>> Stashed changes
             //labels for inventory and room items
             Label objLabel =  new Label("Objects in Room");
             objLabel.setAlignment(Pos.CENTER);
@@ -436,6 +510,7 @@ public class AdventureGameView {
         });
 
         startGame.play();
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         // Render everything
@@ -444,6 +519,9 @@ public class AdventureGameView {
         this.stage.setScene(scene);
         this.stage.setResizable(false);
         this.stage.show();
+=======
+
+>>>>>>> Stashed changes
     }
 
 
@@ -504,15 +582,21 @@ public class AdventureGameView {
         if (code == KeyCode.ENTER) {
             inputTextField.setText(null);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             text.strip();
             submitEvent(text);
 =======
+=======
+>>>>>>> Stashed changes
             try {
                 text.strip();
                 submitEvent(text);
             } catch (Exception e) {
                 // do nothing
             }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
         else if (code == KeyCode.TAB) {
@@ -633,11 +717,14 @@ public class AdventureGameView {
         gridPane.add(roomPane, 1, 1);
         stage.sizeToScene();
 
+<<<<<<< Updated upstream
         // Set room is visited
         if (this.model.getPlayer().getCurrentRoom().getVisited() == false) {
             this.model.getPlayer().getCurrentRoom().visit();
         }
 
+=======
+>>>>>>> Stashed changes
         //finally, articulate the description
         if (textToDisplay == null || textToDisplay.isBlank()) articulateRoomDescription();
 

@@ -17,7 +17,11 @@ You reach the valley beyond the Archen River. There stands a magnificent cherry 
 -----
 NORTH          4
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 EAST          19/WhackAMoleTroll
+=======
+EAST           19/RockPaperScissorTroll
+>>>>>>> Stashed changes
 =======
 EAST           19/RockPaperScissorTroll
 >>>>>>> Stashed changes
@@ -27,41 +31,67 @@ SOUTH          2/DUGOUT_BOAT
 The Forever Frozen Waterfall
 A wise choice heading north, to the land of unforgiving cold. A frozen waterfall stands as a stunning natural sculpture. Cascading icicles glisten like diamonds in the sunlight, creating a mesmerizing spectacle. The once-rushing water is now a serene, crystal blue curtain, frozen mid-descent, capturing the beauty and stillness of the winter landscape around it. You know you cannot stay for long, before freezing to death, you must find shelter.
 -----
+<<<<<<< Updated upstream
 NORTHEAST          17/SWORD_OF_ELDERS
 EAST          18/SWORD_OF_ELDERS
 SOUTH          3
 WEST          5
+=======
+NORTHEAST      17/HangManTroll
+EAST           18/SWORD_OF_ELDERS
+SOUTH          3
+WEST           5
+>>>>>>> Stashed changes
 
 5
 The Old Mans Winter Home
 You wander further into the frozen lands, a land blanketed by snow. Your breath, fogging, taking in the cold air, freezing your lungs. As you expect this to be your last moment in the world of the living, you see an old man's cabin, a humble abode seemingly carved from the winter itself. The small, wooden structure, with its weathered walls and snow-laden roof, blends seamlessly into the icy landscape. Smoke gently curls from its stone chimney, hinting at the warmth within. You make your way towards survival, but collapse in the thick field of glistening snow. You suddenly wake up, walls around you, a sizzling fire in a large stone fireplace, and there in front of you stands an old man, hands held out with a cup of coffee. You grab the coffee with no hesitation, and gulp it down in one go. After a speedy recovery you explain to the man what you have seen. Worried, the old man convinces you to help him take a stand against the Witch’s plan of taking over the realm. You agree to his plan.
 -----
 NORTH          6
+<<<<<<< Updated upstream
 EAST          4
+=======
+EAST           4
+>>>>>>> Stashed changes
 
 6
 The Frozen Lake Of Charybdis
 The old man then spent the next 5 few months training you. As a peasant who owns practically nothing, you were a difficult student to train, but soon learned all that you can in the art of combat. You both venture to the forever frozen lake, on a mission to find more allies, and better equipment to prepare for the fight ahead. The fight that will determine the future of your land.
 -----
 NORTH          15
+<<<<<<< Updated upstream
 WEST          7/BOAT
 SOUTH          5
 EAST          16/BOAT
+=======
+WEST           7/BOAT
+SOUTH          5
+EAST           16/BOAT
+>>>>>>> Stashed changes
 
 7
 The Ominous Telmar River
 You travel through the waters of the Telmar river, a dark and ominous waterway, which winds through the land like a serpentine shadow. Its murky waters, a deep, inky black, flow silently, hiding unknown depths and secrets.
 -----
 NORTH          14
+<<<<<<< Updated upstream
 EAST          6
 WEST          8/RUSTY_SWORD
+=======
+EAST           6
+WEST           8/RUSTY_SWORD
+>>>>>>> Stashed changes
 
 8
 Cauldron Pool
 You continue down a dark path, to the Cauldron Pool, a place steeped in malevolence. Surrounded by jagged rocks and gnarled, leafless trees, the pool emits an eerie, sulfurous mist that clings to the ground. You see a small town of goblins. Keeping out of sight, you wait for an opening to go around them. As you step back, *CRACK*, you snap a twig due to your unhealthy weight. Goblins, having enhanced hearing abilities, spot you. As lovers of gold, they believe you are trying to steal it and charge after you. With nothing but your rusty iron sword, and the training of the old man, the two of you kill every single goblin. Celebrating your victory, a goblin troll goes unnoticed, coming up behind you. With one swing, it sweeps you off your feet. Badly injured, you struggle to get up. But the will to live was strong in you, and together you battle the goblin troll.
 -----
 NORTH          9
+<<<<<<< Updated upstream
 EAST          7/BOAT
+=======
+EAST           7/BOAT
+>>>>>>> Stashed changes
 
 9
 The Wardrobe
@@ -75,7 +105,11 @@ The Directional Lamp Post
 After a good night's sleep you continue to travel through the Western woods where you eventually come to a clearing. There you find a tall, rusty lamp post. Attached are directional signs. One leading to The Wardrobe, and another to the local physician.
 -----
 NORTH          11
+<<<<<<< Updated upstream
 EAST          13
+=======
+EAST           13
+>>>>>>> Stashed changes
 SOUTH          9
 
 11
@@ -83,14 +117,23 @@ The Wizard Tumnus Hut
 You travel north getting even closer to the Witch’s castle. You find a small hut, vines growing along its walls, consuming it, making the hut one of the forest. You approach the hut, and knock on its rotting door. The door creaks open, and on the other side you are greeted by a wizard. He welcomes you into his home. You scan your surroundings, coming to the conclusion that even you were living in better conditions at the top of Mount Pire. There was also a remarkably large collection of potions stacked on the shelfs that lined his walls. You ask him who he is. He introduces himself as Mr. Tumnus, a potion wizard, who can make anything a reality with the power of his potions.
 -----
 SOUTH          10
+<<<<<<< Updated upstream
 NORTHEAST          12/WordleTroll
+=======
+NORTHEAST      12/WordleTroll
+>>>>>>> Stashed changes
 
 12
 The Evil Witch Queens Castle
 You have learned a great deal throughout your travels, made many friends, and have become a great warrior. A long way from being a poor lonely man living at the top of a mountain. Leading the fabled Allies’ you made in the Western Woods, along with Aslan’s soldiers, you charge forward into the Witch’s castle. Your allies kill the orc archers that guard the front gate. You push forward into the castle where you face a spiraling staircase leading to the Witch Queen herself. You confront her, commencing the most daring battle of your life. You feel the weight on your shoulders grow. The entirety of the Celestial Realm is depending on you defeating the Witch. You question whether you have what it takes to defeat her, and bring peace and prosperity back to the innocent lives of your realm. Let the battle commence, the fate of the land is in your hands.
 -----
+<<<<<<< Updated upstream
 SOUTHWEST          11
 SOUTHEAST          16/BOAT
+=======
+SOUTHWEST      11
+SOUTHEAST      16/BOAT
+>>>>>>> Stashed changes
 SOUTH          13
 
 13
@@ -99,7 +142,11 @@ You make your way North, getting dangerously close to the Witch’s castle. But 
 -----
 NORTH          12/WordleTroll
 SOUTH          14
+<<<<<<< Updated upstream
 WEST          10
+=======
+WEST           10
+>>>>>>> Stashed changes
 
 14
 The Fabled Allies Enclave
@@ -107,48 +154,77 @@ You travel west into the Western Woods, looking for the rebellion, a spark of ho
 -----
 NORTH          13
 SOUTH          7/BOAT
+<<<<<<< Updated upstream
 EAST          15
+=======
+EAST           15
+>>>>>>> Stashed changes
 
 15
 The Rock Bridge Passage Between Worlds
 You travel north. Spanning a rugged chasm, a rock bridge stands. A natural marvel of arched stone, weathered and sturdy. It offers a precarious path, between the Great River of the Celestial Realm, and a secret fabled rebellion deep in the forest of the Western Woods.
 -----
+<<<<<<< Updated upstream
 EAST          16/BOAT
 SOUTH          6
 WEST          14
+=======
+EAST           16/BOAT
+SOUTH          6
+WEST           14
+>>>>>>> Stashed changes
 
 16
 The Great River Jewel Of The Realm
 You enter your boat and travel through the Great River, the crown jewel of the Celestial Realm. A majestic waterway, whose powerful currents carve through the landscape. It's lined with lush forests and teems with life. The freshest of water that calls to many, who gather to fish, trade, and admire their surroundings.
 -----
 NORTH          12/WordleTroll
+<<<<<<< Updated upstream
 EAST          17/SWORD_OF_ELDERS
 SOUTH          6
 WEST          15
+=======
+EAST           17/HangManTroll
+SOUTH          6
+WEST           15
+>>>>>>> Stashed changes
 
 17
 The Destructive Orc Camp
 You venture through the lands coming across an open plane bedded with tulips of all different colours. In the middle of the field lies a circular spiked wall, containing an orc camp. Enraged that they would ruin a beautiful landscape, you charge for their base, battling every orc till your dying breath.
 -----
+<<<<<<< Updated upstream
 EAST          22/HangmanTroll
 WEST          16/WordleTroll
 SOUTHEAST          18/SWORD_OF_ELDERS
 SOUTHWEST          4
+=======
+EAST             22/WhackAMoleTroll
+WEST             16/BOAT
+SOUTHEAST        18/SWORD_OF_ELDERS
+SOUTHWEST        4
+>>>>>>> Stashed changes
 
 18
 Fords Of Beruna
 Coming up a dune, on the other side ash fills the gray skies. A chilly wind blows, sending a shiver down your spine. What was once a beautiful field, awash in wildflowers, dancing under the sun's warm embrace, a tapestry of vibrant colors and tranquil serenity, was made a wasteland. Blood, bodies, spears of both sides filled the ground. A brutal battle had taken place, one in which the Witch’s armies were triumphant . You walk through the field looking for any survivors. Suddenly a man grabs your leg. You shriek, and reach for your weapon. The old man stops you before slaying the man out of panic. In his dying breath, the wounded soldier whispers “the end is here, run, save yourselves”.
 -----
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 NORTHWEST          17/SWORD_OF_ELDERS
 EAST          21
 SOUTH          19/WhackAMoleTroll
 WEST          4
 =======
+=======
+>>>>>>> Stashed changes
 NORTHWEST        17/HangManTroll
 EAST             21
 SOUTH            19/RockPaperScissorTroll
 WEST             4
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 19
@@ -156,17 +232,28 @@ The Orc Overrun Dancing Lawn
 You decide to take on the orc army by yourself in the Dancing Lawn. With the power of the sword of elders, you fight till your last dying breath. You successfully kill every orc, saving the villagers of the land. The thundering ground settles. As you look over the field of blood and disintegrating bodies of the orcs, you see a troll standing. One of the Witch’s top generals. Your fight is not over yet. You charge head on, and the troll general follows. There begins a long gruesome battle, in which only one will come out victorious.
 -----
 NORTH          18/SWORD_OF_ELDERS
+<<<<<<< Updated upstream
 EAST          20
 WEST          3
+=======
+EAST           20
+WEST           3
+>>>>>>> Stashed changes
 
 20
 The Stone Table Meeting Spot Of Kings
 Here lies the Stone Table, the meeting spot of the fallen kings of the land. What was once a majestic, gold and diamond encrusted table of awe, has been reduced to a moss covered slab, surrounded by solemn, towering oaks, exuding an aura of mystique and long-forgotten history. You spot a diary on the middle of the table, vines growing, consuming it to be a lost relic of the past.
 -----
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 WEST          19/WhackAMoleTroll
 NORTHEAST          21
 EAST          28/BOAT
+=======
+WEST            19/RockPaperScissorTroll
+NORTHEAST       21
+EAST            28/BOAT
+>>>>>>> Stashed changes
 =======
 WEST            19/RockPaperScissorTroll
 NORTHEAST       21
@@ -177,26 +264,44 @@ EAST            28/BOAT
 Prince Aslans Campsite
 You are now in the land of Ettinsmoor. Your journey has been long and tiresome, but will come to a halt without another day's rest, and a proper meal. You continue walking looking for more allies in your battle against the evil Witch Queen. You come across a campsite. Large tents stacked beside each other. You wander into the encampment and are halted by the soldiers. Knights of the kingdom of Anvard. They bring you handcuffed to the larger of the tents. You walk inside to reveal the most luxurious of atmospheres. Was this a tent, or the palace of the fallen kings? Further in, a man introduces himself. Standing 6 feet tall, muscles larger than that of a lion, golden blonde hair. “I am prince Arthur of Anvard, state your business, or die to my hand”. Before that could happen, we quickly stated our mission, and asked for their assistance. Intrigued that a simple middle aged peasant along with an old man were on such a quest, he offered a helping hand. You stay the night, finally able to sleep in a proper bed with the more delicious feast of boar meat, and the finest of cheese.
 -----
+<<<<<<< Updated upstream
 NORTH          22/HangmanTroll
 EAST          27
 SOUTHEAST          28/BOAT
 SOUTHWEST          20
 WEST          18/SWORD_OF_ELDERS
+=======
+NORTH          22/WhackAMoleTroll
+EAST           27
+SOUTHEAST      28/BOAT
+SOUTHWEST      20
+WEST           18/SWORD_OF_ELDERS
+>>>>>>> Stashed changes
 
 22
 The Forgotten Battle Field
 You continue your journey, to be met face to face with an army of cyclops. The Witch Queen has managed to rally all the beasts in the realm to fight for her cause. With all the experience you have gained, you charge forwards without a drop of fear in your heart. You pick up a knife from a fallen warrior and use it to blind the cyclops. You then proceed to cut their calves, causing them to fall to the ground, from which you finish them off. Cyclops travel in packs, but there is always the leader. A gray beast twice the size of all the others, with bloodshot eyes, and veins popping from his impressive muscles. Without a second doubt you leap towards the cyclops. Two hours later, bones about to give in to your weakening state, you are still battling the cyclops leader. He knocks you down. Kicks you forward, your body scraping against the stone hard ground. He walks towards you, ready to finish you off. The old man begins a flank, ready to cut the beast at the legs. As he swings his sword, the cyclops with an incredible reaction time and awareness of his surroundings, turns and grabs the old man. He lifts him up and proceeds to squeeze the life out of him. Before you could save him, his bones break, and he suffocates to death. You scream in pain, beginning to cry, for he was your mentor, the man that gave purpose to your life, the person you’d been traveling with for the better part of a year. You continue to fight to avenge your friend’s death, but struggle. You then remember a potion that you received from a wizard long ago. You throw it at the beast, and he begins to sizzle, burning from the sun’s golden light. He diminishes in front of you. Finally victorious against the monster, you mourn the death of the old man, and give him a proper burial.
 -----
+<<<<<<< Updated upstream
 EAST          23
 SOUTH          21
 WEST          17/SWORD_OF_ELDERS
+=======
+EAST           23
+SOUTH          21
+WEST           17/HangManTroll
+>>>>>>> Stashed changes
 
 23
 The Enchanted Owlwood Forest
 You travel further north-east not knowing what to expect. Your legs are wobbling at the thought of the old man, your good friend, perishing in front of you. You come to a stop, at the foot of Owlwood forest. This enchanting forest is a mosaic of lush greenery, dappled sunlight, and melodious bird songs, with ancient trees standing as silent, wise guardians over a serene, verdant wonderland. You travel through, with glistening stars in your eyes.
 -----
 NORTH          24
+<<<<<<< Updated upstream
 WEST          22/MAGIC_POTION
+=======
+WEST           22/WhackAMoleTroll
+>>>>>>> Stashed changes
 
 24
 The Depressing Northern Marsh
@@ -222,9 +327,15 @@ The Kingdom Of Cair Paravel
 At the edge of the skyline you see a blue and white flag, waving in the windy atmosphere. You make your way to see what lies beyond the dense forest of trees that block you from a possible alliance. You come to a clearing to see Cair Paravel, a majestic castle by the sea, standing regal with towering spires and gleaming white walls. Surrounded by lush gardens and overlooking azure waters, it's a symbol of grace and power, echoing with tales of ancient kings and queens. You seek an audience with the king, at which you ask for his assistance. He speaks of a weapon of great power, lying east of his kingdom. A hammer not even the mighty Thor could hold. He offered this to you, on one condition. You must defeat the Basilisk that protects the land like a dragon does its gold. The very name itself strikes fear in your eyes, but what choice do you have? You need all the help you can get.
 -----
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 EAST          26/RockPaperScissorsTroll
 WEST          21
 SOUTHWEST          28/BOAT
+=======
+EAST            26/RockPaperScissorTroll2
+WEST            21
+SOUTHWEST       28/BOAT
+>>>>>>> Stashed changes
 =======
 EAST            26/RockPaperScissorTroll2
 WEST            21
@@ -235,10 +346,17 @@ SOUTHWEST       28/BOAT
 The Lively Rush River
 You travel down Rush River, a swift, lively waterway, its frothing currents moving over a rocky bed amidst lush banks. It's a haven for wildlife, anglers, and kayakers seeking beauty and challenge.
 -----
+<<<<<<< Updated upstream
 NORTH          21
 NORTHEAST          27
 WEST          20
 SOUTH          29/BOAT
+=======
+NORTH            21
+NORTHEAST        27
+WEST             20
+SOUTH            29/BOAT
+>>>>>>> Stashed changes
 
 29
 Crystal Clear Glasswater Creek
@@ -252,8 +370,13 @@ The Great Stormness Head Mountain Range
 At the end of your long and peaceful boat ride, you come to Stormness Head. A mountain range that boasts its majestic peaks and lush valleys. Misty and mystical, it's a haven of tranquility, rich in wildlife and adorned with wildflowers and clear streams.
 -----
 NORTH          29/BOAT
+<<<<<<< Updated upstream
 EAST          32/WordleTroll
 WEST          31
+=======
+EAST           32/HangManTroll2
+WEST           31
+>>>>>>> Stashed changes
 
 31
 The Kingdom Of Anvard
