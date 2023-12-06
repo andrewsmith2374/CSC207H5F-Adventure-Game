@@ -34,6 +34,7 @@ public class SaveView {
     private Label saveGameLabel = new Label(String.format("Enter name of file to save"));
     private TextField saveFileNameTextField = new TextField("");
     private Button saveGameButton = new Button("Save Game");
+
     private AdventureGameView adventureGameView;
 
     /**

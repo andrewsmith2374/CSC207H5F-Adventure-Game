@@ -32,7 +32,7 @@ Cauldron Pool
 
 9
 The Wardrobe
-794,-245
+-794,-245
 
 10
 Lamp Post
