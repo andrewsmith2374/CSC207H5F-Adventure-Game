@@ -1,6 +1,6 @@
 package AdventureModel.Trolls.HangManTroll2;
 
-import UIHelpers.UIHelper;
+import Util.UIHelpers.UIHelper;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
