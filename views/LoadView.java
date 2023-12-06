@@ -1,6 +1,8 @@
-
+package views;
 
 import AdventureModel.AdventureGame;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -86,21 +88,19 @@ public class LoadView {
      * @param listView the ListView containing all the .ser files in the Games/Saved directory.
      */
     private void getFiles(ListView<String> listView) {
-        // Set up the directory
-        File dir = new File("Games/Saved");
-        // Loop through all the files in the games/saved
-        if (dir.list().length > 0) {
-            for (File ele : dir.listFiles()) {
-                // See if the files end with .ser iff that is a file
-                if (ele.isFile()) {
-                    // Add to listView if it's end with .ser
-                    if (ele.getName().endsWith(".ser")){
-                        listView.getItems().add(ele.getName());
-                    }
-                }
+        File dir = new File("Games" + File.separator + "Saved");
+        File[] fileList = dir.listFiles();
+        ObservableList<String> files = FXCollections.observableArrayList();
+        if(fileList == null) { return; }
+        for(File f : fileList) {
+            String filename = f.getName();
+            if(filename.endsWith(".ser")) {
+                files.add(filename);
             }
         }
+        listView.setItems(files);
     }
+
 
     /**
      * Select the Game
@@ -113,27 +113,29 @@ public class LoadView {
      * @param GameList the ListView to populate
      */
     private void selectGame(Label selectGameLabel, ListView<String> GameList) throws IOException {
-        //saved games will be in the Games/Saved folder!
-        // Try to get the selected files from GameList (ListView)
-        AdventureGame loadVersion = null;
-        try {
-            String name = GameList.getSelectionModel().getSelectedItem();
-            String dir = "Games/Saved/" + name;
-            loadVersion = loadGame(dir);
-            selectGameLabel.setText(name);
-        }
-        catch (Exception e) { // Start an entire new game if error is caught
-            String name = adventureGameView.model.getDirectoryName().substring(6);
-            loadVersion = new AdventureGame(name);
-            selectGameLabel.setText("A new game has been loaded");
-        }
-        finally {
-            adventureGameView.stopArticulation();
-            adventureGameView.model = loadVersion;
-            adventureGameView.updateScene("");
-            adventureGameView.updateItems();
-        }
+        String gameName = GameList.getSelectionModel().getSelectedItem();
+        AdventureGame game = checkGameFileExists(gameName, selectGameLabel);
+        this.adventureGameView.stopArticulation();
+        this.adventureGameView.model = game;
+        this.adventureGameView.updateScene("");
+        this.adventureGameView.updateItems();
     }
+
+    private AdventureGame checkGameFileExists(String gameName, Label selectGameLabel) {
+        String filePath = "Games" + File.separator + "Saved" + File.separator + gameName;
+        AdventureGame game;
+        String message;
+        try {
+            game = this.loadGame(filePath);
+            message = gameName;
+        } catch (IOException | ClassNotFoundException e) {
+            game = new AdventureGame("CelestialRealms");
+            message = "No game found! Loading new game";
+        }
+        selectGameLabel.setText(message);
+        return game;
+    }
+
 
     /**
      * Load the Game from a file
