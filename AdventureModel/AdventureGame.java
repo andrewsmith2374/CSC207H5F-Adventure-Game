@@ -88,23 +88,6 @@ public class AdventureGame implements Serializable {
 
     }
 
-    /*
-     * Check for a Troll in the given passage
-     * If there is no Troll or the player does not have the required item, throw a ClassNotFoundException
-     */
-    private void checkForTroll(Passage entry) throws ClassNotFoundException, InterruptedException {
-        String name = entry.getKeyName();
-        Troll troll = trollFactory.createTroll(name);
-        List<String> requiredItems = troll.getRequiredItems();
-        for(String item : requiredItems) {
-            if(!this.player.getInventory().contains(item)) {
-                throw new ClassNotFoundException();
-            }
-        }
-        if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
-        troll.playGame(this, entry.getDestinationRoom());
-    }
-
     /**
      * movePlayer
      * __________________________
@@ -166,6 +149,33 @@ public class AdventureGame implements Serializable {
         return null;
     }
 
+
+    /*
+     * Set the player's current room to chosen
+     */
+    private void changeRoom(Passage chosen) {
+        int roomNumber = chosen.getDestinationRoom();
+        Room room = this.rooms.get(roomNumber);
+        room.visit();
+        player.setCurrentRoom(room);
+    }
+
+    /*
+     * Check for a Troll in the given passage
+     * If there is no Troll or the player does not have the required item, throw a ClassNotFoundException
+     */
+    private void checkForTroll(Passage entry) throws ClassNotFoundException, InterruptedException {
+        String name = entry.getKeyName();
+        Troll troll = trollFactory.createTroll(name);
+        List<String> requiredItems = troll.getRequiredItems();
+        for(String item : requiredItems) {
+            if(!this.player.getInventory().contains(item)) {
+                throw new ClassNotFoundException();
+            }
+        }
+        if(troll.defeated()) { throw new InterruptedException("Troll defeated"); }
+        troll.playGame(this, entry.getDestinationRoom());
+    }
 
     /**
      * interpretAction
