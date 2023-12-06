@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -33,7 +34,6 @@ public class SaveView {
     private Label saveGameLabel = new Label(String.format("Enter name of file to save"));
     private TextField saveFileNameTextField = new TextField("");
     private Button saveGameButton = new Button("Save Game");
-    private Button closeWindowButton = new Button("Close Window");
 
     private AdventureGameView adventureGameView;
 
@@ -52,11 +52,13 @@ public class SaveView {
         saveFileErrorLabel.setId("SaveFileErrorLabel");
         saveFileNameTextField.setId("SaveFileNameTextField");
         saveGameLabel.setStyle("-fx-text-fill: #e8e6e3;");
-        saveGameLabel.setFont(new Font(16));
+        saveGameLabel.setFont(new Font(adventureGameView.fontSize));
+        saveGameLabel.setWrapText(true);
         saveFileErrorLabel.setStyle("-fx-text-fill: #e8e6e3;");
-        saveFileErrorLabel.setFont(new Font(16));
+        saveFileErrorLabel.setFont(new Font(adventureGameView.fontSize));
+        saveFileErrorLabel.setWrapText(true);
         saveFileNameTextField.setStyle("-fx-text-fill: #000000;");
-        saveFileNameTextField.setFont(new Font(16));
+        saveFileNameTextField.setFont(new Font(adventureGameView.fontSize));
 
         String gameName = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".ser";
         saveFileNameTextField.setText(gameName);
@@ -65,19 +67,15 @@ public class SaveView {
         saveGameButton.setId("SaveBoardButton"); // DO NOT MODIFY ID
         saveGameButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
         saveGameButton.setPrefSize(200, 50);
-        saveGameButton.setFont(new Font(16));
+        saveGameButton.setFont(new Font(adventureGameView.fontSize));
         AdventureGameView.makeButtonAccessible(saveGameButton, "save game", "This is a button to save the game", "Use this button to save the current game.");
-        saveGameButton.setOnAction(e -> saveGame());
+        saveGameButton.setOnAction(e -> {
+            try {
+                saveGame();
+            } catch (IOException e1) {}
+        });
 
-        closeWindowButton = new Button("Close Window");
-        closeWindowButton.setId("closeWindowButton"); // DO NOT MODIFY ID
-        closeWindowButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
-        closeWindowButton.setPrefSize(200, 50);
-        closeWindowButton.setFont(new Font(16));
-        closeWindowButton.setOnAction(e -> dialog.close());
-        AdventureGameView.makeButtonAccessible(closeWindowButton, "close window", "This is a button to close the save game window", "Use this button to close the save game window.");
-
-        VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel, closeWindowButton);
+        VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel);
         saveGameBox.setAlignment(Pos.CENTER);
 
         dialogVbox.getChildren().add(saveGameBox);
@@ -95,7 +93,7 @@ public class SaveView {
      * If the file doesn't end in .ser, set the saveFileErrorLabel to the text in saveFileNotSerError
      * Otherwise, load the file and set the saveFileErrorLabel to the text in saveFileSuccess
      */
-    private void saveGame() {
+    private void saveGame() throws IOException {
         checkForDirectory();
         try {
             File file = createSaveFile();
@@ -104,7 +102,7 @@ public class SaveView {
         } catch(IOException ignored) {}
     }
 
-    private void checkForDirectory() {
+    private void checkForDirectory() throws IOException {
         Path path = Paths.get("Games" + File.separator + "Saved");
         if (!Files.exists(path)) {
             try {
@@ -129,3 +127,5 @@ public class SaveView {
         return file;
     }
 }
+
+

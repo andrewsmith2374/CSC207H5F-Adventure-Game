@@ -1,11 +1,8 @@
 package views;
 
 import AdventureModel.AdventureGame;
-import AdventureModel.AdventureLoader;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.TransformationList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,13 +16,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Objects;
-
 
 /**
  * Class LoadView.
- * <p>
+ *
  * Loads Serialized adventure games.
  */
 public class LoadView {
@@ -33,7 +27,6 @@ public class LoadView {
     private AdventureGameView adventureGameView;
     private Label selectGameLabel;
     private Button selectGameButton;
-    private Button closeWindowButton;
 
     private ListView<String> GameList;
     private String filename = null;
@@ -61,14 +54,6 @@ public class LoadView {
         selectGameButton.setId("ChangeGame"); // DO NOT MODIFY ID
         AdventureGameView.makeButtonAccessible(selectGameButton, "select game", "This is the button to select a game", "Use this button to indicate a game file you would like to load.");
 
-        closeWindowButton = new Button("Close Window");
-        closeWindowButton.setId("closeWindowButton"); // DO NOT MODIFY ID
-        closeWindowButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
-        closeWindowButton.setPrefSize(200, 50);
-        closeWindowButton.setFont(new Font(16));
-        closeWindowButton.setOnAction(e -> dialog.close());
-        AdventureGameView.makeButtonAccessible(closeWindowButton, "close window", "This is a button to close the load game window", "Use this button to close the load game window.");
-
         //on selection, do something
         selectGameButton.setOnAction(e -> {
             try {
@@ -83,10 +68,11 @@ public class LoadView {
         // Default styles which can be modified
         GameList.setPrefHeight(100);
         selectGameLabel.setStyle("-fx-text-fill: #e8e6e3");
-        selectGameLabel.setFont(new Font(16));
+        selectGameLabel.setFont(new Font(adventureGameView.fontSize));
         selectGameButton.setStyle("-fx-background-color: #17871b; -fx-text-fill: white;");
         selectGameButton.setPrefSize(200, 50);
-        selectGameButton.setFont(new Font(16));
+        selectGameButton.setFont(new Font(adventureGameView.fontSize));
+        selectGameButton.setWrapText(true);
         selectGameBox.setAlignment(Pos.CENTER);
         dialogVbox.getChildren().add(selectGameBox);
         Scene dialogScene = new Scene(dialogVbox, 400, 400);
@@ -114,6 +100,7 @@ public class LoadView {
         }
         listView.setItems(files);
     }
+
 
     /**
      * Select the Game
@@ -149,6 +136,7 @@ public class LoadView {
         return game;
     }
 
+
     /**
      * Load the Game from a file
      *
@@ -170,4 +158,5 @@ public class LoadView {
             }
         }
     }
+
 }
