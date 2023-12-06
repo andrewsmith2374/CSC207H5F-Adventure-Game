@@ -12,6 +12,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -30,7 +34,6 @@ public class SaveView {
     private Label saveGameLabel = new Label(String.format("Enter name of file to save"));
     private TextField saveFileNameTextField = new TextField("");
     private Button saveGameButton = new Button("Save Game");
-    private Button closeWindowButton = new Button("Close Window");
 
     private AdventureGameView adventureGameView;
 
@@ -66,7 +69,11 @@ public class SaveView {
         saveGameButton.setPrefSize(200, 50);
         saveGameButton.setFont(new Font(adventureGameView.fontSize));
         AdventureGameView.makeButtonAccessible(saveGameButton, "save game", "This is a button to save the game", "Use this button to save the current game.");
-        saveGameButton.setOnAction(e -> saveGame());
+        saveGameButton.setOnAction(e -> {
+            try {
+                saveGame();
+            } catch (IOException e1) {}
+        });
 
         VBox saveGameBox = new VBox(10, saveGameLabel, saveFileNameTextField, saveGameButton, saveFileErrorLabel);
         saveGameBox.setAlignment(Pos.CENTER);
@@ -86,25 +93,39 @@ public class SaveView {
      * If the file doesn't end in .ser, set the saveFileErrorLabel to the text in saveFileNotSerError
      * Otherwise, load the file and set the saveFileErrorLabel to the text in saveFileSuccess
      */
-    private void saveGame() {
-        String name = saveFileNameTextField.getText();
-        File dir = new File("C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\Games\\Saved\\" + name);
-        File temp = new File("C:\\Users\\sherl\\Documents\\Programming\\Java\\CSC207\\group_83\\Sherlock_Branch\\Games\\Saved\\");
-        // Check if the file is existed or not
-        if (temp.list().length > 0) {
-            if (Arrays.asList(temp.listFiles()).contains(dir)) {
-                saveFileErrorLabel.setText(saveFileExistsError);
-            }
-        }
-        // Check for extension
-        if (!name.endsWith(".ser")) {
-            saveFileErrorLabel.setText(saveFileNotSerError);
-        } else {
-            adventureGameView.model.saveModel(dir);
+    private void saveGame() throws IOException {
+        checkForDirectory();
+        try {
+            File file = createSaveFile();
+            this.adventureGameView.model.saveModel(file);
             saveFileErrorLabel.setText(saveFileSuccess);
+        } catch(IOException ignored) {}
+    }
+
+    private void checkForDirectory() throws IOException {
+        Path path = Paths.get("Games" + File.separator + "Saved");
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         }
     }
 
-
+    private File createSaveFile() throws IOException {
+        String fileName = saveFileNameTextField.getText();
+        File file = new File("Games" + File.separator + "Saved" + File.separator + fileName);
+        if (file.exists()) {
+            saveFileErrorLabel.setText(saveFileExistsError);
+            throw new IOException("File Exists");
+        }
+        if (!fileName.endsWith(".ser")) {
+            saveFileErrorLabel.setText(saveFileNotSerError);
+            throw new IOException("Name Does Not End With .ser");
+        }
+        return file;
+    }
 }
+
 
