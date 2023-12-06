@@ -394,6 +394,9 @@ public class AdventureGameView {
         // Set the description text become the move
         roomDescLabel.setText(target);
         roomDesc.setContent(roomDescLabel);
+        if(helpToggle) {
+            showInstructions();
+        }
     }
 
 
