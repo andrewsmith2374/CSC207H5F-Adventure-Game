@@ -1,7 +1,5 @@
 package AdventureModel;
 
-import views.AdventureGameView;
-
 import java.io.*;
 import java.util.*;
 
@@ -118,43 +116,56 @@ public class AdventureGame implements Serializable {
      */
     public boolean movePlayer(String direction) {
         direction = direction.toUpperCase();
-        PassageTable motionTable = this.player.getCurrentRoom().getMotionTable(); //where can we move?
-        if (!motionTable.optionExists(direction)) return true; //no move
+        Room currentRoom = player.getCurrentRoom();
+        currentRoom.visit();
+        PassageTable motionTable = currentRoom.getMotionTable(); //where can we move?
+        if (!motionTable.optionExists(direction)) { return true; } //no move
+        ArrayList<Passage> possibilities = getPossibilities(direction, motionTable);
 
+        Passage chosen = checkPassages(possibilities);
+        if (chosen == null) return true; //doh, we just can't move.
+        changeRoom(chosen);
+
+        return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+    }
+
+    /*
+     * Return an ArrayList of Passages that correspond to the given direction from motionTable
+     */
+    private static ArrayList<Passage> getPossibilities(String direction, PassageTable motionTable) {
         ArrayList<Passage> possibilities = new ArrayList<>();
         for (Passage entry : motionTable.getDirection()) {
             if (entry.getDirection().equals(direction)) { //this is the right direction
                 possibilities.add(entry); // are there possibilities?
             }
         }
+        return possibilities;
+    }
 
-        //try the blocked passages first
-        Passage chosen = null;
+    /*
+     * Return the first valid passage in possibilities
+     * Return null if the player cannot move
+     */
+    private Passage checkPassages(ArrayList<Passage> possibilities) {
+        // try the blocked passages first
         for (Passage entry : possibilities) {
             System.out.println(entry.getIsBlocked());
             System.out.println(entry.getKeyName());
 
-            if (chosen == null && entry.getIsBlocked()) {
+            if (entry.getIsBlocked()) {
                 try {
                     checkForTroll(entry);
-                } catch (InterruptedException e) {
-                    chosen = entry;
-                } catch (ClassNotFoundException ignored) {}
-                if (this.player.getInventory().contains(entry.getKeyName())) {
-                    chosen = entry; //we can make it through, given our stuff
-                    break;
+                } catch(InterruptedException e) {
+                    return entry; // Troll already defeated
                 }
-            } else { chosen = entry; } //the passage is unlocked
+                catch(ClassNotFoundException ignored) {}
+                boolean hasRequiredItems = this.player.getInventory().contains(entry.getKeyName());
+                if (hasRequiredItems) { return entry; }
+            } else { return entry; } //the passage is unlocked
         }
-
-        if (chosen == null) return true; //doh, we just can't move.
-
-        int roomNumber = chosen.getDestinationRoom();
-        Room room = this.rooms.get(roomNumber);
-        this.player.setCurrentRoom(room);
-
-        return !this.player.getCurrentRoom().getMotionTable().getDirection().get(0).getDirection().equals("FORCED");
+        return null;
     }
+
 
     /**
      * interpretAction
