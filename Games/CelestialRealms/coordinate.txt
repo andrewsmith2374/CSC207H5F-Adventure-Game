@@ -1,0 +1,127 @@
+1
+mt. Pire
+-145,571
+
+2
+Archen River
+-235,315
+
+3
+Cherry Tree
+0,90
+
+4
+Frozen Waterfall
+15,-15
+
+5
+Father Christmas
+-160,-25
+
+6
+The Frozen Lake
+-225,-104
+
+7
+Telmar River
+-455,26
+
+8
+Cauldron Pool
+-800,-10
+
+9
+The Wardrobe
+-794,-245
+
+10
+Lamp Post
+-685,-315
+
+11
+Tumnus Hut
+-665,-449
+
+12
+Witch's Castle
+295,-504
+
+13
+Beaver's Dam
+-480,-305
+
+14
+ Allies Enclave
+-419,-204
+
+15
+Rock Bridge
+-220,-190
+
+16
+The Great River
+-125,-260
+
+17
+Witch's Camp
+70,-119
+
+18
+Fords Of Beruna
+206,-15
+
+19
+Dancing Lawn
+210,126
+
+20
+The Stone Table
+400,90
+
+21
+Prince Aslans Campsite
+365,-60
+
+22
+The Forgotten Battle Field
+150,-230
+
+23
+The Enchanted Owlwood Forest
+515,-290
+
+24
+The Depressing Northern Marsh
+590,-355
+
+25
+River Shribble
+500,-468
+
+26
+Galma
+891,-109
+
+27
+Cair Paravel
+700,-109
+
+28
+Rush River
+550,50
+
+29
+Glasswater Creek
+575,310
+
+30
+Stormness Head
+595,501
+
+31
+The Kingdom Of Anvard
+441,595
+
+32
+Winding Arrow River
+796,550
