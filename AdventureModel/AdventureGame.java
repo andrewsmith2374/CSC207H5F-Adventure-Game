@@ -1,7 +1,5 @@
 package AdventureModel;
 
-import views.AdventureGameView;
-
 import java.io.*;
 import java.util.*;
 
@@ -24,7 +22,7 @@ public class AdventureGame implements Serializable {
      *
      * @param name the name of the adventure
      */
-    public AdventureGame(String name) {
+    public AdventureGame(String name){
         this.synonyms = new HashMap<>();
         this.rooms = new HashMap<>();
         this.directoryName = "Games/" + name; //all games files are in the Games directory!
@@ -58,13 +56,13 @@ public class AdventureGame implements Serializable {
      * @throws IOException in the case of a file I/O error
      */
     public void setUpGame() throws IOException {
+
         String directoryName = this.directoryName;
         AdventureLoader loader = new AdventureLoader(this, directoryName);
         loader.loadGame();
 
         // set up the player's current location
-        Room firstRoom = this.rooms.get(1);
-        player = new Player(firstRoom);
+        this.player = new Player(this.rooms.get(1));
     }
 
     /**
@@ -151,6 +149,7 @@ public class AdventureGame implements Serializable {
         return null;
     }
 
+
     /*
      * Set the player's current room to chosen
      */
@@ -199,8 +198,8 @@ public class AdventureGame implements Serializable {
             return null;
         } else if(Arrays.asList(this.actionVerbs).contains(inputArray[0])) {
             if(inputArray[0].equals("QUIT")) { return "GAME OVER"; } //time to stop!
-            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().isEmpty()) return "INVENTORY IS EMPTY";
-            else if(inputArray[0].equals("INVENTORY") && !this.player.getInventory().isEmpty()) return "THESE OBJECTS ARE IN YOUR INVENTORY:\n" + this.player.getInventory().toString();
+            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().size() == 0) return "INVENTORY IS EMPTY";
+            else if(inputArray[0].equals("INVENTORY") && this.player.getInventory().size() > 0) return "THESE OBJECTS ARE IN YOUR INVENTORY:\n" + this.player.getInventory().toString();
             else if(inputArray[0].equals("TAKE") && inputArray.length < 2) return "THE TAKE COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("DROP") && inputArray.length < 2) return "THE DROP COMMAND REQUIRES AN OBJECT";
             else if(inputArray[0].equals("TAKE") && inputArray.length == 2) {
@@ -281,4 +280,6 @@ public class AdventureGame implements Serializable {
     public void setHelpText(String help) {
         this.helpText = help;
     }
+
+
 }

@@ -1,14 +1,13 @@
 import AdventureModel.AdventureGame;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import views.AdventureGameView;
-
 import java.io.IOException;
 
 /**
  * Class AdventureGameApp.
  */
 public class AdventureGameApp extends Application {
+
     AdventureGame model;
     AdventureGameView view;
 
@@ -26,4 +25,5 @@ public class AdventureGameApp extends Application {
         this.model = new AdventureGame("CelestialRealms"); //change the name of the game if you want to try something bigger!
         this.view = new AdventureGameView(model, primaryStage);
     }
+
 }
